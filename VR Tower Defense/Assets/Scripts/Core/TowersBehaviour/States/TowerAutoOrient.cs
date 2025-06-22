@@ -1,8 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-namespace Core
+namespace Core.TowersBehaviour.States
 {
     public class TowerAutoOrient : MonoBehaviour
     {
