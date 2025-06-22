@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4e7c4c7a2875746c1966b0cdc6290b82
+timeCreated: 1504601627
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Particles/Prefabs/SupertowerMissileTrail.prefab
+  uploadId: 406584

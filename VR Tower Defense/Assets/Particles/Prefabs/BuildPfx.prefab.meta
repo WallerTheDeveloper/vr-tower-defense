@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c559c1920b5d04e6d83aa4464fba5c68
+timeCreated: 1501679100
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Particles/Prefabs/BuildPfx.prefab
+  uploadId: 406584
