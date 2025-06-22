@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b5e0b3982ded947cda17890e729362aa
+timeCreated: 1501231546
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/Flare.mat
+  uploadId: 406584

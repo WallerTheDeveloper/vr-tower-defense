@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7f1957ba236084cfcaa1f5c9da66a68b
+timeCreated: 1504598647
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/ShadowCaster.mat
+  uploadId: 406584

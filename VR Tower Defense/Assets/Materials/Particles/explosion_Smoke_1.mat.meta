@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 538648978bbe842cc86a9bb06f0f1bc7
+timeCreated: 1501837659
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/explosion_Smoke_1.mat
+  uploadId: 406584

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d689df2d6e67748129c4055bbcad44f0
+timeCreated: 1501663843
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/RocketImpact.mat
+  uploadId: 406584

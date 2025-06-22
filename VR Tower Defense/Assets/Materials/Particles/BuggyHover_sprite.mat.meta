@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 00317337bdfee49e29ab684e6af81a3b
+timeCreated: 1501663173
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/BuggyHover_sprite.mat
+  uploadId: 406584

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 92fbbb607856b484295b0810d1baecac
+timeCreated: 1501838483
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/explosion_Spark_2.mat
+  uploadId: 406584

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 446a72560c44e44d8acea2562be7901a
+timeCreated: 1498469998
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/UI/PlacementAreaFillled.mat
+  uploadId: 406584

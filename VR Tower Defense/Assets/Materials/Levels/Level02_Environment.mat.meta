@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3193fb3698c1040779ae6240896338dd
+timeCreated: 1501861741
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Levels/Level02_Environment.mat
+  uploadId: 406584

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6456fd7e2260b45febee82488eca4496
+timeCreated: 1502102723
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Projectiles/Rocket_Projectile.mat
+  uploadId: 406584

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 24ed3fddb1caa449f9026ffa1db2ee43
+timeCreated: 1501836933
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/explosion_Flame_3.mat
+  uploadId: 406584

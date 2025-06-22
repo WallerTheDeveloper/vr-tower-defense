@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 797155fd5d32b4e2e86c57d06205110b
+timeCreated: 1501231546
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/Tracer.mat
+  uploadId: 406584

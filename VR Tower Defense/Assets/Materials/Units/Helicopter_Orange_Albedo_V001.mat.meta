@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3338f664595ab4c84ba377f3c47e11d8
+timeCreated: 1501583737
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Units/Helicopter_Orange_Albedo_V001.mat
+  uploadId: 406584

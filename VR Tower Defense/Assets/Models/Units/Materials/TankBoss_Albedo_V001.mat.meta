@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b9f2a11f3e13a884998bba58aaa61c4b
+timeCreated: 1514978213
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Models/Units/Materials/TankBoss_Albedo_V001.mat
+  uploadId: 406584

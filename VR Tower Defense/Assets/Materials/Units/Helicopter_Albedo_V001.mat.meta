@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c0a039e78e66a44f8b90ddafc2c87582
+timeCreated: 1501583737
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Units/Helicopter_Albedo_V001.mat
+  uploadId: 406584

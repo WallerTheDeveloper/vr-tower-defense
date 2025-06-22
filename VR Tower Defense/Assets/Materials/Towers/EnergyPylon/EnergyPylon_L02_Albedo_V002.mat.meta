@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 65d6cc8eca1be4a9bb2c73168993e39d
+timeCreated: 1501591957
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Towers/EnergyPylon/EnergyPylon_L02_Albedo_V002.mat
+  uploadId: 406584

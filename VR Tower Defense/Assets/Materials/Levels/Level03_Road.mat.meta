@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9ae2d788754504bfb8897d297b01c279
+timeCreated: 1501861736
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Levels/Level03_Road.mat
+  uploadId: 406584

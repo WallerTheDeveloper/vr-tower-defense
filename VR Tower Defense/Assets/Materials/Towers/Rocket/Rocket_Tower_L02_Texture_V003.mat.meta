@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 86203932126304aeead1295fd2bdd303
+timeCreated: 1501070119
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Towers/Rocket/Rocket_Tower_L02_Texture_V003.mat
+  uploadId: 406584

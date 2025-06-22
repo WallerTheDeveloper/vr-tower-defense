@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a9a5ed9e4d3114c74b9733f0485da335
+timeCreated: 1501231546
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/LaserBeam.mat
+  uploadId: 406584

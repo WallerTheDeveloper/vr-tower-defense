@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 356b96f82f25742778c3132e0efded21
+timeCreated: 1499253459
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Particles/SlowFx.mat
+  uploadId: 406584

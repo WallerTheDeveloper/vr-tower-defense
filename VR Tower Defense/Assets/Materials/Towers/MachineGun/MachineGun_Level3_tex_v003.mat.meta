@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ad5cc5335413e43df84ae6caa151caf6
+timeCreated: 1500897246
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Towers/MachineGun/MachineGun_Level3_tex_v003.mat
+  uploadId: 406584

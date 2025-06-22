@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d989217fb3c914fe3bcc1134909a6523
+timeCreated: 1500981791
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Levels/Skybox.mat
+  uploadId: 406584

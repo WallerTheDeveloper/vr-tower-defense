@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 19049764cb9244e399c35d55307516bc
+timeCreated: 1501858632
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107692
+  packageName: Tower Defense Template
+  packageVersion: 1.4.1
+  assetPath: Assets/UnityTechnologies/TowerDefenseTemplate/Materials/Player/HeadQuarters_tex_v001.mat
+  uploadId: 406584
