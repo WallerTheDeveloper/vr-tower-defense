@@ -1,10 +1,12 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using System;
 
 namespace Core.TowersBehaviour.States
 {
     public class TowerAutoOrient : MonoBehaviour
     {
+        public event Action OnPlacementComplete;
+
         [Header("Auto-Orient Settings")]
         [SerializeField] private LayerMask groundLayerMask = 1;
         [SerializeField] private float orientationSpeed = 5f;
@@ -130,8 +132,10 @@ namespace Core.TowersBehaviour.States
             rb.isKinematic = true;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+
+            OnPlacementComplete?.Invoke();
             
-            OnTowerPlaced();
+            this.enabled = false;
         }
         
         private Vector3 GetBasePosition()
@@ -169,27 +173,6 @@ namespace Core.TowersBehaviour.States
         private bool IsGroundLayer(int layer)
         {
             return (groundLayerMask.value & (1 << layer)) != 0;
-        }
-        
-        private void OnTowerPlaced()
-        {
-            var grabbableObject = GetComponent<XRGrabInteractable>();
-
-            if (grabbableObject == null)
-            {
-                return;
-            }
-            grabbableObject.enabled = false;
-        }
-        
-        public bool IsPlaced()
-        {
-            return isLanded && !isOrienting;
-        }
-        
-        public Vector3 GetGroundNormal()
-        {
-            return targetGroundNormal;
         }
     }
 }

@@ -1,23 +1,36 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections;
 using Core.TowersBehaviour.States;
-using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.TowersBehaviour
 {
     public abstract class Tower : MonoBehaviour
     {
         private TowerAutoOrient _autoOrient;
-        private bool _isReadyForActivation = false;
-
         public bool IsActive { get; private set; } = false;
 
-        private void Start()
+        private void Awake()
         {
             _autoOrient = GetComponent<TowerAutoOrient>();
-            StartCoroutine(WaitForPlacement());
         }
 
+        private void OnEnable()
+        {
+            if (_autoOrient != null)
+            {
+                _autoOrient.OnPlacementComplete += Activate;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_autoOrient != null)
+            {
+                _autoOrient.OnPlacementComplete -= Activate;
+            }
+        }
+        
         private void Update()
         {
             if (IsActive)
@@ -25,17 +38,19 @@ namespace Core.TowersBehaviour
                 HandleBehaviour();
             }
         }
-
-        public abstract void HandleBehaviour();
         
-        private IEnumerator WaitForPlacement()
+        public abstract void HandleBehaviour();
+
+        private void Activate()
         {
-            while (_autoOrient != null && !_autoOrient.IsPlaced())
-            {
-                yield return null;
-            }
-            
             IsActive = true;
+            Debug.Log($"{gameObject.name} has been placed and is now ACTIVE.");
+
+            var grabbableObject = GetComponent<XRGrabInteractable>();
+            if (grabbableObject != null)
+            {
+                grabbableObject.enabled = false;
+            }
         }
     }
 }
