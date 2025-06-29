@@ -1,56 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
-using Core.TowersBehaviour.States;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
+﻿using Core.StateMachine;
+using UnityEngine;
 
 namespace Core.TowersBehaviour
 {
     public abstract class Tower : MonoBehaviour
     {
-        private TowerAutoOrient _autoOrient;
-        public bool IsActive { get; private set; } = false;
+        private StateMachine.StateMachine _towerStateMachine = new();
+        protected abstract void Initialize();
+        protected abstract void Tick();
+        protected abstract void FixedTick();
+        protected abstract void Deinitialize();
+        
+        protected void ChangeState(IState newState)
+        {
+            _towerStateMachine.ChangeState(newState);
+        }
 
         private void Awake()
         {
-            _autoOrient = GetComponent<TowerAutoOrient>();
+            Initialize();
         }
-
-        private void OnEnable()
-        {
-            if (_autoOrient != null)
-            {
-                _autoOrient.OnPlacementComplete += Activate;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (_autoOrient != null)
-            {
-                _autoOrient.OnPlacementComplete -= Activate;
-            }
-        }
-        
         private void Update()
         {
-            if (IsActive)
-            {
-                HandleBehaviour();
-            }
+            Tick();
         }
-        
-        public abstract void HandleBehaviour();
 
-        private void Activate()
+        private void FixedUpdate()
         {
-            IsActive = true;
-            Debug.Log($"{gameObject.name} has been placed and is now ACTIVE.");
+            FixedTick();
+        }
 
-            var grabbableObject = GetComponent<XRGrabInteractable>();
-            if (grabbableObject != null)
-            {
-                grabbableObject.enabled = false;
-            }
+        private void OnDestroy()
+        {
+            Deinitialize();
         }
     }
 }

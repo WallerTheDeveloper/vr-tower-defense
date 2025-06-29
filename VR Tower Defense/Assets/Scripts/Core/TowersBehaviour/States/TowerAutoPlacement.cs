@@ -1,12 +1,14 @@
 using UnityEngine;
 using System;
+using Core.StateMachine;
+using UnityEngine.Serialization;
 
 namespace Core.TowersBehaviour.States
 {
-    public class TowerAutoOrient : MonoBehaviour
+    public class TowerAutoPlacement : MonoBehaviour, IState
     {
-        public event Action OnPlacementComplete;
-
+        public event Action OnStateFinished;
+        
         [Header("Auto-Orient Settings")]
         [SerializeField] private LayerMask groundLayerMask = 1;
         [SerializeField] private float orientationSpeed = 5f;
@@ -19,22 +21,23 @@ namespace Core.TowersBehaviour.States
         [SerializeField] private Transform towerBase;
         [SerializeField] private Vector3 baseOffset = Vector3.zero; 
         
-        private Rigidbody rb;
+        [SerializeField] private Rigidbody _rigidbody;
+        
         private bool isLanded = false;
         private bool isOrienting = false;
         private Vector3 targetGroundNormal;
         private Vector3 targetGroundPosition;
         private Quaternion targetRotation;
         
-        private void Awake()
+        public void Enter()
         {
-            rb = GetComponent<Rigidbody>();
-            
             if (towerBase == null)
                 towerBase = transform;
         }
-        
-        private void FixedUpdate()
+
+        public void Tick() {}
+
+        public void FixedTick()
         {
             if (!isLanded && ShouldCheckForLanding())
             {
@@ -46,22 +49,8 @@ namespace Core.TowersBehaviour.States
                 PerformOrientation();
             }
         }
-        
-        private bool ShouldCheckForLanding()
-        {
-            return rb.linearVelocity.magnitude < stabilityThreshold || rb.linearVelocity.y < 0;
-        }
-        
-        private void CheckForGroundContact()
-        {
-            Vector3 castOrigin = GetBasePosition();
-            
-            RaycastHit hit;
-            if (Physics.Raycast(castOrigin, Vector3.down, out hit, groundSnapDistance, groundLayerMask))
-            {
-                StartLandingSequence(hit);
-            }
-        }
+
+        public void Exit() {}
         
         private void OnCollisionEnter(Collision collision)
         {
@@ -74,6 +63,22 @@ namespace Core.TowersBehaviour.States
                 {
                     StartLandingSequence(hit);
                 }
+            }
+        }
+        
+        private bool ShouldCheckForLanding()
+        {
+            return _rigidbody.linearVelocity.magnitude < stabilityThreshold || _rigidbody.linearVelocity.y < 0;
+        }
+        
+        private void CheckForGroundContact()
+        {
+            Vector3 castOrigin = GetBasePosition();
+            
+            RaycastHit hit;
+            if (Physics.Raycast(castOrigin, Vector3.down, out hit, groundSnapDistance, groundLayerMask))
+            {
+                StartLandingSequence(hit);
             }
         }
         
@@ -96,8 +101,8 @@ namespace Core.TowersBehaviour.States
                 targetRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
             }
             
-            rb.linearDamping = 5f;
-            rb.angularDamping = 5f;
+            _rigidbody.linearDamping = 5f;
+            _rigidbody.angularDamping = 5f;
         }
         
         private void PerformOrientation()
@@ -129,13 +134,13 @@ namespace Core.TowersBehaviour.States
                 transform.position = targetGroundPosition - GetLocalBaseOffset();
             }
             
-            rb.isKinematic = true;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            _rigidbody.isKinematic = true;
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
 
-            OnPlacementComplete?.Invoke();
-            
             this.enabled = false;
+
+            OnStateFinished?.Invoke();
         }
         
         private Vector3 GetBasePosition()

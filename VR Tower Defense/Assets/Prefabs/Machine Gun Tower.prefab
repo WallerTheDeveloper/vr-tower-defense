@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2241017654100477499}
   - component: {fileID: 1336805732622968283}
-  - component: {fileID: 1956634135690827867}
   - component: {fileID: 4261295005944305537}
   - component: {fileID: 7941450069498118294}
   - component: {fileID: 4286225693233834737}
@@ -36,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 6031949985236668497}
   - {fileID: 1182288071565139946}
-  - {fileID: 4393639634041697083}
+  - {fileID: 7341972960364322624}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1336805732622968283
@@ -51,32 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234972e60ecd4e99b5065da819b33088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 382803528239467538, guid: 94952866d83a48945bdc719128425909, type: 3}
-  towerObject: {fileID: 6031949985236634737}
-  enemy: {fileID: 0}
-  anglePerSecond: 200
---- !u!114 &1956634135690827867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3733824176978807509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b16c4dca04d70647a9ae9ac2d271e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  orientationSpeed: 5
-  stabilityThreshold: 0.1
-  useGroundNormal: 1
-  snapToGround: 1
-  groundSnapDistance: 0.5
-  towerBase: {fileID: 4393639634041697083}
-  baseOffset: {x: 0, y: -0.1, z: 0}
+  statesLayer: {fileID: 8159053170023812448}
 --- !u!114 &4261295005944305537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +223,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &6603085746882809847
+--- !u!1 &8159053170023812448
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,29 +231,72 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4393639634041697083}
+  - component: {fileID: 7341972960364322624}
+  - component: {fileID: 8560526821195579209}
+  - component: {fileID: 7151062043033199797}
   m_Layer: 0
-  m_Name: Tower Base
+  m_Name: States Layer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4393639634041697083
+--- !u!4 &7341972960364322624
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603085746882809847}
+  m_GameObject: {fileID: 8159053170023812448}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.37, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2241017654100477499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8560526821195579209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159053170023812448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98508830ed9d45849a7fe98f0a07da70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerObject: {fileID: 6031949985236634737}
+  radius: 20
+  anglePerSecond: 200
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &7151062043033199797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159053170023812448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b16c4dca04d70647a9ae9ac2d271e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  orientationSpeed: 5
+  stabilityThreshold: 0.1
+  useGroundNormal: 1
+  snapToGround: 1
+  groundSnapDistance: 0.1
+  towerBase: {fileID: 0}
+  baseOffset: {x: 0, y: 0, z: 0}
+  _rigidbody: {fileID: 4286225693233834737}
 --- !u!1001 &1182288071565264234
 PrefabInstance:
   m_ObjectHideFlags: 0

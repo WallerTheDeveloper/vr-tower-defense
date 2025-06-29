@@ -1,22 +1,60 @@
-﻿using UnityEngine;
+﻿using Core.TowersBehaviour.States;
+using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.TowersBehaviour
 {
     public class MachineGunTower : Tower
     {
-        [SerializeField] private GameObject projectile;
-        [SerializeField] private GameObject towerObject;
-        [SerializeField] private GameObject enemy;
-        [SerializeField] private float anglePerSecond;
-        public override void HandleBehaviour()
+        [SerializeField] private GameObject statesLayer;
+        
+        // Machine Gun States
+        private TowerAutoPlacement _autoPlacement;
+        private TowerRotate _towerRotate;
+        private TowerShooting _towerShooting;
+        
+        protected override void Initialize()
         {
-            RotateTowardsTarget();
+            _autoPlacement = statesLayer.GetComponent<TowerAutoPlacement>();
+            _towerRotate = statesLayer.GetComponent<TowerRotate>();
+            _towerShooting = statesLayer.GetComponent<TowerShooting>();
+            
+            base.ChangeState(_autoPlacement);
+            _autoPlacement.OnStateFinished += ChangeToRotationState;
+        }
+        
+        protected override void Tick()
+        {
+            // TODO: auto placement must be blocking this
+            if (_towerRotate.enabled && !_autoPlacement.enabled)
+            {
+                _towerRotate.Tick();
+            }
         }
 
-        private void RotateTowardsTarget()
+        protected override void FixedTick()
         {
-             var targetRotation = Quaternion.LookRotation(enemy.transform.position - towerObject.transform.position);
-             towerObject.transform.rotation = Quaternion.RotateTowards(towerObject.transform.rotation, targetRotation, anglePerSecond * Time.deltaTime);
+            if (_autoPlacement.enabled)
+            { 
+                _autoPlacement.FixedTick();
+            }
+        }
+
+        private void ChangeToRotationState()
+        {
+            _autoPlacement.OnStateFinished -= ChangeToRotationState;
+            
+            var grabbableObject = GetComponent<XRGrabInteractable>();
+            if (grabbableObject != null)
+            {
+                grabbableObject.enabled = false;
+            }
+            
+            base.ChangeState(_towerRotate);
+        }
+        
+        protected override void Deinitialize()
+        {
         }
     }
 }
