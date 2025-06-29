@@ -20,21 +20,30 @@ namespace Core.TowersBehaviour
             _towerShooting = statesLayer.GetComponent<TowerShooting>();
             
             base.ChangeState(_autoPlacement);
+         
             _autoPlacement.OnStateFinished += ChangeToRotationState;
+            _towerRotate.OnStateFinished += ChangeToShootingState;
+            _towerRotate.OnTargetFound += currentTarget =>
+            {
+                _towerShooting.SetTarget(currentTarget);
+            };
         }
-        
+
         protected override void Tick()
         {
-            // TODO: auto placement must be blocking this
-            if (_towerRotate.enabled && !_autoPlacement.enabled)
+            if (_autoPlacement.IsStateFinished && !_towerRotate.IsStateFinished)
             {
                 _towerRotate.Tick();
+            }
+            if (_towerRotate.IsStateFinished)
+            {
+                _towerShooting.Tick();
             }
         }
 
         protected override void FixedTick()
         {
-            if (_autoPlacement.enabled)
+            if (!_autoPlacement.IsStateFinished)
             { 
                 _autoPlacement.FixedTick();
             }
@@ -51,6 +60,12 @@ namespace Core.TowersBehaviour
             }
             
             base.ChangeState(_towerRotate);
+        }
+        
+        private void ChangeToShootingState()
+        {
+            _towerRotate.OnStateFinished -= ChangeToShootingState;
+            base.ChangeState(_towerShooting);
         }
         
         protected override void Deinitialize()

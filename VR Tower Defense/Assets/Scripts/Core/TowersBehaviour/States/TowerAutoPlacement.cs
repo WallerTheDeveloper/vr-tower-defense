@@ -7,8 +7,6 @@ namespace Core.TowersBehaviour.States
 {
     public class TowerAutoPlacement : MonoBehaviour, IState
     {
-        public event Action OnStateFinished;
-        
         [Header("Auto-Orient Settings")]
         [SerializeField] private LayerMask groundLayerMask = 1;
         [SerializeField] private float orientationSpeed = 5f;
@@ -28,9 +26,14 @@ namespace Core.TowersBehaviour.States
         private Vector3 targetGroundNormal;
         private Vector3 targetGroundPosition;
         private Quaternion targetRotation;
+
+        public bool IsStateFinished { get; set; } = false;
+        public event Action OnStateFinished;
         
         public void Enter()
         {
+            IsStateFinished = false;
+            
             if (towerBase == null)
                 towerBase = transform;
         }
@@ -137,10 +140,9 @@ namespace Core.TowersBehaviour.States
             _rigidbody.isKinematic = true;
             _rigidbody.linearVelocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
-
-            this.enabled = false;
-
+            
             OnStateFinished?.Invoke();
+            IsStateFinished = true;
         }
         
         private Vector3 GetBasePosition()

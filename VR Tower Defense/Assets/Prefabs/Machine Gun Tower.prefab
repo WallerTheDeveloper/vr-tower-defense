@@ -223,6 +223,37 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &3787908877336937495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613181440980992793}
+  m_Layer: 0
+  m_Name: Fire Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &613181440980992793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3787908877336937495}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -1, z: -0, w: -0.00000032782552}
+  m_LocalPosition: {x: 0.0059992224, y: 0.14799988, z: 1.1851}
+  m_LocalScale: {x: 0.07705689, y: 0.07705689, z: 0.07705689}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6031949985236668497}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8159053170023812448
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +265,7 @@ GameObject:
   - component: {fileID: 7341972960364322624}
   - component: {fileID: 8560526821195579209}
   - component: {fileID: 7151062043033199797}
+  - component: {fileID: 252509424518257149}
   m_Layer: 0
   m_Name: States Layer
   m_TagString: Untagged
@@ -297,6 +329,21 @@ MonoBehaviour:
   towerBase: {fileID: 0}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 4286225693233834737}
+--- !u!114 &252509424518257149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159053170023812448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9cb7a1a1ab44eeb2c04531ebb0a02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoint: {fileID: 613181440980992793}
+  projectile: {fileID: 3653691849449000165, guid: 94952866d83a48945bdc719128425909, type: 3}
+  fireRate: 5
 --- !u!1001 &1182288071565264234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -443,7 +490,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 613181440980992793}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
       insertIndex: -1

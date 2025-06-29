@@ -11,11 +11,16 @@ namespace Core.TowersBehaviour.States
         [SerializeField] private float anglePerSecond = 200f;
         [SerializeField] private LayerMask targetLayer;
 
+        public bool IsStateFinished { get; set; } = false;
         public event Action OnStateFinished;
+        public event Action<Transform> OnTargetFound;
         
         private Transform _currentTarget;
-        
-        public void Enter() {}
+
+        public void Enter()
+        {
+            IsStateFinished = false;
+        }
 
         public void Tick()
         {
@@ -28,19 +33,22 @@ namespace Core.TowersBehaviour.States
         
         private void RotateTowardsTarget()
         {
-            if (_currentTarget != null)
+            if (_currentTarget == null)
             {
-                if (IsLookingAtTarget(_currentTarget.transform, Mathf.Infinity, 10f))
-                {
-                    OnStateFinished?.Invoke();
-                    this.enabled = false;
-                    return;
-                }
+                FindNewTarget();
             }
             
-            Transform closestEnemy = FindNewTarget();
-            
-            var targetRotation = Quaternion.LookRotation(closestEnemy.transform.position - towerObject.transform.position);
+            if (IsLookingAtTarget(_currentTarget.transform, Mathf.Infinity, 1f))
+            {
+                OnStateFinished?.Invoke();
+                OnTargetFound?.Invoke(_currentTarget.transform);
+                
+                IsStateFinished = true;
+                
+                return;
+            }
+
+            var targetRotation = Quaternion.LookRotation(_currentTarget.transform.position - towerObject.transform.position);
             towerObject.transform.rotation = Quaternion.RotateTowards(towerObject.transform.rotation, targetRotation, anglePerSecond * Time.deltaTime);
         }
         
