@@ -25,14 +25,12 @@ namespace Core.Enemy.States
         {
             float currentDistance = Vector3.Distance(parentTransform.position, _currentTarget.position);
             
-            // Only move if we're further than the threshold
             if (currentDistance > targetReachThreshold)
             {
                 FlyTowards();
             }
             else
             {
-                // We've reached the desired distance
                 IsStateFinished = true;
                 OnStateFinished?.Invoke();
             }
@@ -58,19 +56,15 @@ namespace Core.Enemy.States
             Vector3 direction = (_currentTarget.position - parentTransform.position).normalized;
             float currentDistance = Vector3.Distance(parentTransform.position, _currentTarget.position);
             
-            // Calculate how far we can move this frame
             float moveDistance = moveSpeed * Time.deltaTime;
             
-            // Don't overshoot the threshold
             if (currentDistance - moveDistance < targetReachThreshold)
             {
-                // Move exactly to the threshold distance
                 Vector3 targetPosition = _currentTarget.position - direction * targetReachThreshold;
                 parentTransform.position = targetPosition;
             }
             else
             {
-                // Move normally
                 parentTransform.position += direction * moveDistance;
             }
         }
