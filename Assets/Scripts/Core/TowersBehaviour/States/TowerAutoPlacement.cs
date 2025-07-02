@@ -53,7 +53,10 @@ namespace Core.TowersBehaviour.States
             }
         }
 
-        public void Exit() {}
+        public void Exit()
+        {
+            _rigidbody.isKinematic = true;
+        }
         
         private void OnCollisionEnter(Collision collision)
         {
