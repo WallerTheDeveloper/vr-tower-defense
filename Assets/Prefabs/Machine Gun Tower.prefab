@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234972e60ecd4e99b5065da819b33088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerCollider: {fileID: 0}
   statesLayer: {fileID: 8159053170023812448}
 --- !u!114 &4261295005944305537
 MonoBehaviour:
@@ -343,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 613181440980992793}
-  projectile: {fileID: 3653691849449000165, guid: 94952866d83a48945bdc719128425909, type: 3}
+  projectile: {fileID: 8920690301116899907, guid: 73e56e514983cd0478d3531a9623c0d5, type: 3}
   fireRate: 5
 --- !u!1001 &1182288071565264234
 PrefabInstance:
