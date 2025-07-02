@@ -36,6 +36,7 @@ namespace Core.TowersBehaviour.States
             if (_currentTarget == null)
             {
                 FindNewTarget();
+                return;
             }
             
             if (IsLookingAtTarget(_currentTarget.transform, Mathf.Infinity, 1f))

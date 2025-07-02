@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4261295005944305537}
   - component: {fileID: 7941450069498118294}
   - component: {fileID: 4286225693233834737}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Machine Gun Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234972e60ecd4e99b5065da819b33088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerCollider: {fileID: 0}
   statesLayer: {fileID: 8159053170023812448}
 --- !u!114 &4261295005944305537
 MonoBehaviour:
@@ -447,6 +448,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
       propertyPath: m_Name
       value: Turret_MachineGun_L01
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
       propertyPath: m_LocalPosition.x
