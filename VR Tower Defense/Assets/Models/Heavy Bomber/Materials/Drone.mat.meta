@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2954963d08a0b044e8f84eece7126e53
+timeCreated: 1486074260
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82234
+  packageName: Low poly combat drone
+  packageVersion: 1.0
+  assetPath: Assets/VoodooPlay/Models/Materials/Drone.mat
+  uploadId: 749199
