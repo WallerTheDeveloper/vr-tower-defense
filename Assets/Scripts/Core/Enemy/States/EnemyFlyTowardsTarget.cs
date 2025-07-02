@@ -44,6 +44,7 @@ namespace Core.Enemy.States
 
         public void Exit()
         {
+            IsStateFinished = true;
         }
 
         public void SetTarget(Transform target)

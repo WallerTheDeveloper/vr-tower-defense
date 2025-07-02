@@ -6,17 +6,22 @@ namespace Core.Enemy.Types
     public class HeavyBomber: FlyingEnemy
     {
         [SerializeField] private GameObject statesLayer;
+
+        private Transform _currentTarget;
         
         private EnemyFindTarget _findTargetState;
         private EnemyFlyTowardsTarget _flyTowardsTargetState;
+        private EnemyAttack _enemyAttackState;
         protected override void Initialize()
         {
             _findTargetState = statesLayer.GetComponent<EnemyFindTarget>();
             _flyTowardsTargetState = statesLayer.GetComponent<EnemyFlyTowardsTarget>();
+            _enemyAttackState = statesLayer.GetComponent<EnemyAttack>();
             
             base.ChangeState(_findTargetState);
 
             _findTargetState.OnTargetFound += ChangeToFlyTowardsEnemyState;
+            _flyTowardsTargetState.OnStateFinished += ChangeToEnemyAttackState;
         }
         
         protected override void Tick()
@@ -26,9 +31,14 @@ namespace Core.Enemy.Types
                 _findTargetState.Tick();
             }
 
-            if (_findTargetState.IsStateFinished)
+            if (_findTargetState.IsStateFinished && !_flyTowardsTargetState.IsStateFinished)
             {
                 _flyTowardsTargetState.Tick();
+            }
+
+            if (_flyTowardsTargetState.IsStateFinished && _findTargetState.IsStateFinished)
+            {
+                _enemyAttackState.Tick();
             }
         }
 
@@ -46,7 +56,17 @@ namespace Core.Enemy.Types
             _findTargetState.OnTargetFound -= ChangeToFlyTowardsEnemyState;
             
             base.ChangeState(_flyTowardsTargetState);
-            _flyTowardsTargetState.SetTarget(targetTransform);
+            _currentTarget = targetTransform;
+            _flyTowardsTargetState.SetTarget(_currentTarget);
         }
+        
+        private void ChangeToEnemyAttackState()
+        {
+            _flyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
+            
+            base.ChangeState(_enemyAttackState);
+            _enemyAttackState.SetTarget(_currentTarget);
+        }
+
     }
 }

@@ -40,7 +40,10 @@ namespace Core.Enemy.States
 
         public void FixedTick() {}
 
-        public void Exit() {}
+        public void Exit()
+        {
+            IsStateFinished = true;
+        }
         
         private Transform FindNewTarget()
         {

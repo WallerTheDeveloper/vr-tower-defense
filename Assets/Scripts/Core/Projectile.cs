@@ -6,6 +6,7 @@ namespace Core
     {
         [SerializeField] private float speed = 50f;
         [SerializeField] private float lifetime = 3f;
+        [SerializeField] private LayerMask targetLayerMask;
 
         private Rigidbody rb;
 
@@ -24,9 +25,8 @@ namespace Core
         
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Enemy"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer(targetLayerMask.ToString()))
             {
-                Debug.Log("Hit an enemy!");
                 Destroy(gameObject);
             }
         }
