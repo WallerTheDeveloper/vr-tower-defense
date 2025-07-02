@@ -78,6 +78,7 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  collisionParticleEffect: {fileID: 198059975614214484, guid: f43a73bac381a4517bdade908e622a9e, type: 3}
 --- !u!1 &576278212062466842
 GameObject:
   m_ObjectHideFlags: 0

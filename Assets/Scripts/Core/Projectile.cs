@@ -6,8 +6,11 @@ namespace Core
     {
         [SerializeField] private float speed = 50f;
         [SerializeField] private float lifetime = 3f;
+        
         [SerializeField] private LayerMask targetLayerMask;
-
+        [SerializeField] private ParticleSystem collisionParticleEffect;
+        [SerializeField] private float particleEffectLifetime = 1f;
+        
         private Rigidbody rb;
 
         private void Awake()
@@ -25,8 +28,11 @@ namespace Core
         
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer(targetLayerMask.ToString()))
+            if (((1 << collision.gameObject.layer) & targetLayerMask) != 0)
             {
+                var particleEffect = Instantiate(collisionParticleEffect, transform.position, Quaternion.identity);
+                particleEffect.Play();
+                Destroy(particleEffect, particleEffectLifetime);
                 Destroy(gameObject);
             }
         }
