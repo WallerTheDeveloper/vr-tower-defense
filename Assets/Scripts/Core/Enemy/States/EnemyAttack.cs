@@ -65,7 +65,7 @@ namespace Core.Enemy.States
             
             var projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(shootDirection));
             
-            projectile.Initialize(_currentTarget.transform.position);
+            projectile.Initialize(_currentTarget.gameObject);
             
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)

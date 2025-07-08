@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4286225693233834737}
   m_Layer: 7
   m_Name: Machine Gun Tower
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234972e60ecd4e99b5065da819b33088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerCollider: {fileID: 0}
   statesLayer: {fileID: 8159053170023812448}
 --- !u!114 &4261295005944305537
 MonoBehaviour:

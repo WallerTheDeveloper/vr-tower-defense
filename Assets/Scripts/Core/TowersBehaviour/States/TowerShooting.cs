@@ -53,7 +53,7 @@ namespace Core.TowersBehaviour.States
             
                 var projectileCopy = Instantiate(projectile, firePoint.position, firePoint.rotation);
 
-                projectileCopy.Initialize(_currentTarget.transform.position);
+                projectileCopy.Initialize(_currentTarget.gameObject);
 
                 _fireCooldown = 1f / fireRate;
             }

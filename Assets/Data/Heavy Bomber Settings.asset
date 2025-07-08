@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d78ebd011e4c418d7163b9e37c1625, type: 3}
+  m_Name: Heavy Bomber Settings
+  m_EditorClassIdentifier: 
+  MaxHealth: 20
+  Damage: 5
+  DeathParticleSystem: {fileID: 198059975614214484, guid: 42a3690e5d4a841ad958c0e3b9b7b19e, type: 3}
+  DeathParticleSystemLifetime: 3

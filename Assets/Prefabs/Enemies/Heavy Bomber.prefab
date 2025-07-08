@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca242d7da14e97bb9e22472d5dd896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flyingEnemySettings: {fileID: 11400000, guid: e779ee7872e7a824f99f3aa05e08b3ea, type: 2}
   statesLayer: {fileID: 6874211324915244373}
 --- !u!65 &3581891644137536342
 BoxCollider:
@@ -193,6 +194,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 28723f10c2a8e094a9351e892f5271b8, type: 3}
       propertyPath: m_Name
       value: Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 28723f10c2a8e094a9351e892f5271b8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 28723f10c2a8e094a9351e892f5271b8, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 28723f10c2a8e094a9351e892f5271b8, type: 3}
       propertyPath: m_LocalScale.x
