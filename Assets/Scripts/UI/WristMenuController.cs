@@ -104,7 +104,7 @@ namespace UI
                         
                         if (hand.GetJoint(XRHandJointID.Palm).TryGetPose(out Pose palmPose))
                         {
-                            palmDirection =  palmPose.rotation * Vector3.down;
+                            palmDirection = palmPose.rotation * Vector3.down;
                         }
                         
                         if (wristMenuTransform != null)
@@ -192,14 +192,32 @@ namespace UI
         
         private void UpdateMenuOrientation()
         {
-            if (wristMenuTransform != null && (isMenuVisible || menuCanvasGroup.alpha > 0.01f))
+            if (wristMenuTransform != null && cameraTransform != null && 
+                (isMenuVisible || menuCanvasGroup.alpha > 0.01f))
             {
                 Vector3 toCamera = cameraTransform.position - wristMenuTransform.position;
+                
                 toCamera.y = 0;
                 
-                if (toCamera.magnitude > 0.01f)
+                if (toCamera.sqrMagnitude > 0.0001f)
                 {
-                    wristMenuTransform.rotation = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
+                    Quaternion targetRotation = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
+                    
+                    wristMenuTransform.rotation = Quaternion.Slerp(
+                        wristMenuTransform.rotation, 
+                        targetRotation, 
+                        Time.deltaTime * 10f
+                    );
+                }
+                else
+                {
+                    Vector3 fallbackDirection = cameraTransform.forward;
+                    fallbackDirection.y = 0;
+                    
+                    if (fallbackDirection.sqrMagnitude > 0.0001f)
+                    {
+                        wristMenuTransform.rotation = Quaternion.LookRotation(fallbackDirection.normalized, Vector3.up);
+                    }
                 }
             }
         }
@@ -288,6 +306,23 @@ namespace UI
                 
                 #if UNITY_EDITOR
                 UnityEditor.Handles.Label(wristPosition + Vector3.up * 0.1f, $"Dot: {palmDot:F2}");
+                #endif
+            }
+            
+            // Draw menu orientation gizmo
+            if (wristMenuTransform != null && cameraTransform != null)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawRay(wristMenuTransform.position, wristMenuTransform.forward * 0.1f);
+                
+                Vector3 toCamera = (cameraTransform.position - wristMenuTransform.position);
+                toCamera.y = 0;
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawRay(wristMenuTransform.position, toCamera.normalized * 0.1f);
+                
+                #if UNITY_EDITOR
+                UnityEditor.Handles.Label(wristMenuTransform.position + Vector3.up * 0.15f, 
+                    $"Rotation: {wristMenuTransform.rotation.eulerAngles}");
                 #endif
             }
         }
