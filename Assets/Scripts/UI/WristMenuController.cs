@@ -308,23 +308,6 @@ namespace UI
                 UnityEditor.Handles.Label(wristPosition + Vector3.up * 0.1f, $"Dot: {palmDot:F2}");
                 #endif
             }
-            
-            // Draw menu orientation gizmo
-            if (wristMenuTransform != null && cameraTransform != null)
-            {
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawRay(wristMenuTransform.position, wristMenuTransform.forward * 0.1f);
-                
-                Vector3 toCamera = (cameraTransform.position - wristMenuTransform.position);
-                toCamera.y = 0;
-                Gizmos.color = Color.magenta;
-                Gizmos.DrawRay(wristMenuTransform.position, toCamera.normalized * 0.1f);
-                
-                #if UNITY_EDITOR
-                UnityEditor.Handles.Label(wristMenuTransform.position + Vector3.up * 0.15f, 
-                    $"Rotation: {wristMenuTransform.rotation.eulerAngles}");
-                #endif
-            }
         }
     }
 }
