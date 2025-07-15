@@ -20,6 +20,7 @@ namespace UI
         }
         
         private TowerMenuButton currentHoveredButton;
+        private TowerMenuButton currentPinchingButton;
         
         private void Awake()
         {
@@ -63,9 +64,46 @@ namespace UI
             }
         }
         
+        public bool RequestPinch(TowerMenuButton button, float distance)
+        {
+            if (currentPinchingButton == null)
+            {
+                SetPinchingButton(button);
+                return true;
+            }
+            
+            if (currentPinchingButton == button)
+            {
+                return true;
+            }
+            
+            float currentDistance = currentPinchingButton.GetHandDistance();
+            if (distance < currentDistance)
+            {
+                currentPinchingButton.ForcePinchExit();
+                SetPinchingButton(button);
+                return true;
+            }
+            
+            return false;
+        }
+        
+        public void ReleasePinch(TowerMenuButton button)
+        {
+            if (currentPinchingButton == button)
+            {
+                currentPinchingButton = null;
+            }
+        }
+        
         private void SetHoveredButton(TowerMenuButton button)
         {
             currentHoveredButton = button;
+        }
+        
+        private void SetPinchingButton(TowerMenuButton button)
+        {
+            currentPinchingButton = button;
         }
     }
 }

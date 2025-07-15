@@ -4,6 +4,7 @@ namespace UI
     {
         Normal,
         Hover,
+        Pinching,
         Selected
     }
 }

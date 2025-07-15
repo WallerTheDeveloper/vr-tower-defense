@@ -1283,25 +1283,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 0
   towerFactory: {fileID: 8061450294238213959}
-  hoverDistance: 0.03
-  hoverTime: 0.3
+  hoverDistance: 0.05
   useLeftHand: 0
+  pinchThreshold: 0.03
+  pinchReleaseThreshold: 0.05
+  requireHoverToPinch: 0
   useManualCenter: 0
   manualButtonCenter: {x: 0, y: 0, z: 0}
   centerTransform: {fileID: 0}
   centerOffset: {x: -0.03, y: -0.07, z: 0}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
   hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  selectSound: {fileID: 8300000, guid: ebec140f22666da459f3128b26c35909, type: 3}
+  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  pinchReleaseSound: {fileID: 0}
   OnHoverEnter:
     m_PersistentCalls:
       m_Calls: []
   OnHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  OnHoverSelect:
+  OnPinchStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3041782671850973389
@@ -3188,25 +3198,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 0
   towerFactory: {fileID: 8061450294238213959}
-  hoverDistance: 0.03
-  hoverTime: 0.3
+  hoverDistance: 0.05
   useLeftHand: 0
+  pinchThreshold: 0.03
+  pinchReleaseThreshold: 0.05
+  requireHoverToPinch: 0
   useManualCenter: 0
   manualButtonCenter: {x: 0, y: 0, z: 0}
   centerTransform: {fileID: 0}
   centerOffset: {x: 0.08, y: 0.01, z: 0}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
   hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  selectSound: {fileID: 8300000, guid: ebec140f22666da459f3128b26c35909, type: 3}
+  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  pinchReleaseSound: {fileID: 0}
   OnHoverEnter:
     m_PersistentCalls:
       m_Calls: []
   OnHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  OnHoverSelect:
+  OnPinchStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7245128211062566362
@@ -3905,7 +3925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuCanvasGroup: {fileID: 494408707263015546}
   wristMenuTransform: {fileID: 8375723826443099060}
-  wristMenuPositionThreshold: {x: 0, y: 0, z: 0}
+  wristMenuPositionThreshold: {x: 0.09, y: 0.09, z: 0}
   palmDotThreshold: 0.85
   palmDotHideThreshold: 0.75
   animationSpeed: 1
@@ -4351,25 +4371,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 0
   towerFactory: {fileID: 8061450294238213959}
-  hoverDistance: 0.03
-  hoverTime: 0.3
+  hoverDistance: 0.05
   useLeftHand: 0
+  pinchThreshold: 0.03
+  pinchReleaseThreshold: 0.05
+  requireHoverToPinch: 0
   useManualCenter: 0
   manualButtonCenter: {x: 0, y: 0, z: 0}
   centerTransform: {fileID: 0}
-  centerOffset: {x: -0.03, y: 0.07, z: 0}
+  centerOffset: {x: -0.05, y: 0.07, z: 0}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
   hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  selectSound: {fileID: 8300000, guid: ebec140f22666da459f3128b26c35909, type: 3}
+  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  pinchReleaseSound: {fileID: 0}
   OnHoverEnter:
     m_PersistentCalls:
       m_Calls: []
   OnHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  OnHoverSelect:
+  OnPinchStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8375723827523604024

@@ -2,13 +2,14 @@ using System.Collections;
 using Core.Commands;
 using Core.Factories;
 using Hands;
-using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Hands;
 
-public class TowerMenuButton : MonoBehaviour
+namespace UI
+{
+    public class TowerMenuButton : MonoBehaviour
     {
         [Header("Tower Settings")]
         [SerializeField] private TowerType towerType;
@@ -16,37 +17,47 @@ public class TowerMenuButton : MonoBehaviour
         
         [Header("Hover Detection")]
         [SerializeField] private float hoverDistance = 0.05f;
-        [SerializeField] private float hoverTime = 0.3f;
         [SerializeField] private bool useLeftHand = true;
+        
+        [Header("Pinch Detection")]
+        [SerializeField] private float pinchThreshold = 0.03f;
+        [SerializeField] private float pinchReleaseThreshold = 0.05f; 
+        [SerializeField] private bool requireHoverToPinch = true; 
         
         [Header("Position Configuration")]
         [SerializeField] private bool useManualCenter = false;
         [SerializeField] private Vector3 manualButtonCenter = Vector3.zero;
         [SerializeField] private Transform centerTransform;
-        [SerializeField] private Vector3 centerOffset = Vector3.zero; 
+        [SerializeField] private Vector3 centerOffset = Vector3.zero;
         
         [Header("Visual Feedback")]
         [SerializeField] private Color normalColor = Color.white;
         [SerializeField] private Color hoverColor = Color.yellow;
+        [SerializeField] private Color pinchingColor = Color.orange;
         [SerializeField] private Color selectedColor = Color.green;
         
         [Header("Audio Feedback")]
         [SerializeField] private AudioClip hoverSound;
-        [SerializeField] private AudioClip selectSound;
+        [SerializeField] private AudioClip pinchStartSound;
+        [SerializeField] private AudioClip pinchReleaseSound;
         
         [Header("Events")]
         public UnityEvent OnHoverEnter;
         public UnityEvent OnHoverExit;
-        public UnityEvent OnHoverSelect;
+        public UnityEvent OnPinchStart;
+        public UnityEvent OnPinchEnd;
+        public UnityEvent OnPinchSelect;
         
         private bool isHovering = false;
         private bool wasHovering = false;
-        private float hoverStartTime = 0f;
+        private bool isPinching = false;
+        private bool wasPinching = false;
         private Vector3 buttonCenter;
         private Button button;
         private AudioSource audioSource;
         private XRHandSubsystem handSubsystem;
         private float lastHandDistance = float.MaxValue;
+        private float lastPinchDistance = float.MaxValue;
         
         private HandHoverDetector handHoverDetector;
         
@@ -82,7 +93,8 @@ public class TowerMenuButton : MonoBehaviour
         {
             UpdateButtonCenter();
             CheckHandHover();
-            HandleHoverLogic();
+            CheckPinchGesture();
+            HandleInteractionLogic();
         }
         
         private void UpdateButtonCenter()
@@ -176,29 +188,96 @@ public class TowerMenuButton : MonoBehaviour
             }
         }
         
-        private void HandleHoverLogic()
+        private void CheckPinchGesture()
+        {
+            if (handSubsystem == null || !handSubsystem.running)
+            {
+                isPinching = false;
+                lastPinchDistance = float.MaxValue;
+                return;
+            }
+            
+            XRHand hand = useLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
+            
+            if (!hand.isTracked)
+            {
+                isPinching = false;
+                lastPinchDistance = float.MaxValue;
+                return;
+            }
+            
+            if (hand.GetJoint(XRHandJointID.ThumbTip).TryGetPose(out Pose thumbTipPose) &&
+                hand.GetJoint(XRHandJointID.IndexTip).TryGetPose(out Pose indexTipPose))
+            {
+                float pinchDistance = Vector3.Distance(thumbTipPose.position, indexTipPose.position);
+                lastPinchDistance = pinchDistance;
+                
+                if (!isPinching && pinchDistance <= pinchThreshold)
+                {
+                    bool canStartPinch = false;
+                    
+                    if (requireHoverToPinch)
+                    {
+                        canStartPinch = isHovering;
+                    }
+                    else
+                    {
+                        canStartPinch = isHovering || IsClosestButtonToPinch(thumbTipPose.position, indexTipPose.position);
+                    }
+                    
+                    if (canStartPinch)
+                    {
+                        isPinching = true;
+                    }
+                }
+                else if (isPinching && pinchDistance >= pinchReleaseThreshold)
+                {
+                    isPinching = false;
+                }
+            }
+            else
+            {
+                isPinching = false;
+                lastPinchDistance = float.MaxValue;
+            }
+        }
+        
+        private bool IsClosestButtonToPinch(Vector3 thumbPos, Vector3 indexPos)
+        {
+            Vector3 pinchCenter = (thumbPos + indexPos) * 0.5f;
+            
+            float distanceToPinchCenter = Vector3.Distance(pinchCenter, buttonCenter);
+            
+            if (distanceToPinchCenter > hoverDistance)
+            {
+                return false;
+            }
+            
+            return PieMenuHoverManager.Instance.RequestPinch(this, distanceToPinchCenter);
+        }
+        
+        private void HandleInteractionLogic()
         {
             if (isHovering && !wasHovering)
             {
                 OnHoverEnterAction();
-                hoverStartTime = Time.time;
             }
             else if (!isHovering && wasHovering)
             {
                 OnHoverExitAction();
-                hoverStartTime = 0f;
             }
-            else if (isHovering && wasHovering)
+            
+            if (isPinching && !wasPinching)
             {
-                float hoverDuration = Time.time - hoverStartTime;
-                if (hoverDuration >= hoverTime)
-                {
-                    OnHoverSelectAction();
-                    hoverStartTime = Time.time;
-                }
+                OnPinchStartAction();
+            }
+            else if (!isPinching && wasPinching)
+            {
+                OnPinchEndAction();
             }
             
             wasHovering = isHovering;
+            wasPinching = isPinching;
         }
         
         public float GetHandDistance()
@@ -212,13 +291,21 @@ public class TowerMenuButton : MonoBehaviour
             {
                 isHovering = false;
                 OnHoverExitAction();
-                hoverStartTime = 0f;
+            }
+        }
+        
+        public void ForcePinchExit()
+        {
+            if (isPinching)
+            {
+                isPinching = false;
+                OnPinchEndAction();
             }
         }
         
         private void OnHoverEnterAction()
         {
-            UpdateVisualState(ButtonState.Hover);
+            UpdateVisualState(isPinching ? ButtonState.Pinching : ButtonState.Hover);
             
             if (hoverSound != null && audioSource != null)
             {
@@ -235,18 +322,46 @@ public class TowerMenuButton : MonoBehaviour
             OnHoverExit?.Invoke();
         }
         
-        private void OnHoverSelectAction()
+        private void OnPinchStartAction()
+        {
+            UpdateVisualState(ButtonState.Pinching);
+            
+            if (pinchStartSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(pinchStartSound);
+            }
+            
+            OnPinchStart?.Invoke();
+        }
+        
+        private void OnPinchEndAction()
+        {
+            PieMenuHoverManager.Instance.ReleasePinch(this);
+            
+            if (isHovering || !requireHoverToPinch)
+            {
+                OnPinchSelectAction();
+            }
+            
+            UpdateVisualState(isHovering ? ButtonState.Hover : ButtonState.Normal);
+            
+            if (pinchReleaseSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(pinchReleaseSound);
+            }
+            
+            OnPinchEnd?.Invoke();
+        }
+        
+        private void OnPinchSelectAction()
         {
             UpdateVisualState(ButtonState.Selected);
             
-            if (selectSound != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(selectSound);
-            }
-            
-            OnHoverSelect?.Invoke();
+            OnPinchSelect?.Invoke();
             
             OnButtonClick();
+            
+            Debug.Log($"Selected {towerType} tower button via pinch");
             
             StartCoroutine(ResetVisualStateAfterDelay(0.2f));
         }
@@ -254,7 +369,7 @@ public class TowerMenuButton : MonoBehaviour
         private IEnumerator ResetVisualStateAfterDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            UpdateVisualState(ButtonState.Normal);
+            UpdateVisualState(isHovering ? ButtonState.Hover : ButtonState.Normal);
         }
         
         private void UpdateVisualState(ButtonState state)
@@ -265,6 +380,7 @@ public class TowerMenuButton : MonoBehaviour
             {
                 ButtonState.Normal => normalColor,
                 ButtonState.Hover => hoverColor,
+                ButtonState.Pinching => pinchingColor,
                 ButtonState.Selected => selectedColor,
                 _ => normalColor
             };
@@ -294,6 +410,12 @@ public class TowerMenuButton : MonoBehaviour
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(centerToShow, 0.01f);
                 
+                if (isPinching)
+                {
+                    Gizmos.color = Color.orange;
+                    Gizmos.DrawWireCube(centerToShow, Vector3.one * 0.02f);
+                }
+                
                 if (lastHandDistance < float.MaxValue)
                 {
                     Gizmos.color = Color.cyan;
@@ -301,17 +423,19 @@ public class TowerMenuButton : MonoBehaviour
                 }
                 
                 #if UNITY_EDITOR
-                if (isHovering)
-                {
-                    float hoverDuration = Time.time - hoverStartTime;
-                    UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.05f, 
-                        $"Hover: {hoverDuration:F2}s / {hoverTime:F2}s");
-                }
+                string stateInfo = isPinching ? "PINCHING" : isHovering ? "HOVERING" : "NORMAL";
+                UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.05f, stateInfo);
                 
                 if (lastHandDistance < float.MaxValue)
                 {
                     UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.1f, 
-                        $"Dist: {lastHandDistance:F3}m");
+                        $"Hand: {lastHandDistance:F3}m");
+                }
+                
+                if (lastPinchDistance < float.MaxValue)
+                {
+                    UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.15f, 
+                        $"Pinch: {lastPinchDistance:F3}m");
                 }
                 #endif
             }
@@ -344,3 +468,4 @@ public class TowerMenuButton : MonoBehaviour
             return transform.position + centerOffset;
         }
     }
+}
