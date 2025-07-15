@@ -33,24 +33,20 @@ namespace UI
         
         public bool RequestHover(TowerMenuButton button, float distance)
         {
-            // If no button is currently hovered, or this button is closer than the current one
             if (currentHoveredButton == null)
             {
                 SetHoveredButton(button);
                 return true;
             }
             
-            // If the same button is requesting hover, keep it
             if (currentHoveredButton == button)
             {
                 return true;
             }
             
-            // Check if this button is closer than the currently hovered one
             float currentDistance = currentHoveredButton.GetHandDistance();
             if (distance < currentDistance)
             {
-                // Exit the current button and set the new one
                 currentHoveredButton.ForceHoverExit();
                 SetHoveredButton(button);
                 return true;

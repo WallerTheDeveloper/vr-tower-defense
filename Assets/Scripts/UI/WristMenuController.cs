@@ -138,7 +138,6 @@ namespace UI
             Vector3 headPosition = cameraTransform.position;
             Vector3 palmToHead = (headPosition - wristPosition).normalized;
             
-            // Calculate dot product between palm direction and direction to camera
             float palmDot = Vector3.Dot(palmDirection, palmToHead);
             
             float dotThreshold = isMenuVisible ? palmDotHideThreshold : palmDotThreshold;

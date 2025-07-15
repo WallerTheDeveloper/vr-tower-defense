@@ -15,15 +15,15 @@ public class TowerMenuButton : MonoBehaviour
         [SerializeField] private TowerFactory towerFactory;
         
         [Header("Hover Detection")]
-        [SerializeField] private float hoverDistance = 0.05f; // 5cm
-        [SerializeField] private float hoverTime = 0.3f; // Time to hold hover for selection
+        [SerializeField] private float hoverDistance = 0.05f;
+        [SerializeField] private float hoverTime = 0.3f;
         [SerializeField] private bool useLeftHand = true;
         
         [Header("Position Configuration")]
         [SerializeField] private bool useManualCenter = false;
         [SerializeField] private Vector3 manualButtonCenter = Vector3.zero;
-        [SerializeField] private Transform centerTransform; // Alternative: use another transform as center
-        [SerializeField] private Vector3 centerOffset = Vector3.zero; // Offset from calculated center
+        [SerializeField] private Transform centerTransform;
+        [SerializeField] private Vector3 centerOffset = Vector3.zero; 
         
         [Header("Visual Feedback")]
         [SerializeField] private Color normalColor = Color.white;
@@ -87,21 +87,18 @@ public class TowerMenuButton : MonoBehaviour
         
         private void UpdateButtonCenter()
         {
-            // Manual center override
             if (useManualCenter)
             {
                 buttonCenter = manualButtonCenter;
                 return;
             }
             
-            // Use another transform as center
             if (centerTransform != null)
             {
                 buttonCenter = centerTransform.position + centerOffset;
                 return;
             }
             
-            // Automatic calculation with offset
             Vector3 calculatedCenter;
             
             if (GetComponent<RectTransform>() != null)
@@ -159,12 +156,10 @@ public class TowerMenuButton : MonoBehaviour
                 float distance = Vector3.Distance(indexTipPose.position, buttonCenter);
                 lastHandDistance = distance;
                 
-                // Check if hand is within hover distance
                 bool withinDistance = distance <= hoverDistance;
                 
                 if (withinDistance)
                 {
-                    // Request hover from the manager (only closest button gets it)
                     isHovering = PieMenuHoverManager.Instance.RequestHover(this, distance);
                 }
                 else
@@ -183,26 +178,23 @@ public class TowerMenuButton : MonoBehaviour
         
         private void HandleHoverLogic()
         {
-            // Hover Enter
             if (isHovering && !wasHovering)
             {
                 OnHoverEnterAction();
                 hoverStartTime = Time.time;
             }
-            // Hover Exit
             else if (!isHovering && wasHovering)
             {
                 OnHoverExitAction();
                 hoverStartTime = 0f;
             }
-            // Hover Hold (for selection)
             else if (isHovering && wasHovering)
             {
                 float hoverDuration = Time.time - hoverStartTime;
                 if (hoverDuration >= hoverTime)
                 {
                     OnHoverSelectAction();
-                    hoverStartTime = Time.time; // Reset but keep hovering state
+                    hoverStartTime = Time.time;
                 }
             }
             
@@ -234,8 +226,6 @@ public class TowerMenuButton : MonoBehaviour
             }
             
             OnHoverEnter?.Invoke();
-            
-            Debug.Log($"Hovering over {towerType} tower button at position {buttonCenter}");
         }
         
         private void OnHoverExitAction()
@@ -243,8 +233,6 @@ public class TowerMenuButton : MonoBehaviour
             UpdateVisualState(ButtonState.Normal);
             
             OnHoverExit?.Invoke();
-            
-            Debug.Log($"Stopped hovering over {towerType} tower button");
         }
         
         private void OnHoverSelectAction()
@@ -258,12 +246,8 @@ public class TowerMenuButton : MonoBehaviour
             
             OnHoverSelect?.Invoke();
             
-            // Execute tower spawn command
             OnButtonClick();
             
-            Debug.Log($"Selected {towerType} tower button via hover");
-            
-            // Reset visual state after a short delay
             StartCoroutine(ResetVisualStateAfterDelay(0.2f));
         }
         
@@ -298,22 +282,18 @@ public class TowerMenuButton : MonoBehaviour
             CommandManager.Instance.ExecuteCommand(command);
         }
         
-        // Gizmos for debugging
         private void OnDrawGizmos()
         {
             Vector3 centerToShow = Application.isPlaying ? buttonCenter : GetPreviewCenter();
             
             if (Application.isPlaying)
             {
-                // Draw hover detection sphere
                 Gizmos.color = isHovering ? Color.green : Color.red;
                 Gizmos.DrawWireSphere(centerToShow, hoverDistance);
                 
-                // Draw button center
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(centerToShow, 0.01f);
                 
-                // Show distance from hand
                 if (lastHandDistance < float.MaxValue)
                 {
                     Gizmos.color = Color.cyan;
@@ -328,7 +308,6 @@ public class TowerMenuButton : MonoBehaviour
                         $"Hover: {hoverDuration:F2}s / {hoverTime:F2}s");
                 }
                 
-                // Always show distance info
                 if (lastHandDistance < float.MaxValue)
                 {
                     UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.1f, 
@@ -338,11 +317,9 @@ public class TowerMenuButton : MonoBehaviour
             }
             else
             {
-                // Show hover distance in editor
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireSphere(centerToShow, hoverDistance);
                 
-                // Show configuration info in editor
                 #if UNITY_EDITOR
                 string configInfo = useManualCenter ? "Manual" : 
                                    centerTransform != null ? "Transform" : "Auto";
@@ -352,7 +329,6 @@ public class TowerMenuButton : MonoBehaviour
             }
         }
         
-        // Helper method to preview center position in editor
         private Vector3 GetPreviewCenter()
         {
             if (useManualCenter)
@@ -365,7 +341,6 @@ public class TowerMenuButton : MonoBehaviour
                 return centerTransform.position + centerOffset;
             }
             
-            // Auto calculation preview
             return transform.position + centerOffset;
         }
     }
