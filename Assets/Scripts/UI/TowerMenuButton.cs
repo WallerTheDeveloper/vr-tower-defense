@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Hands;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace UI
 {
@@ -21,8 +23,13 @@ namespace UI
         
         [Header("Pinch Detection")]
         [SerializeField] private float pinchThreshold = 0.03f;
-        [SerializeField] private float pinchReleaseThreshold = 0.05f; 
-        [SerializeField] private bool requireHoverToPinch = true; 
+        [SerializeField] private float pinchReleaseThreshold = 0.05f;
+        [SerializeField] private bool requireHoverToPinch = true;
+        [SerializeField] private bool usePinchReleaseInteraction = false;
+        
+        [Header("Tower Spawning")]
+        [SerializeField] private bool spawnAtPinchLocation = true;
+        [SerializeField] private bool autoGrabOnSpawn = true;
         
         [Header("Position Configuration")]
         [SerializeField] private bool useManualCenter = false;
@@ -53,6 +60,7 @@ namespace UI
         private bool isPinching = false;
         private bool wasPinching = false;
         private Vector3 buttonCenter;
+        private Vector3 lastPinchPosition;
         private Button button;
         private AudioSource audioSource;
         private XRHandSubsystem handSubsystem;
@@ -212,6 +220,8 @@ namespace UI
                 float pinchDistance = Vector3.Distance(thumbTipPose.position, indexTipPose.position);
                 lastPinchDistance = pinchDistance;
                 
+                lastPinchPosition = (thumbTipPose.position + indexTipPose.position) * 0.5f;
+                
                 if (!isPinching && pinchDistance <= pinchThreshold)
                 {
                     bool canStartPinch = false;
@@ -239,6 +249,7 @@ namespace UI
             {
                 isPinching = false;
                 lastPinchDistance = float.MaxValue;
+                lastPinchPosition = Vector3.zero;
             }
         }
         
@@ -267,11 +278,12 @@ namespace UI
                 OnHoverExitAction();
             }
             
+            // Handle pinch state changes
             if (isPinching && !wasPinching)
             {
                 OnPinchStartAction();
             }
-            else if (!isPinching && wasPinching)
+            else if (!isPinching && wasPinching && usePinchReleaseInteraction)
             {
                 OnPinchEndAction();
             }
@@ -332,16 +344,18 @@ namespace UI
             }
             
             OnPinchStart?.Invoke();
+            
+            if (isHovering || !requireHoverToPinch)
+            {
+                OnPinchSelectAction();
+                PieMenuHoverManager.Instance.ReleasePinch(this);
+                UpdateVisualState(isHovering ? ButtonState.Hover : ButtonState.Normal);
+            }
         }
         
         private void OnPinchEndAction()
         {
             PieMenuHoverManager.Instance.ReleasePinch(this);
-            
-            if (isHovering || !requireHoverToPinch)
-            {
-                OnPinchSelectAction();
-            }
             
             UpdateVisualState(isHovering ? ButtonState.Hover : ButtonState.Normal);
             
@@ -360,8 +374,6 @@ namespace UI
             OnPinchSelect?.Invoke();
             
             OnButtonClick();
-            
-            Debug.Log($"Selected {towerType} tower button via pinch");
             
             StartCoroutine(ResetVisualStateAfterDelay(0.2f));
         }
@@ -394,8 +406,117 @@ namespace UI
         
         public void OnButtonClick()
         {
-            var command = new SpawnTowerCommand(towerFactory, towerType, transform.position, Quaternion.identity);
+            Vector3 spawnPosition = GetSpawnPosition();
+            Quaternion spawnRotation = GetSpawnRotation();
+            
+            var command = new SpawnTowerCommand(towerFactory, towerType, spawnPosition, spawnRotation);
             CommandManager.Instance.ExecuteCommand(command);
+            
+            if (autoGrabOnSpawn)
+            {
+                StartCoroutine(AutoGrabSpawnedTower());
+            }
+        }
+        
+        private Vector3 GetSpawnPosition()
+        {
+            if (spawnAtPinchLocation && lastPinchPosition != Vector3.zero)
+            {
+                return lastPinchPosition;
+            }
+            
+            return transform.position;
+        }
+        
+        private Quaternion GetSpawnRotation()
+        {
+            if (Camera.main != null)
+            {
+                Vector3 lookDirection = Camera.main.transform.position - GetSpawnPosition();
+                lookDirection.y = 0;
+                if (lookDirection != Vector3.zero)
+                {
+                    return Quaternion.LookRotation(lookDirection);
+                }
+            }
+            
+            return Quaternion.identity;
+        }
+        
+        private IEnumerator AutoGrabSpawnedTower()
+        {
+            yield return null;
+            
+            GameObject spawnedTower = FindRecentlySpawnedTower();
+            
+            if (spawnedTower != null)
+            {
+                XRGrabInteractable grabInteractable = 
+                    spawnedTower.GetComponent<XRGrabInteractable>();
+                
+                if (grabInteractable != null)
+                {
+                    XRDirectInteractor handInteractor = GetHandInteractor();
+                    
+                    if (handInteractor != null)
+                    {
+                        handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
+                        
+                        Debug.Log($"Auto-grabbed {towerType} tower at pinch location");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Could not find hand interactor for auto-grab");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Spawned tower does not have XRGrabInteractable component");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Could not find recently spawned tower for auto-grab");
+            }
+        }
+        
+        private GameObject FindRecentlySpawnedTower()
+        {
+            Collider[] nearbyObjects = Physics.OverlapSphere(GetSpawnPosition(), 0.1f);
+            
+            foreach (Collider col in nearbyObjects)
+            {
+                if (col.GetComponent<XRGrabInteractable>() != null)
+                {
+                    return col.gameObject;
+                }
+            }
+            
+            return null;
+        }
+        
+        private XRDirectInteractor GetHandInteractor()
+        {
+            string handObjectName = useLeftHand ? "LeftHand" : "RightHand";
+            
+            GameObject handObject = GameObject.Find(handObjectName);
+            if (handObject != null)
+            {
+                XRDirectInteractor interactor = 
+                    handObject.GetComponentInChildren<XRDirectInteractor>();
+                if (interactor != null)
+                    return interactor;
+            }
+            
+            XRDirectInteractor[] allInteractors = 
+                FindObjectsOfType<XRDirectInteractor>();
+            
+            foreach (var interactor in allInteractors)
+            {
+                return interactor;
+            }
+            
+            return null;
         }
         
         private void OnDrawGizmos()
