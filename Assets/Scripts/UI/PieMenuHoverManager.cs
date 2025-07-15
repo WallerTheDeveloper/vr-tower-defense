@@ -21,6 +21,7 @@ namespace UI
         
         private TowerMenuButton currentHoveredButton;
         private TowerMenuButton currentPinchingButton;
+        private TowerMenuButton buttonThatTriggeredPinchAction;
         
         private void Awake()
         {
@@ -96,6 +97,33 @@ namespace UI
             }
         }
         
+        public bool HasAnyButtonTriggeredPinchAction()
+        {
+            return buttonThatTriggeredPinchAction != null;
+        }
+        
+        public void SetPinchActionTriggered(TowerMenuButton button)
+        {
+            if (buttonThatTriggeredPinchAction == null)
+            {
+                buttonThatTriggeredPinchAction = button;
+            }
+        }
+        
+        public void ClearPinchActionTrigger()
+        {
+            if (buttonThatTriggeredPinchAction != null)
+            {
+                Debug.Log($"Clearing pinch action trigger from button: {buttonThatTriggeredPinchAction.name}");
+                buttonThatTriggeredPinchAction = null;
+            }
+        }
+        
+        public TowerMenuButton GetButtonThatTriggeredPinchAction()
+        {
+            return buttonThatTriggeredPinchAction;
+        }
+        
         private void SetHoveredButton(TowerMenuButton button)
         {
             currentHoveredButton = button;
@@ -104,6 +132,18 @@ namespace UI
         private void SetPinchingButton(TowerMenuButton button)
         {
             currentPinchingButton = button;
+        }
+        
+        private void OnGUI()
+        {
+            if (Application.isPlaying && Debug.isDebugBuild)
+            {
+                GUILayout.BeginArea(new Rect(10, 10, 300, 100));
+                GUILayout.Label($"Hovered: {(currentHoveredButton != null ? currentHoveredButton.name : "None")}");
+                GUILayout.Label($"Pinching: {(currentPinchingButton != null ? currentPinchingButton.name : "None")}");
+                GUILayout.Label($"Action Triggered: {(buttonThatTriggeredPinchAction != null ? buttonThatTriggeredPinchAction.name : "None")}");
+                GUILayout.EndArea();
+            }
         }
     }
 }

@@ -59,6 +59,7 @@ namespace UI
         private bool wasHovering = false;
         private bool isPinching = false;
         private bool wasPinching = false;
+        private bool hasTriggeredPinchAction = false;
         private Vector3 buttonCenter;
         private Vector3 lastPinchPosition;
         private Button button;
@@ -222,7 +223,7 @@ namespace UI
                 
                 lastPinchPosition = (thumbTipPose.position + indexTipPose.position) * 0.5f;
                 
-                if (!isPinching && pinchDistance <= pinchThreshold)
+                if (!isPinching && pinchDistance <= pinchThreshold && !PieMenuHoverManager.Instance.HasAnyButtonTriggeredPinchAction())
                 {
                     bool canStartPinch = false;
                     
@@ -243,6 +244,11 @@ namespace UI
                 else if (isPinching && pinchDistance >= pinchReleaseThreshold)
                 {
                     isPinching = false;
+                    if (hasTriggeredPinchAction)
+                    {
+                        hasTriggeredPinchAction = false;
+                        PieMenuHoverManager.Instance.ClearPinchActionTrigger();
+                    }
                 }
             }
             else
@@ -278,7 +284,6 @@ namespace UI
                 OnHoverExitAction();
             }
             
-            // Handle pinch state changes
             if (isPinching && !wasPinching)
             {
                 OnPinchStartAction();
@@ -315,6 +320,16 @@ namespace UI
             }
         }
         
+        public bool HasTriggeredPinchAction()
+        {
+            return hasTriggeredPinchAction;
+        }
+        
+        public void ResetPinchActionTrigger()
+        {
+            hasTriggeredPinchAction = false;
+        }
+        
         private void OnHoverEnterAction()
         {
             UpdateVisualState(isPinching ? ButtonState.Pinching : ButtonState.Hover);
@@ -345,8 +360,10 @@ namespace UI
             
             OnPinchStart?.Invoke();
             
-            if (isHovering || !requireHoverToPinch)
+            if ((isHovering || !requireHoverToPinch) && !hasTriggeredPinchAction && !PieMenuHoverManager.Instance.HasAnyButtonTriggeredPinchAction())
             {
+                hasTriggeredPinchAction = true;
+                PieMenuHoverManager.Instance.SetPinchActionTriggered(this);
                 OnPinchSelectAction();
                 PieMenuHoverManager.Instance.ReleasePinch(this);
                 UpdateVisualState(isHovering ? ButtonState.Hover : ButtonState.Normal);
@@ -545,6 +562,7 @@ namespace UI
                 
                 #if UNITY_EDITOR
                 string stateInfo = isPinching ? "PINCHING" : isHovering ? "HOVERING" : "NORMAL";
+                if (hasTriggeredPinchAction) stateInfo += " (TRIGGERED)";
                 UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.05f, stateInfo);
                 
                 if (lastHandDistance < float.MaxValue)
