@@ -7,7 +7,7 @@ namespace Core.Commands
     {
         public static CommandManager Instance { get; private set; }
     
-        private Stack<ICommand> commandHistory = new Stack<ICommand>();
+        private Stack<ICommand> commandHistory = new();
     
         void Awake()
         {
