@@ -1,9 +1,12 @@
 using System.Collections;
 using Core.Commands;
 using Core.Factories;
+using Data;
 using Hands;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -13,9 +16,10 @@ namespace UI
 {
     public class TowerMenuButton : MonoBehaviour
     {
-        [Header("Tower Settings")]
-        [SerializeField] private TowerType towerType;
-        [SerializeField] private TowerFactory towerFactory;
+        [Header("Tower Settings")] [SerializeField] private TowerFactory towerFactory;
+        
+        [Header("Data")]
+        [SerializeField] private WristMenuData data;
         
         [Header("Hover Detection")]
         [SerializeField] private float hoverDistance = 0.05f;
@@ -47,6 +51,10 @@ namespace UI
         [SerializeField] private AudioClip hoverSound;
         [SerializeField] private AudioClip pinchStartSound;
         [SerializeField] private AudioClip pinchReleaseSound;
+        
+        [Header("UI References")] 
+        [SerializeField] private TextMeshProUGUI itemHeader;
+        [SerializeField] private TextMeshProUGUI itemDescription;
         
         [Header("Events")]
         public UnityEvent OnHoverEnter;
@@ -182,6 +190,7 @@ namespace UI
                 if (withinDistance)
                 {
                     isHovering = PieMenuHoverManager.Instance.RequestHover(this, distance);
+                    SetHeaderAndDescriptionData(data.itemHeader, data.itemDescription);
                 }
                 else
                 {
@@ -197,6 +206,11 @@ namespace UI
             }
         }
         
+        private void SetHeaderAndDescriptionData(string header, string description)
+        {
+            itemHeader.text = header;
+            itemDescription.text = description;
+        }
         private void CheckPinchGesture()
         {
             if (handSubsystem == null || !handSubsystem.running)
@@ -426,7 +440,7 @@ namespace UI
             Vector3 spawnPosition = GetSpawnPosition();
             Quaternion spawnRotation = GetSpawnRotation();
             
-            var command = new SpawnTowerCommand(towerFactory, towerType, spawnPosition, spawnRotation);
+            var command = new SpawnTowerCommand(towerFactory, spawnPosition, spawnRotation);
             CommandManager.Instance.ExecuteCommand(command);
             
             if (autoGrabOnSpawn)
@@ -478,8 +492,6 @@ namespace UI
                     if (handInteractor != null)
                     {
                         handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
-                        
-                        Debug.Log($"Auto-grabbed {towerType} tower at pinch location");
                     }
                     else
                     {
