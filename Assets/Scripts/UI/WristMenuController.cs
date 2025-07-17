@@ -24,6 +24,7 @@ namespace UI
         private bool isMenuVisible = false;
         private bool isHandTracked = false;
         private Vector3 wristPosition;
+        private Quaternion wristRotation;
         private Vector3 palmDirection;
         private Coroutine fadeCoroutine;
         
@@ -79,7 +80,7 @@ namespace UI
         {
             UpdateHandPosition();
             CheckMenuVisibility();
-            UpdateMenuOrientation();
+            UpdateMenuPositionAndOrientation();
         }
         
         private void UpdateHandPosition()
@@ -101,15 +102,11 @@ namespace UI
                     if (hand.GetJoint(XRHandJointID.Wrist).TryGetPose(out Pose wristPose))
                     {
                         wristPosition = wristPose.position;
+                        wristRotation = wristPose.rotation;
                         
                         if (hand.GetJoint(XRHandJointID.Palm).TryGetPose(out Pose palmPose))
                         {
                             palmDirection = palmPose.rotation * Vector3.down;
-                        }
-                        
-                        if (wristMenuTransform != null)
-                        {
-                            wristMenuTransform.position = wristPosition + wristMenuPositionThreshold;
                         }
                     }
                 }
@@ -189,19 +186,29 @@ namespace UI
             menuCanvasGroup.blocksRaycasts = fadeIn;
         }
         
-        private void UpdateMenuOrientation()
+        private void UpdateMenuPositionAndOrientation()
         {
-            if (wristMenuTransform != null && cameraTransform != null && 
+            if (wristMenuTransform != null && cameraTransform != null && isHandTracked &&
                 (isMenuVisible || menuCanvasGroup.alpha > 0.01f))
             {
-                Vector3 toCamera = cameraTransform.position - wristMenuTransform.position;
+                Vector3 localOffset = wristMenuPositionThreshold;
                 
+                Vector3 worldOffset = wristRotation * localOffset;
+                Vector3 targetPosition = wristPosition + worldOffset;
+                
+                wristMenuTransform.position = Vector3.Lerp(
+                    wristMenuTransform.position, 
+                    targetPosition, 
+                    Time.deltaTime * 10f
+                );
+                
+                Vector3 toCamera = cameraTransform.position - wristMenuTransform.position;
                 toCamera.y = 0;
                 
                 if (toCamera.sqrMagnitude > 0.0001f)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
-                    
+                    Debug.Log(targetRotation);
                     wristMenuTransform.rotation = Quaternion.Slerp(
                         wristMenuTransform.rotation, 
                         targetRotation, 
@@ -290,6 +297,24 @@ namespace UI
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(wristPosition, 0.02f);
             
+            if (wristRotation != Quaternion.identity)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(wristPosition, wristRotation * Vector3.right * 0.05f);
+                Gizmos.color = Color.green;
+                Gizmos.DrawRay(wristPosition, wristRotation * Vector3.up * 0.05f);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawRay(wristPosition, wristRotation * Vector3.forward * 0.05f);
+                
+                Vector3 localOffset = wristMenuPositionThreshold;
+                Vector3 worldOffset = wristRotation * localOffset;
+                Vector3 targetPosition = wristPosition + worldOffset;
+                
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(wristPosition, targetPosition);
+                Gizmos.DrawWireSphere(targetPosition, 0.015f);
+            }
+            
             if (palmDirection != Vector3.zero && cameraTransform != null)
             {
                 Gizmos.color = Color.green;
@@ -305,6 +330,7 @@ namespace UI
                 
                 #if UNITY_EDITOR
                 UnityEditor.Handles.Label(wristPosition + Vector3.up * 0.1f, $"Dot: {palmDot:F2}");
+                UnityEditor.Handles.Label(wristPosition + Vector3.up * 0.12f, $"Visible: {isMenuVisible}");
                 #endif
             }
         }
