@@ -268,8 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerFactory: {fileID: 789344848143409086}
   data: {fileID: 11400000, guid: 01c514c763a07924e8032eba9ca693d4, type: 2}
+  towerType: 0
+  towerFactory: {fileID: 789344848143409086}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1264,8 +1265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerFactory: {fileID: 5242479886149850023}
   data: {fileID: 11400000, guid: 94867d0438dd7364c85a60f5ec02b13e, type: 2}
+  towerType: 0
+  towerFactory: {fileID: 5242479886149850023}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1583,8 +1585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerFactory: {fileID: 1328023152463872160}
   data: {fileID: 11400000, guid: 881dda4c40cbb15428a1346e1bb26ebb, type: 2}
+  towerType: 0
+  towerFactory: {fileID: 1328023152463872160}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009

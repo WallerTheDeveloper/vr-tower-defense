@@ -6,7 +6,6 @@ using Hands;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -16,10 +15,11 @@ namespace UI
 {
     public class TowerMenuButton : MonoBehaviour
     {
-        [Header("Tower Settings")] [SerializeField] private TowerFactory towerFactory;
-        
         [Header("Data")]
         [SerializeField] private WristMenuData data;
+        [Header("Tower Settings")]
+        [SerializeField] private TowerType towerType;
+        [SerializeField] private TowerFactory towerFactory;
         
         [Header("Hover Detection")]
         [SerializeField] private float hoverDistance = 0.05f;
@@ -298,6 +298,7 @@ namespace UI
                 OnHoverExitAction();
             }
             
+            // Handle pinch state changes
             if (isPinching && !wasPinching)
             {
                 OnPinchStartAction();
@@ -476,22 +477,73 @@ namespace UI
         
         private IEnumerator AutoGrabSpawnedTower()
         {
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
+            
+            Vector3 spawnPos = GetSpawnPosition();
+            Debug.Log($"Attempting to auto-grab tower at position: {spawnPos}");
             
             GameObject spawnedTower = FindRecentlySpawnedTower();
             
             if (spawnedTower != null)
             {
-                XRGrabInteractable grabInteractable = 
-                    spawnedTower.GetComponent<XRGrabInteractable>();
+                Debug.Log($"Found tower: {spawnedTower.name} at position: {spawnedTower.transform.position}");
+                
+                XRGrabInteractable grabInteractable = spawnedTower.GetComponent<XRGrabInteractable>();
                 
                 if (grabInteractable != null)
                 {
+                    if (!grabInteractable.enabled)
+                    {
+                        Debug.LogWarning("XRGrabInteractable is disabled, enabling it...");
+                        grabInteractable.enabled = true;
+                    }
+                    
                     XRDirectInteractor handInteractor = GetHandInteractor();
                     
                     if (handInteractor != null)
                     {
-                        handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
+                        Debug.Log($"Attempting to grab with interactor: {handInteractor.name}");
+                        
+                        bool grabSuccessful = false;
+                        
+                        try
+                        {
+                            handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
+                            grabSuccessful = true;
+                            Debug.Log($"Successfully auto-grabbed {towerType} tower using manual interaction");
+                        }
+                        catch (System.Exception e)
+                        {
+                            Debug.LogWarning($"Manual interaction failed: {e.Message}");
+                        }
+                        
+                        if (!grabSuccessful)
+                        {
+                            yield return new WaitForSeconds(0.1f);
+                            
+                            try
+                            {
+                                if (handInteractor.CanSelect((IXRSelectInteractable)grabInteractable))
+                                {
+                                    handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
+                                    grabSuccessful = true;
+                                    Debug.Log($"Successfully auto-grabbed {towerType} tower using force selection");
+                                }
+                                else
+                                {
+                                    Debug.LogWarning("Interactor cannot select the grab interactable");
+                                }
+                            }
+                            catch (System.Exception e)
+                            {
+                                Debug.LogWarning($"Force selection failed: {e.Message}");
+                            }
+                        }
+                        
+                        if (!grabSuccessful)
+                        {
+                            Debug.LogError("All auto-grab methods failed");
+                        }
                     }
                     else
                     {
@@ -500,7 +552,7 @@ namespace UI
                 }
                 else
                 {
-                    Debug.LogWarning("Spawned tower does not have XRGrabInteractable component");
+                    Debug.LogWarning($"Spawned tower {spawnedTower.name} does not have XRGrabInteractable component");
                 }
             }
             else
@@ -511,16 +563,50 @@ namespace UI
         
         private GameObject FindRecentlySpawnedTower()
         {
-            Collider[] nearbyObjects = Physics.OverlapSphere(GetSpawnPosition(), 0.1f);
+            Vector3 spawnPosition = GetSpawnPosition();
             
-            foreach (Collider col in nearbyObjects)
+            float[] searchRadii = { 0.1f, 0.2f, 0.5f, 1.0f };
+            
+            foreach (float radius in searchRadii)
             {
-                if (col.GetComponent<XRGrabInteractable>() != null)
+                Collider[] nearbyObjects = Physics.OverlapSphere(spawnPosition, radius);
+                
+                foreach (Collider col in nearbyObjects)
                 {
-                    return col.gameObject;
+                    if (col.GetComponent<XRGrabInteractable>() != null)
+                    {
+                        GameObject tower = col.gameObject;
+                        
+                        
+                        Debug.Log($"Found tower at distance {Vector3.Distance(spawnPosition, tower.transform.position):F3}m");
+                        return tower;
+                    }
                 }
             }
             
+            XRGrabInteractable[] allGrabInteractables = FindObjectsOfType<XRGrabInteractable>();
+            
+            GameObject closestTower = null;
+            float closestDistance = float.MaxValue;
+            
+            foreach (var grabInteractable in allGrabInteractables)
+            {
+                float distance = Vector3.Distance(spawnPosition, grabInteractable.transform.position);
+                
+                if (distance < 2.0f && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTower = grabInteractable.gameObject;
+                }
+            }
+            
+            if (closestTower != null)
+            {
+                Debug.Log($"Found closest tower at distance {closestDistance:F3}m using fallback method");
+                return closestTower;
+            }
+            
+            Debug.LogWarning($"Could not find any towers near spawn position {spawnPosition}. Checked {allGrabInteractables.Length} total grab interactables.");
             return null;
         }
         
