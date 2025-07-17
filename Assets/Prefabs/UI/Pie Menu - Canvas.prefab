@@ -819,7 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuCanvasGroup: {fileID: 6916421556617711418}
   wristMenuTransform: {fileID: 3250722254427963124}
-  wristMenuPositionThreshold: {x: 0.09, y: 0.09, z: 0}
+  wristMenuPositionThreshold: {x: 0.12, y: -0.09, z: 0.19}
   palmDotThreshold: 0.85
   palmDotHideThreshold: 0.75
   animationSpeed: 1
