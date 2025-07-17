@@ -55,7 +55,7 @@ MonoBehaviour:
   groundSnapDistance: 0.1
   towerBase: {fileID: 0}
   baseOffset: {x: 0, y: 0, z: 0}
-  _rigidbody: {fileID: 0}
+  _rigidbody: {fileID: 4217056084571551322}
 --- !u!114 &2866527576743705576
 MonoBehaviour:
   m_ObjectHideFlags: 0
