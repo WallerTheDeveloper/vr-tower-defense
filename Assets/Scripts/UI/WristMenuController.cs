@@ -203,12 +203,13 @@ namespace UI
                 );
                 
                 Vector3 toCamera = cameraTransform.position - wristMenuTransform.position;
-                toCamera.y = 0;
                 
                 if (toCamera.sqrMagnitude > 0.0001f)
                 {
-                    Quaternion targetRotation = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
-                    Debug.Log(targetRotation);
+                    Vector3 upVector = cameraTransform.up;
+                    
+                    Quaternion targetRotation = Quaternion.LookRotation(-toCamera.normalized, upVector);
+                    
                     wristMenuTransform.rotation = Quaternion.Slerp(
                         wristMenuTransform.rotation, 
                         targetRotation, 
@@ -217,13 +218,11 @@ namespace UI
                 }
                 else
                 {
-                    Vector3 fallbackDirection = cameraTransform.forward;
-                    fallbackDirection.y = 0;
-                    
-                    if (fallbackDirection.sqrMagnitude > 0.0001f)
-                    {
-                        wristMenuTransform.rotation = Quaternion.LookRotation(fallbackDirection.normalized, Vector3.up);
-                    }
+                    wristMenuTransform.rotation = Quaternion.Slerp(
+                        wristMenuTransform.rotation, 
+                        cameraTransform.rotation, 
+                        Time.deltaTime * 10f
+                    );
                 }
             }
         }
