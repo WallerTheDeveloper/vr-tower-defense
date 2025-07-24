@@ -75,7 +75,7 @@ namespace Core.TowersBehaviour
         
         private Transform FindNewTarget()
         {
-            Collider[] results = new Collider[5];
+            Collider[] results = new Collider[20];
             var targets = Physics.OverlapSphereNonAlloc(transform.position, radius, results, targetLayer);
             // Debug.Log($"Found {targets} targets in radius {radius}");
             Transform closestEnemy = null;
