@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3812587284640979937}
-  - component: {fileID: 3618439334345990164}
-  - component: {fileID: 2866527576743705576}
   m_Layer: 0
   m_Name: States Layer
   m_TagString: Untagged
@@ -33,47 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7854219918006915484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3618439334345990164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2319404163834890689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b16c4dca04d70647a9ae9ac2d271e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  orientationSpeed: 5
-  stabilityThreshold: 0.1
-  useGroundNormal: 1
-  snapToGround: 1
-  groundSnapDistance: 0.1
-  towerBase: {fileID: 0}
-  baseOffset: {x: 0, y: 0, z: 0}
-  _rigidbody: {fileID: 4217056084571551322}
---- !u!114 &2866527576743705576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2319404163834890689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98508830ed9d45849a7fe98f0a07da70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerObject: {fileID: 0}
-  radius: 20
-  anglePerSecond: 200
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &7074266532807912901
 GameObject:
   m_ObjectHideFlags: 0
