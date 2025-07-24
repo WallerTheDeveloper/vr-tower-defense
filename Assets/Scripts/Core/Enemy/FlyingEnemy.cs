@@ -26,11 +26,6 @@ namespace Core.Enemy
         private void Awake()
         {
             health = GetComponent<Health>();
-            if (health == null)
-            {
-                health = gameObject.AddComponent<Health>();
-            }
-
             health.Initialize(flyingEnemySettings);
             Initialize();
         }

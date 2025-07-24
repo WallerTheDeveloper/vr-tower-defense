@@ -13,12 +13,12 @@ namespace Core.Enemy.States
         
         private Transform _currentTarget;
         
-        public bool IsStateFinished { get; set; }
+        public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         
         public void Enter()
         {
-            IsStateFinished = false;
+            IsStateActive = false;
         }
 
         public void Tick()
@@ -31,7 +31,7 @@ namespace Core.Enemy.States
             }
             else
             {
-                IsStateFinished = true;
+                IsStateActive = true;
                 OnStateFinished?.Invoke();
             }
             
@@ -44,7 +44,7 @@ namespace Core.Enemy.States
 
         public void Exit()
         {
-            IsStateFinished = true;
+            IsStateActive = true;
         }
 
         public void SetTarget(Transform target)

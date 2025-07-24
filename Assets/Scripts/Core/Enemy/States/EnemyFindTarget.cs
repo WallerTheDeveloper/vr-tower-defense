@@ -11,17 +11,17 @@ namespace Core.Enemy.States
      
         private Transform _currentTarget;
         
-        public bool IsStateFinished { get; set; }
+        public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         public event Action<Transform> OnTargetFound;
         public void Enter()
         {
-            IsStateFinished = false;
+            IsStateActive = false;
         }
 
         public void Tick()
         {
-            if (IsStateFinished)
+            if (IsStateActive)
             {
                 return;
             }
@@ -34,7 +34,7 @@ namespace Core.Enemy.States
             {
                 OnStateFinished?.Invoke();
                 OnTargetFound?.Invoke(_currentTarget);
-                IsStateFinished = true;
+                IsStateActive = true;
             }
         }
 
@@ -42,7 +42,7 @@ namespace Core.Enemy.States
 
         public void Exit()
         {
-            IsStateFinished = true;
+            IsStateActive = true;
         }
         
         private Transform FindNewTarget()
@@ -51,7 +51,6 @@ namespace Core.Enemy.States
             int targetCount = Physics.OverlapSphereNonAlloc(transform.position, radius, results, targetLayer);
     
             Debug.Log($"Found {targetCount} targets in radius {radius}");
-            Debug.Log($"Searching on layer mask: {targetLayer.value}");
     
             Transform closestTarget = null;
             float minDistance = float.MaxValue;

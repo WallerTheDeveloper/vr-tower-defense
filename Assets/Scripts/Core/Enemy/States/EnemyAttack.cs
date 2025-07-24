@@ -15,12 +15,12 @@ namespace Core.Enemy.States
         private Transform _currentTarget;
         private float _nextFireTime;
         
-        public bool IsStateFinished { get; set; }
+        public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         
         public void Enter()
         {
-            IsStateFinished = false;
+            IsStateActive = false;
             _nextFireTime = Time.time;
         }
 
@@ -28,7 +28,7 @@ namespace Core.Enemy.States
         {
             if (_currentTarget == null)
             {
-                IsStateFinished = true;
+                IsStateActive = true;
                 OnStateFinished?.Invoke();
                 return;
             }

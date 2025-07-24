@@ -28,17 +28,17 @@ namespace Core.Enemy.Types
         
         protected override void Tick()
         {
-            if (!_findTargetState.IsStateFinished)
+            if (!_findTargetState.IsStateActive)
             {
                 _findTargetState.Tick();
             }
 
-            if (_findTargetState.IsStateFinished && !_flyTowardsTargetState.IsStateFinished)
+            if (_findTargetState.IsStateActive && !_flyTowardsTargetState.IsStateActive)
             {
                 _flyTowardsTargetState.Tick();
             }
 
-            if (_flyTowardsTargetState.IsStateFinished && _findTargetState.IsStateFinished)
+            if (_flyTowardsTargetState.IsStateActive && _findTargetState.IsStateActive)
             {
                 _enemyAttackState.Tick();
             }
