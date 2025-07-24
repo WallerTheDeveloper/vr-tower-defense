@@ -27,12 +27,12 @@ namespace Core.TowersBehaviour.States
         private Vector3 targetGroundPosition;
         private Quaternion targetRotation;
 
-        public bool IsStateFinished { get; set; } = false;
+        public bool IsStateActive { get; set; } = false;
         public event Action OnStateFinished;
         
         public void Enter()
         {
-            IsStateFinished = false;
+            IsStateActive = true;
             
             if (towerBase == null)
                 towerBase = transform;
@@ -56,6 +56,7 @@ namespace Core.TowersBehaviour.States
         public void Exit()
         {
             _rigidbody.isKinematic = true;
+            IsStateActive = false;
         }
         
         private void OnCollisionEnter(Collision collision)
@@ -145,7 +146,6 @@ namespace Core.TowersBehaviour.States
             _rigidbody.angularVelocity = Vector3.zero;
             
             OnStateFinished?.Invoke();
-            IsStateFinished = true;
         }
         
         private Vector3 GetBasePosition()

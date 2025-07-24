@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.HealthSystem;
 using Core.StateMachine;
 using UnityEngine;
 
@@ -14,15 +15,20 @@ namespace Core.TowersBehaviour.States
         
         private float _fireCooldown; // Time until the next shot is ready
 
-        public bool IsStateFinished { get; set; } = false;
+        public bool IsStateActive { get; set; } = false;
         public event Action OnStateFinished;
 
         public void Enter()
         {
-            IsStateFinished = false;
+            IsStateActive = true;
         }
         public void Tick()
         {
+            if (_currentTarget == null)
+            {
+                OnStateFinished?.Invoke();
+                return;
+            }
             if (_fireCooldown > 0)
             {
                 _fireCooldown -= Time.deltaTime;
@@ -35,7 +41,7 @@ namespace Core.TowersBehaviour.States
 
         public void Exit()
         {
-            IsStateFinished = true;
+            IsStateActive = false;
         }
 
         public void SetTarget(Transform target)
@@ -46,7 +52,7 @@ namespace Core.TowersBehaviour.States
         {
             if (_fireCooldown <= 0f)
             {
-                if (projectile == null || firePoint == null)
+                if (projectile == null || firePoint == null || _currentTarget == null)
                 {
                     return;
                 }
