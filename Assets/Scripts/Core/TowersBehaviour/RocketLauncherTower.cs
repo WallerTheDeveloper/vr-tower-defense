@@ -8,68 +8,83 @@ namespace Core.TowersBehaviour
     {
         [SerializeField] private GameObject statesLayer;
         
-        // Machine Gun States
-        private TowerAutoPlacement _autoPlacement;
-        private TowerRotate _towerRotate;
-        private TowerShooting _towerShooting;
+        // States
+        private TowerAutoPlacement _autoPlacementState;
+        private TowerShooting _shootingState;
+        private TowerIdle _idleState;
         
         protected override void Initialize()
         {
-            _autoPlacement = statesLayer.GetComponent<TowerAutoPlacement>();
-            _towerRotate = statesLayer.GetComponent<TowerRotate>();
-            _towerShooting = statesLayer.GetComponent<TowerShooting>();
+            _autoPlacementState = statesLayer.GetComponent<TowerAutoPlacement>();
+            _shootingState = statesLayer.GetComponent<TowerShooting>();
+            _idleState = statesLayer.GetComponent<TowerIdle>();
             
-            base.ChangeState(_autoPlacement);
+            base.ChangeState(_autoPlacementState);
          
-            _autoPlacement.OnStateFinished += ChangeToRotationState;
-            _towerRotate.OnStateFinished += ChangeToShootingState;
-            _towerRotate.OnTargetFound += currentTarget =>
-            {
-                _towerShooting.SetTarget(currentTarget);
-            };
+            _autoPlacementState.OnStateFinished += OnAutoPlacementStateFinished;
+            _shootingState.OnStateFinished += ChangeToIdleState;
+            base.OnTargetFound += SetTargetForShooting;
         }
 
         protected override void Tick()
         {
-            if (_autoPlacement.IsStateFinished && !_towerRotate.IsStateFinished)
+            if (_shootingState.IsStateActive)
             {
-                _towerRotate.Tick();
+                _shootingState.Tick();
             }
-            if (_towerRotate.IsStateFinished)
+            if (!_autoPlacementState.IsStateActive && IsTargetWithinRange() && !_shootingState.IsStateActive)
             {
-                _towerShooting.Tick();
+                _shootingState.SetTarget(base.currentTarget);
+                base.ChangeState(_shootingState);
+            }
+            else if(!_autoPlacementState.IsStateActive && !IsTargetWithinRange() && !_idleState.IsStateActive)
+            {
+                base.ChangeState(_idleState);
             }
         }
 
         protected override void FixedTick()
         {
-            if (!_autoPlacement.IsStateFinished)
+            if (_autoPlacementState.IsStateActive)
             { 
-                _autoPlacement.FixedTick();
+                _autoPlacementState.FixedTick();
             }
         }
 
-        private void ChangeToRotationState()
+        private void ChangeToIdleState()
         {
-            _autoPlacement.OnStateFinished -= ChangeToRotationState;
-            
+            base.ChangeState(_idleState);
+        }
+        
+        private void OnAutoPlacementStateFinished()
+        {
             var grabbableObject = GetComponent<XRGrabInteractable>();
             if (grabbableObject != null)
             {
                 grabbableObject.enabled = false;
             }
-            
-            base.ChangeState(_towerRotate);
+
+            if (IsTargetWithinRange())
+            {
+                _shootingState.SetTarget(base.currentTarget);
+                base.ChangeState(_shootingState);
+            }
+            else
+            {
+                base.ChangeState(_idleState);
+            }
         }
         
-        private void ChangeToShootingState()
+        private void SetTargetForShooting(Transform currentTarget)
         {
-            _towerRotate.OnStateFinished -= ChangeToShootingState;
-            base.ChangeState(_towerShooting);
+            _shootingState.SetTarget(currentTarget);
         }
-        
+
         protected override void Deinitialize()
         {
+            _autoPlacementState.OnStateFinished -= OnAutoPlacementStateFinished;
+            _shootingState.OnStateFinished -= ChangeToIdleState;
+            base.OnTargetFound -= SetTargetForShooting;
         }
     }
 }
