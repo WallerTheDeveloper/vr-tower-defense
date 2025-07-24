@@ -75,10 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   lifetime: 3
-  targetLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
   collisionParticleEffect: {fileID: 198059975614214484, guid: f43a73bac381a4517bdade908e622a9e, type: 3}
+  particleEffectLifetime: 1
 --- !u!1 &576278212062466842
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +264,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4277117789951406, guid: ea352f082d23a483daa35dba1978a527, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198642072148474764, guid: ea352f082d23a483daa35dba1978a527, type: 3}
+      propertyPath: startDelay.scalar
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 199004153738776380, guid: ea352f082d23a483daa35dba1978a527, type: 3}
