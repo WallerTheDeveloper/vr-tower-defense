@@ -4,7 +4,7 @@ namespace Core.StateMachine
 {
     public interface IState
     {
-        public bool IsStateFinished { get; set; }
+        public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         public void Enter();
         public void Tick();
