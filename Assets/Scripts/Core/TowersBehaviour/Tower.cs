@@ -29,7 +29,7 @@ namespace Core.TowersBehaviour
 
         protected bool IsTargetWithinRange()
         {
-            return currentTarget != null;
+            return currentTarget != null || currentTarget != FindNewTarget();
         }
         
         private void Awake()
@@ -64,8 +64,8 @@ namespace Core.TowersBehaviour
         private void RotateTowardsTarget()
         {
             if (currentTarget == null)
-            {
-                FindNewTarget();
+            { 
+                currentTarget = FindNewTarget();
                 return;
             }
             
@@ -77,7 +77,7 @@ namespace Core.TowersBehaviour
         {
             Collider[] results = new Collider[5];
             var targets = Physics.OverlapSphereNonAlloc(transform.position, radius, results, targetLayer);
-            Debug.Log($"Found {targets} targets in radius {radius}");
+            // Debug.Log($"Found {targets} targets in radius {radius}");
             Transform closestEnemy = null;
             float minDistance = float.MaxValue;
 
@@ -95,8 +95,6 @@ namespace Core.TowersBehaviour
                     closestEnemy = enemyCollider.transform;
                 }
             }
-
-            currentTarget = closestEnemy;
             
             return closestEnemy;
         }

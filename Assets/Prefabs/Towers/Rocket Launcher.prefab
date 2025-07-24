@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb22dc295b846fb8cefaa0bffb7b1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerHead: {fileID: 2467843651397723162}
   animator: {fileID: 2467843651390330842}
 --- !u!54 &3763530577159024536 stripped
 Rigidbody:

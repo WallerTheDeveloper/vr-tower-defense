@@ -12,7 +12,6 @@ namespace Core.TowersBehaviour
         private TowerAutoPlacement _autoPlacementState;
         private TowerShooting _shootingState;
         private TowerIdle _idleState;
-        
         protected override void Initialize()
         {
             _autoPlacementState = statesLayer.GetComponent<TowerAutoPlacement>();
@@ -22,8 +21,6 @@ namespace Core.TowersBehaviour
             base.ChangeState(_autoPlacementState);
          
             _autoPlacementState.OnStateFinished += OnAutoPlacementStateFinished;
-            _shootingState.OnStateFinished += ChangeToIdleState;
-            base.OnTargetFound += SetTargetForShooting;
         }
 
         protected override void Tick()
@@ -32,12 +29,22 @@ namespace Core.TowersBehaviour
             {
                 _shootingState.Tick();
             }
-            if (!_autoPlacementState.IsStateActive && IsTargetWithinRange() && !_shootingState.IsStateActive)
+
+            if (_idleState.IsStateActive)
+            {
+                _idleState.Tick();
+            }
+            bool isTargetWithinRange = IsTargetWithinRange();
+            
+            if (!_autoPlacementState.IsStateActive && isTargetWithinRange)
             {
                 _shootingState.SetTarget(base.currentTarget);
-                base.ChangeState(_shootingState);
+                if (!_shootingState.IsStateActive)
+                {
+                    base.ChangeState(_shootingState);
+                }
             }
-            else if(!_autoPlacementState.IsStateActive && !IsTargetWithinRange() && !_idleState.IsStateActive)
+            else if(!_autoPlacementState.IsStateActive && !isTargetWithinRange && !_idleState.IsStateActive)
             {
                 base.ChangeState(_idleState);
             }
@@ -49,11 +56,6 @@ namespace Core.TowersBehaviour
             { 
                 _autoPlacementState.FixedTick();
             }
-        }
-
-        private void ChangeToIdleState()
-        {
-            base.ChangeState(_idleState);
         }
         
         private void OnAutoPlacementStateFinished()
@@ -75,16 +77,9 @@ namespace Core.TowersBehaviour
             }
         }
         
-        private void SetTargetForShooting(Transform currentTarget)
-        {
-            _shootingState.SetTarget(currentTarget);
-        }
-
         protected override void Deinitialize()
         {
             _autoPlacementState.OnStateFinished -= OnAutoPlacementStateFinished;
-            _shootingState.OnStateFinished -= ChangeToIdleState;
-            base.OnTargetFound -= SetTargetForShooting;
         }
     }
 }
