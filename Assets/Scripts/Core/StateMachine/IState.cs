@@ -6,7 +6,7 @@ namespace Core.StateMachine
     {
         public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
-        public void Enter();
+        public void Enter(object enterObject = null);
         public void Tick();
         public void FixedTick();
         public void Exit();

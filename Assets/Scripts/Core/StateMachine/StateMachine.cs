@@ -7,19 +7,36 @@ namespace Core.StateMachine
         private IState _currentState;
 
         public event Action<IState> OnStateChanged;
-        
-        public void ChangeState(IState newState)
+
+        private bool _changingState = false;
+        public void ChangeState(IState newState, object enterObject = null)
         {
+            _changingState = true;
+            
             _currentState?.Exit();
 
             _currentState = newState;
+            
+            if (enterObject != null)
+            {
+                _currentState.Enter(enterObject);
+            }
+            else
+            {
+                _currentState.Enter();
+            }
+            
             OnStateChanged?.Invoke(_currentState);
-            _currentState.Enter();
+            
+            _changingState = false;
         }
 
         public void Tick()
         {
-            _currentState?.Tick();
+            if (!_changingState)
+            { 
+                _currentState?.Tick();
+            }
         }
     }
 }
