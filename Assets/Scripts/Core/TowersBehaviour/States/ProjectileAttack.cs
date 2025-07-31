@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.TowersBehaviour.States
 {
-    public class TowerShooting : MonoBehaviour, IState
+    public class ProjectileAttack : MonoBehaviour, IState
     {
         [SerializeField] private Transform firePoint;
         [SerializeField] private Projectile projectile;
@@ -18,7 +18,7 @@ namespace Core.TowersBehaviour.States
         public bool IsStateActive { get; set; } = false;
         public event Action OnStateFinished;
 
-        public void Enter()
+        public void Enter(object enterObject)
         {
             IsStateActive = true;
         }
@@ -44,10 +44,6 @@ namespace Core.TowersBehaviour.States
             IsStateActive = false;
         }
 
-        public void SetTarget(Transform target)
-        {
-            _currentTarget = target;
-        }
         private void TryToShoot()
         {
             if (_fireCooldown <= 0f)
