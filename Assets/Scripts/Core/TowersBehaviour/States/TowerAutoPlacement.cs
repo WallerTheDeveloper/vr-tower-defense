@@ -30,7 +30,7 @@ namespace Core.TowersBehaviour.States
         public bool IsStateActive { get; set; } = false;
         public event Action OnStateFinished;
         
-        public void Enter()
+        public void Enter(object enterObject)
         {
             IsStateActive = true;
             

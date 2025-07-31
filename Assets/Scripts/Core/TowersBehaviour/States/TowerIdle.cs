@@ -10,9 +10,10 @@ namespace Core.TowersBehaviour.States
         [SerializeField] private Animator animator;
         public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
-        public void Enter()
+        public void Enter(object enterObject)
         {
             IsStateActive = true;
+            animator.enabled = false;
         }
 
         public void Tick()
@@ -39,8 +40,6 @@ namespace Core.TowersBehaviour.States
         public void Exit()
         {
             animator.enabled = false;
-            animator.Rebind();
-            animator.Update(0f);
             IsStateActive = false;
         }
     }
