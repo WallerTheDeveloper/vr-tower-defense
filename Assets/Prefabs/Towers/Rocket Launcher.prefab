@@ -264,6 +264,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2319404163834890689, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8822261255345589548}
+    - targetCorrespondingSourceObject: {fileID: 2319404163834890689, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 328933496453193245}
   m_SourcePrefab: {fileID: 100100000, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
 --- !u!1 &3355020062336208899 stripped
 GameObject:
@@ -305,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9cb7a1a1ab44eeb2c04531ebb0a02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerHead: {fileID: 2467843651397723162}
   firePoint: {fileID: 5284234628216115783}
   projectile: {fileID: 8920690301116899907, guid: 73e56e514983cd0478d3531a9623c0d5, type: 3}
   fireRate: 1
@@ -322,6 +326,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerHead: {fileID: 2467843651397723162}
   animator: {fileID: 2467843651390330842}
+--- !u!114 &328933496453193245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3355020062336208899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27457bd757a34376ae21b24a7862df01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerHead: {fileID: 2467843651397723162}
+  radius: 20
+  anglePerSecond: 200
+  aimTolerance: 5
 --- !u!54 &3763530577159024536 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4217056084571551322, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
@@ -349,9 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bda8f30978444ab89819f365e31c767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerHead: {fileID: 2467843651397723162}
   radius: 20
-  anglePerSecond: 200
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
