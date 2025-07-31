@@ -43,7 +43,7 @@ namespace Core.TowersBehaviour
             _towerStateMachine.Tick();
 
             Transform newTarget = FindNewTarget();
-            if ((newTarget != null && newTarget != currentTarget) || currentTarget == null)
+            if (newTarget != null && newTarget != currentTarget)
             {
                 currentTarget = newTarget;
             }
