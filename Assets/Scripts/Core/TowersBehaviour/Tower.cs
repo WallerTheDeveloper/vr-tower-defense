@@ -7,12 +7,9 @@ namespace Core.TowersBehaviour
 {
     public abstract class Tower : MonoBehaviour
     {
-        [SerializeField] private GameObject towerHead;
         [SerializeField] private float radius = 20f;
-        [SerializeField] private float anglePerSecond = 200f;
         [SerializeField] private LayerMask targetLayer;
 
-        protected Action<Transform> OnTargetFound;
         private StateMachine.StateMachine _towerStateMachine = new();
         
         protected Transform currentTarget = null;
@@ -21,15 +18,17 @@ namespace Core.TowersBehaviour
         protected abstract void FixedTick();
         protected abstract void Deinitialize();
         
-        protected void ChangeState(IState newState)
+        protected void ChangeState(IState newState, object enterObject = null)
         {
             Debug.Log($"Current State: {newState}");
-            _towerStateMachine.ChangeState(newState);
-        }
-
-        protected bool IsTargetWithinRange()
-        {
-            return currentTarget != null || currentTarget != FindNewTarget();
+            if (enterObject != null)
+            {
+                _towerStateMachine.ChangeState(newState, enterObject);
+            }
+            else
+            {
+                _towerStateMachine.ChangeState(newState);
+            }
         }
         
         private void Awake()
@@ -40,14 +39,13 @@ namespace Core.TowersBehaviour
         private void Update()
         {
             Tick();
-            RotateTowardsTarget();
+            
+            _towerStateMachine.Tick();
 
-            if (currentTarget != null)
+            Transform newTarget = FindNewTarget();
+            if ((newTarget != null && newTarget != currentTarget) || currentTarget == null)
             {
-                if (IsLookingAtTarget(currentTarget.transform, Mathf.Infinity, 1f))
-                {
-                    OnTargetFound?.Invoke(currentTarget);
-                }   
+                currentTarget = newTarget;
             }
         }
 
@@ -59,18 +57,6 @@ namespace Core.TowersBehaviour
         private void OnDestroy()
         {
             Deinitialize();
-        }
-        
-        private void RotateTowardsTarget()
-        {
-            if (currentTarget == null)
-            { 
-                currentTarget = FindNewTarget();
-                return;
-            }
-            
-            var targetRotation = Quaternion.LookRotation(currentTarget.transform.position - towerHead.transform.position);
-            towerHead.transform.rotation = Quaternion.RotateTowards(towerHead.transform.rotation, targetRotation, anglePerSecond * Time.deltaTime);
         }
         
         private Transform FindNewTarget()
@@ -97,21 +83,6 @@ namespace Core.TowersBehaviour
             }
             
             return closestEnemy;
-        }
-
-        private bool IsLookingAtTarget(Transform target, float maxDistance = 10f, float angleThreshold = 45f)
-        {
-            Vector3 directionToTarget = target.position - towerHead.transform.position;
-            float distance = directionToTarget.magnitude;
-        
-            if (distance > maxDistance)
-                return false;
-        
-            directionToTarget.Normalize();
-            float dot = Vector3.Dot(towerHead.transform.forward, directionToTarget);
-            float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
-        
-            return angle <= angleThreshold;
         }
     }
 }
