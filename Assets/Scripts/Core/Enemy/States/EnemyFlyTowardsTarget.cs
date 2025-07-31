@@ -16,7 +16,7 @@ namespace Core.Enemy.States
         public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         
-        public void Enter()
+        public void Enter(object enterObject)
         {
             IsStateActive = false;
         }

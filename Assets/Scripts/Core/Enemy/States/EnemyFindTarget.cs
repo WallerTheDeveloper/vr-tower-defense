@@ -14,7 +14,7 @@ namespace Core.Enemy.States
         public bool IsStateActive { get; set; }
         public event Action OnStateFinished;
         public event Action<Transform> OnTargetFound;
-        public void Enter()
+        public void Enter(object enterObject)
         {
             IsStateActive = false;
         }
@@ -50,15 +50,12 @@ namespace Core.Enemy.States
             Collider[] results = new Collider[5];
             int targetCount = Physics.OverlapSphereNonAlloc(transform.position, radius, results, targetLayer);
     
-            Debug.Log($"Found {targetCount} targets in radius {radius}");
-    
             Transform closestTarget = null;
             float minDistance = float.MaxValue;
 
             for (int i = 0; i < targetCount; i++)
             {
                 var targetCollider = results[i];
-                Debug.Log($"Target {i}: {targetCollider.name}");
         
                 float distance = Vector3.Distance(transform.position, targetCollider.transform.position);
                 if (distance < minDistance)
