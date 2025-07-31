@@ -10,43 +10,32 @@ namespace Core.TowersBehaviour
         
         // States
         private TowerAutoPlacement _autoPlacementState;
-        private TowerShooting _shootingState;
+        private ProjectileAttack _attackState;
         private TowerIdle _idleState;
+        private PrepareToAttack  _prepareState;
+
         protected override void Initialize()
         {
+            _prepareState = statesLayer.GetComponent<PrepareToAttack>();
             _autoPlacementState = statesLayer.GetComponent<TowerAutoPlacement>();
-            _shootingState = statesLayer.GetComponent<TowerShooting>();
+            _attackState = statesLayer.GetComponent<ProjectileAttack>();
             _idleState = statesLayer.GetComponent<TowerIdle>();
-            
+
             base.ChangeState(_autoPlacementState);
-         
+
             _autoPlacementState.OnStateFinished += OnAutoPlacementStateFinished;
+            _prepareState.OnStateFinished += OnPrepareStateFinished;
         }
 
         protected override void Tick()
         {
-            if (_shootingState.IsStateActive)
-            {
-                _shootingState.Tick();
-            }
-
-            if (_idleState.IsStateActive)
-            {
-                _idleState.Tick();
-            }
-            bool isTargetWithinRange = IsTargetWithinRange();
-            
-            if (!_autoPlacementState.IsStateActive && isTargetWithinRange)
-            {
-                _shootingState.SetTarget(base.currentTarget);
-                if (!_shootingState.IsStateActive)
-                {
-                    base.ChangeState(_shootingState);
-                }
-            }
-            else if(!_autoPlacementState.IsStateActive && !isTargetWithinRange && !_idleState.IsStateActive)
+            if (currentTarget == null && !_autoPlacementState.IsStateActive && !_idleState.IsStateActive)
             {
                 base.ChangeState(_idleState);
+            }
+            if (currentTarget != null && !_prepareState.IsStateActive && !_attackState.IsStateActive && !_autoPlacementState.IsStateActive)
+            {
+                base.ChangeState(_prepareState, base.currentTarget);
             }
         }
 
@@ -58,6 +47,12 @@ namespace Core.TowersBehaviour
             }
         }
         
+        protected override void Deinitialize()
+        {
+            _autoPlacementState.OnStateFinished -= OnAutoPlacementStateFinished;
+            _prepareState.OnStateFinished -= OnPrepareStateFinished;
+        }
+        
         private void OnAutoPlacementStateFinished()
         {
             var grabbableObject = GetComponent<XRGrabInteractable>();
@@ -65,21 +60,12 @@ namespace Core.TowersBehaviour
             {
                 grabbableObject.enabled = false;
             }
-
-            if (IsTargetWithinRange())
-            {
-                _shootingState.SetTarget(base.currentTarget);
-                base.ChangeState(_shootingState);
-            }
-            else
-            {
-                base.ChangeState(_idleState);
-            }
+            base.ChangeState(_idleState);
         }
         
-        protected override void Deinitialize()
+        private void OnPrepareStateFinished()
         {
-            _autoPlacementState.OnStateFinished -= OnAutoPlacementStateFinished;
+            base.ChangeState(_attackState, base.currentTarget);
         }
     }
 }
