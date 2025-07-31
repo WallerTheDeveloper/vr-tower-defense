@@ -7,6 +7,7 @@ namespace Core.TowersBehaviour.States
 {
     public class ProjectileAttack : MonoBehaviour, IState
     {
+        [SerializeField] private GameObject towerHead;
         [SerializeField] private Transform firePoint;
         [SerializeField] private Projectile projectile;
         [SerializeField] private float fireRate = 5f; // Shots per second
@@ -21,6 +22,7 @@ namespace Core.TowersBehaviour.States
         public void Enter(object enterObject)
         {
             IsStateActive = true;
+            _currentTarget = enterObject as Transform;
         }
         public void Tick()
         {
@@ -34,6 +36,7 @@ namespace Core.TowersBehaviour.States
                 _fireCooldown -= Time.deltaTime;
             }
             
+            towerHead.transform.LookAt(_currentTarget);
             TryToShoot();
         }
 
