@@ -44,6 +44,7 @@ namespace Core.TowersBehaviour.States
 
         public void Exit()
         {
+            _currentTarget = null;
             IsStateActive = false;
         }
 
