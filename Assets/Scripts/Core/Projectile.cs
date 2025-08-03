@@ -76,12 +76,10 @@ namespace Core
                 {
                     case TargetType.Tower:
                     {
-                        Debug.Log("Hit a tower!");
                         break;
                     }
                     case TargetType.Enemy:
                     {
-                        Debug.Log("Hit an enemy!");
                         break;
                     }
                 }
