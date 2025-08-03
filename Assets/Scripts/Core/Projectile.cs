@@ -70,7 +70,7 @@ namespace Core
             if (targetHealth != null)
             {
                 // TODO: get damage from settings scriptable object (data provider?)
-                targetHealth.TakeDamage(5f);
+                targetHealth.TakeDamage(0.5f);
                 
                 switch (targetType)
                 {
