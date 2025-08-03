@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.TowersBehaviour
 {
-    public class RocketLauncherTower : Tower
+    public class ProjectileTower : Tower
     {
         [SerializeField] private GameObject statesLayer;
         

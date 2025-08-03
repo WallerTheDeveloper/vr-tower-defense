@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.TowersBehaviour
 {
-    public class LaserTower : Tower
+    public class RayTower : Tower
     {
         [SerializeField] private GameObject statesLayer;
         
@@ -12,7 +12,7 @@ namespace Core.TowersBehaviour
         private TowerAutoPlacement _autoPlacementState;
         private LaserAttack _attackState;
         private TowerIdle _idleState;
-        private PrepareToAttack  _prepareState;
+        private PrepareToAttack _prepareState;
 
         protected override void Initialize()
         {
