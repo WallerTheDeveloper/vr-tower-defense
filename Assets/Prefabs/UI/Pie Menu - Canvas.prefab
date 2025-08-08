@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3250722253095634950}
   - component: {fileID: 3250722253095634951}
   - component: {fileID: 4700335042234349091}
-  - component: {fileID: 789344848143409086}
+  - component: {fileID: 6190951084030638160}
   m_Layer: 5
   m_Name: Machine Gun Item
   m_TagString: Untagged
@@ -269,8 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 01c514c763a07924e8032eba9ca693d4, type: 2}
-  towerType: 0
-  towerFactory: {fileID: 789344848143409086}
+  unitFactory: {fileID: 6190951084030638160}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -307,7 +306,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &789344848143409086
+--- !u!114 &6190951084030638160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,10 +315,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250722253095634949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e5e223269d74777a82b5611b3ebe955, type: 3}
+  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 7668764762796235298, guid: 535c8ce028ae88a42ac616d1829f2ce5, type: 3}
+  unit: {fileID: 8581825616651655796, guid: 535c8ce028ae88a42ac616d1829f2ce5, type: 3}
 --- !u!1 &3250722253261368184
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +787,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3250722254427963123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,7 +1012,7 @@ GameObject:
   - component: {fileID: 4592233711539749764}
   - component: {fileID: 3490646752029335384}
   - component: {fileID: 8897855770539097558}
-  - component: {fileID: 5242479886149850023}
+  - component: {fileID: 248435343849132839}
   m_Layer: 5
   m_Name: Laser Item
   m_TagString: Untagged
@@ -1266,8 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 94867d0438dd7364c85a60f5ec02b13e, type: 2}
-  towerType: 0
-  towerFactory: {fileID: 5242479886149850023}
+  unitFactory: {fileID: 248435343849132839}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1304,7 +1302,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5242479886149850023
+--- !u!114 &248435343849132839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1313,10 +1311,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4298502219220071426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f91ff694d3c9487c90e3d02e199a2f4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 2923571745274750262, guid: c32575a2a7130404296eb5f67b2b30f9, type: 3}
+  unit: {fileID: 2923571745274750262, guid: c32575a2a7130404296eb5f67b2b30f9, type: 3}
 --- !u!1 &8301359989508000119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,7 +1331,7 @@ GameObject:
   - component: {fileID: 851680388042967825}
   - component: {fileID: 874201738547148239}
   - component: {fileID: 3956352165303149374}
-  - component: {fileID: 1328023152463872160}
+  - component: {fileID: 5692908747810216175}
   m_Layer: 5
   m_Name: Rocket Launcher Item
   m_TagString: Untagged
@@ -1586,8 +1584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 881dda4c40cbb15428a1346e1bb26ebb, type: 2}
-  towerType: 0
-  towerFactory: {fileID: 1328023152463872160}
+  unitFactory: {fileID: 5692908747810216175}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1624,7 +1621,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1328023152463872160
+--- !u!114 &5692908747810216175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1633,7 +1630,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8301359989508000119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
+  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 6870826471364341442, guid: 28e2b5008f7985b47848fea3b6a09a5c, type: 3}
+  unit: {fileID: 6870826471364341442, guid: 28e2b5008f7985b47848fea3b6a09a5c, type: 3}

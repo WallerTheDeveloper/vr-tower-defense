@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c9fce1a98a42a69fb71cae738f0b93, type: 3}
+  m_Name: Machine Gun Data
+  m_EditorClassIdentifier: 
+  MaxHealth: 20
+  Damage: 0.5
+  DeathParticleSystem: {fileID: 198059975614214484, guid: 10eef6400678c4c75b2ac94e435a2bd5, type: 3}
+  DeathParticleSystemLifetime: 0

@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 6411878225561749200}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.0059992224, y: 0.14799988, z: 1.1851}
+  m_LocalPosition: {x: 0.0059993807, y: 0.14799988, z: 1.346}
   m_LocalScale: {x: 0.07705689, y: 0.07705689, z: 0.07705689}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Machine Gun
       objectReference: {fileID: 0}
+    - target: {fileID: 7127880121460376474, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: baseUnitSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 28c6d2e2e7084fb49be121417535940c, type: 2}
     - target: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -146,6 +150,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       insertIndex: 1
       addedObject: {fileID: 8581825616651655796}
+    - targetCorrespondingSourceObject: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7157937789176385208}
     - targetCorrespondingSourceObject: {fileID: 2319404163834890689, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4078675312448488754}
@@ -183,8 +190,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerHead: {fileID: 4602398193633709750}
   firePoint: {fileID: 7271271664671048158}
-  projectile: {fileID: 434573694581289941, guid: 316c7814ff3b64144b8c81783203e38e, type: 3}
   fireRate: 5
+  unitSettings: {fileID: 11400000, guid: 28c6d2e2e7084fb49be121417535940c, type: 2}
+  projectileFactory: {fileID: 7157937789176385208}
 --- !u!114 &8337484193692342920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,10 +269,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 20
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  layerGroups:
+  - name: High Priority
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 64
+    priority: 1
+  - name: Medium Priority
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    priority: 2
+  - name: Low Priority
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    priority: 3
   statesLayer: {fileID: 1918668997216784493}
+--- !u!114 &7157937789176385208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6394127871701070953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5641a7749824363b20da22492c2337e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 434573694581289941, guid: 316c7814ff3b64144b8c81783203e38e, type: 3}
 --- !u!1001 &4602398193633609750
 PrefabInstance:
   m_ObjectHideFlags: 0
