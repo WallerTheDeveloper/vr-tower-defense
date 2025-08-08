@@ -1,16 +1,20 @@
 using System;
+using Core.Factories;
 using Core.StateMachine;
+using Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Enemy.States
 {
     public class EnemyAttack : MonoBehaviour, IState
     {
         [Header("Attack Settings")]
-        [SerializeField] private Projectile projectilePrefab;
         [SerializeField] private Transform firePoint;
+        [SerializeField] private BaseUnitSettings unitSettings;
         [SerializeField] private float fireRate = 2f;
-        [SerializeField] private float projectileSpeed = 10f;
+
+        [SerializeField] private ProjectileFactory projectileFactory;
         
         private Transform _currentTarget;
         private float _nextFireTime;
@@ -20,15 +24,15 @@ namespace Core.Enemy.States
         
         public void Enter(object enterObject)
         {
-            IsStateActive = false;
+            IsStateActive = true;
             _nextFireTime = Time.time;
+            _currentTarget = enterObject as Transform;
         }
 
         public void Tick()
         {
             if (_currentTarget == null)
-            {
-                IsStateActive = true;
+            { 
                 OnStateFinished?.Invoke();
                 return;
             }
@@ -47,31 +51,18 @@ namespace Core.Enemy.States
         public void Exit()
         {
             _nextFireTime = 0f;
-        }
-        
-        public void SetTarget(Transform target)
-        {
-            _currentTarget = target;
+            IsStateActive = false;
         }
         
         private void Shoot()
         {
-            if (projectilePrefab == null || firePoint == null || _currentTarget == null)
+            if (firePoint == null || _currentTarget == null)
             {
                 return;
             }
-            
-            Vector3 shootDirection = (_currentTarget.position - firePoint.position).normalized;
-            
-            var projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(shootDirection));
-            
-            projectile.Initialize(_currentTarget.gameObject);
-            
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.linearVelocity = shootDirection * projectileSpeed;
-            }
+
+            var projectile = projectileFactory.CreateProjectile(unitSettings, firePoint.position, firePoint.rotation);
+            projectile.ShootProjectile(_currentTarget.gameObject);
         }
     }
 }

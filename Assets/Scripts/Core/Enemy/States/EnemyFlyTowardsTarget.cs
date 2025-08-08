@@ -18,11 +18,18 @@ namespace Core.Enemy.States
         
         public void Enter(object enterObject)
         {
-            IsStateActive = false;
+            IsStateActive = true;
+            _currentTarget = enterObject as Transform;
         }
 
         public void Tick()
         {
+            if (_currentTarget == null)
+            {
+                OnStateFinished?.Invoke();
+                return;
+            }
+            
             float currentDistance = Vector3.Distance(parentTransform.position, _currentTarget.position);
             
             if (currentDistance > targetReachThreshold)
@@ -31,8 +38,8 @@ namespace Core.Enemy.States
             }
             else
             {
-                IsStateActive = true;
                 OnStateFinished?.Invoke();
+                return;
             }
             
             RotateTowardsTarget();
@@ -44,12 +51,7 @@ namespace Core.Enemy.States
 
         public void Exit()
         {
-            IsStateActive = true;
-        }
-
-        public void SetTarget(Transform target)
-        {
-            _currentTarget = target;
+            IsStateActive = false;
         }
         
         private void FlyTowards()

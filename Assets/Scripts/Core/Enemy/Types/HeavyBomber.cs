@@ -1,74 +1,69 @@
 ﻿using Core.Enemy.States;
-using Core.HealthSystem;
+using NUnit.Framework.Constraints;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Enemy.Types
 {
-    public class HeavyBomber: FlyingEnemy
+    public class HeavyBomber: Unit
     {
-        [SerializeField] private GameObject statesLayer;
-
-        private Transform _currentTarget;
-        
-        private EnemyFindTarget _findTargetState;
+        [SerializeField] private LayerMask finalEnemyLayer;
+        [SerializeField] private GameObject statesLayer;    
         private EnemyFlyTowardsTarget _flyTowardsTargetState;
         private EnemyAttack _enemyAttackState;
-            
+        private SelfExplode _selfExplodeState;
+        
+        private bool _changedStateToFlyTowardsTarget = false;
+        private bool _attackingFinalTarget = false;
+
         protected override void Initialize()
         {
-            _findTargetState = statesLayer.GetComponent<EnemyFindTarget>();
             _flyTowardsTargetState = statesLayer.GetComponent<EnemyFlyTowardsTarget>();
             _enemyAttackState = statesLayer.GetComponent<EnemyAttack>();
+            _selfExplodeState = statesLayer.GetComponent<SelfExplode>();
             
-            base.ChangeState(_findTargetState);
-
-            _findTargetState.OnTargetFound += ChangeToFlyTowardsEnemyState;
             _flyTowardsTargetState.OnStateFinished += ChangeToEnemyAttackState;
+            _enemyAttackState.OnStateFinished += ChangeToFlyingTowardsTargetState;
         }
-        
+
         protected override void Tick()
         {
-            if (!_findTargetState.IsStateActive)
+            if (currentTarget != null && !_changedStateToFlyTowardsTarget)
             {
-                _findTargetState.Tick();
+                base.ChangeState(_flyTowardsTargetState, base.currentTarget);
+                _changedStateToFlyTowardsTarget = true;
             }
 
-            if (_findTargetState.IsStateActive && !_flyTowardsTargetState.IsStateActive)
+            // Meaning we check if we're attack target after death of which ship will self explode
+            if (!_attackingFinalTarget && currentTarget != null && ((1 << currentTarget.gameObject.layer) & finalEnemyLayer) != 0)
             {
-                _flyTowardsTargetState.Tick();
+                _attackingFinalTarget = true;
             }
-
-            if (_flyTowardsTargetState.IsStateActive && _findTargetState.IsStateActive)
+            
+            // Final target has been destroyed
+            if (_attackingFinalTarget && currentTarget == null)
             {
-                _enemyAttackState.Tick();
+                base.ChangeState(_selfExplodeState);
             }
         }
-
+        
         protected override void FixedTick()
         {
         }
 
         protected override void Deinitialize()
         {
-            _findTargetState.OnTargetFound -= ChangeToFlyTowardsEnemyState;
-        }
-        
-        private void ChangeToFlyTowardsEnemyState(Transform targetTransform)
-        {
-            _findTargetState.OnTargetFound -= ChangeToFlyTowardsEnemyState;
-            
-            base.ChangeState(_flyTowardsTargetState);
-            _currentTarget = targetTransform;
-            _flyTowardsTargetState.SetTarget(_currentTarget);
+            _flyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
+            _enemyAttackState.OnStateFinished -= ChangeToFlyingTowardsTargetState;
         }
         
         private void ChangeToEnemyAttackState()
         {
-            _flyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
-            
-            base.ChangeState(_enemyAttackState);
-            _enemyAttackState.SetTarget(_currentTarget);
+            base.ChangeState(_enemyAttackState, base.currentTarget);
         }
-
+        private void ChangeToFlyingTowardsTargetState()
+        {
+            base.ChangeState(_flyTowardsTargetState, base.currentTarget);
+        }
     }
 }

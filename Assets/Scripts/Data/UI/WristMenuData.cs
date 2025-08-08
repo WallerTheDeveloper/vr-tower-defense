@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Data
+namespace Data.UI
 {
-    [CreateAssetMenu(fileName = "WristMenuData", menuName = "UI Data/Wrist Menu Data", order = 1)]
+    [CreateAssetMenu(fileName = "Wrist Menu Data", menuName = "Data/Wrist Menu Data")]
     public class WristMenuData : ScriptableObject
     {
         public string itemHeader;

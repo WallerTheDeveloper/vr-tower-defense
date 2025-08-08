@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Core.Factories
 {
-    public class TowerFactory : UnitFactory
+    public class EnemyFactory : UnitFactory
     {
         [SerializeField] private Unit unit;
         public override Unit CreateTower(Vector3 position, Quaternion rotation)

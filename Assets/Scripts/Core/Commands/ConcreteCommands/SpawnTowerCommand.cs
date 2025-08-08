@@ -2,25 +2,25 @@ using System;
 using Core.Factories;
 using UnityEngine;
 
-namespace Core.Commands
+namespace Core.Commands.ConcreteCommands
 {
     [Serializable]
     public class SpawnTowerCommand : ICommand
     {
-        private TowerFactory _towerFactory;
+        private UnitFactory _unitFactory;
         private Vector3 _spawnPosition;
         private Quaternion _spawnRotation;
         
-        public SpawnTowerCommand(TowerFactory towerFactory, Vector3 position, Quaternion rotation)
+        public SpawnTowerCommand(UnitFactory unitFactory, Vector3 position, Quaternion rotation)
         {
-            _towerFactory = towerFactory;
+            _unitFactory = unitFactory;
             _spawnPosition = position;
             _spawnRotation = rotation;
         }
     
         public void Execute()
         {
-            _towerFactory.CreateTower(_spawnPosition, _spawnRotation);
+            _unitFactory.CreateTower(_spawnPosition, _spawnRotation);
         }
     
         public void Undo()

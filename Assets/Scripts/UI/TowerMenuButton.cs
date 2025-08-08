@@ -1,11 +1,14 @@
 using System.Collections;
 using Core.Commands;
+using Core.Commands.ConcreteCommands;
 using Core.Factories;
 using Data;
+using Data.UI;
 using Hands;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -17,9 +20,9 @@ namespace UI
     {
         [Header("Data")]
         [SerializeField] private WristMenuData data;
+        [FormerlySerializedAs("towerFactory")]
         [Header("Tower Settings")]
-        [SerializeField] private TowerType towerType;
-        [SerializeField] private TowerFactory towerFactory;
+        [SerializeField] private UnitFactory unitFactory;
         
         [Header("Hover Detection")]
         [SerializeField] private float hoverDistance = 0.05f;
@@ -441,7 +444,7 @@ namespace UI
             Vector3 spawnPosition = GetSpawnPosition();
             Quaternion spawnRotation = GetSpawnRotation();
             
-            var command = new SpawnTowerCommand(towerFactory, spawnPosition, spawnRotation);
+            var command = new SpawnTowerCommand(unitFactory, spawnPosition, spawnRotation);
             CommandManager.Instance.ExecuteCommand(command);
             
             if (autoGrabOnSpawn)
@@ -510,7 +513,6 @@ namespace UI
                         {
                             handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
                             grabSuccessful = true;
-                            Debug.Log($"Successfully auto-grabbed {towerType} tower using manual interaction");
                         }
                         catch (System.Exception e)
                         {
@@ -527,7 +529,6 @@ namespace UI
                                 {
                                     handInteractor.StartManualInteraction((IXRSelectInteractable)grabInteractable);
                                     grabSuccessful = true;
-                                    Debug.Log($"Successfully auto-grabbed {towerType} tower using force selection");
                                 }
                                 else
                                 {

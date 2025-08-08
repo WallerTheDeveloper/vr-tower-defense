@@ -23,6 +23,11 @@ namespace Core.TowersBehaviour.States
 
         public void Tick()
         {
+            if (_currentTarget == null)
+            {
+                OnStateFinished?.Invoke();
+                return;
+            }
             bool lookingAtTarget = IsLookingAtTarget(_currentTarget.transform, aimTolerance);
             if (!lookingAtTarget)
             {

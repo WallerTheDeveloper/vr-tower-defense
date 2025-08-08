@@ -1,9 +1,8 @@
 using UnityEngine;
 
-namespace Core.Data
+namespace Data
 {
-    [CreateAssetMenu(fileName = "Flying Enemy Settings", menuName = "Data/FlyingEnemySettings", order = 1)]
-    public class FlyingEnemySettings : ScriptableObject
+    public abstract class BaseUnitSettings : ScriptableObject
     {
         public float MaxHealth;
         public float Damage;

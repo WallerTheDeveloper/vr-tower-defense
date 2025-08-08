@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.TowersBehaviour
 {
-    public class RayTower : Tower
+    public class RayUnit : Unit
     {
         [SerializeField] private GameObject statesLayer;
         

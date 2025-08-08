@@ -45,6 +45,11 @@ namespace Core.TowersBehaviour.States
 
         public void Tick()
         {
+            if (_currentTarget == null)
+            {
+                OnStateFinished?.Invoke();
+                return;
+            }
             if (!laserLine.enabled)
             { 
                 StartLaser();
@@ -63,6 +68,8 @@ namespace Core.TowersBehaviour.States
             {
                 StopCoroutine(_damageCoroutine);
             }
+            _currentTarget = null;
+            
             IsStateActive = false;
         }
         
@@ -124,7 +131,12 @@ namespace Core.TowersBehaviour.States
         {
             while (_currentTarget != null)
             {
-                var healthComponent = _currentTarget.GetComponent<Health>();
+                Health healthComponent = null;
+                healthComponent = _currentTarget.GetComponent<Health>();
+                if (healthComponent == null)
+                {
+                    healthComponent = _currentTarget.GetComponentInParent<Health>();
+                }
                 healthComponent.TakeDamage(damage);
                 
                 yield return new WaitForSeconds(damageInterval);

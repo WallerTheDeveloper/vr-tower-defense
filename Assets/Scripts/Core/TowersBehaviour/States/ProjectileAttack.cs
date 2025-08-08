@@ -1,7 +1,10 @@
 ﻿using System;
+using Core.Factories;
 using Core.HealthSystem;
 using Core.StateMachine;
+using Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.TowersBehaviour.States
 {
@@ -9,12 +12,14 @@ namespace Core.TowersBehaviour.States
     {
         [SerializeField] private GameObject towerHead;
         [SerializeField] private Transform firePoint;
-        [SerializeField] private Projectile projectile;
-        [SerializeField] private float fireRate = 5f; // Shots per second
+        [SerializeField] private float fireRate = 5f;
+        [SerializeField] private BaseUnitSettings unitSettings;
+        
+        [SerializeField] private ProjectileFactory projectileFactory;
         
         private Transform _currentTarget;
         
-        private float _fireCooldown; // Time until the next shot is ready
+        private float _fireCooldown;
 
         public bool IsStateActive { get; set; } = false;
         public event Action OnStateFinished;
@@ -28,7 +33,7 @@ namespace Core.TowersBehaviour.States
         {
             if (_currentTarget == null)
             {
-                OnStateFinished?.Invoke();
+                Exit();
                 return;
             }
             if (_fireCooldown > 0)
@@ -41,26 +46,25 @@ namespace Core.TowersBehaviour.States
         }
 
         public void FixedTick() {}
-
+        
         public void Exit()
         {
             _currentTarget = null;
             IsStateActive = false;
+            OnStateFinished?.Invoke();
         }
 
         private void TryToShoot()
         {
             if (_fireCooldown <= 0f)
             {
-                if (projectile == null || firePoint == null || _currentTarget == null)
+                if (firePoint == null || _currentTarget == null)
                 {
                     return;
                 }
             
-                var projectileCopy = Instantiate(projectile, firePoint.position, firePoint.rotation);
-
-                projectileCopy.Initialize(_currentTarget.gameObject);
-
+                var projectile = projectileFactory.CreateProjectile(unitSettings, firePoint.position, firePoint.rotation);
+                projectile.ShootProjectile(_currentTarget.gameObject);
                 _fireCooldown = 1f / fireRate;
             }
         }
