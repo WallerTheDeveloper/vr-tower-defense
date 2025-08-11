@@ -1,8 +1,7 @@
 using System;
-using Core.StateMachine;
 using UnityEngine;
 
-namespace Core.TowersBehaviour.States
+namespace Core.StateMachine.TowerStates
 {
     public class TowerIdle : MonoBehaviour, IState
     {

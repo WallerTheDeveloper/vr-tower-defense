@@ -1,6 +1,8 @@
 ﻿using System;
 using Core.HealthSystem;
+using Core.Pooling;
 using Data;
+using Data.Units;
 using UnityEngine;
 
 namespace Core
@@ -50,17 +52,12 @@ namespace Core
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (((1 << collision.gameObject.layer) & targetLayerMask) != 0)
+            var targetObject = collision.collider.gameObject;
+            bool targetCollider = ((1 << targetObject.layer) & targetLayerMask) != 0;
+
+            if (targetCollider)
             {
-                Health targetHealth = null;
-                if (collision.gameObject.transform.parent != null)
-                { 
-                    targetHealth = collision.gameObject.transform.parent.GetComponent<Health>();
-                }
-                else
-                {
-                    targetHealth = collision.gameObject.GetComponent<Health>();
-                }
+                Health targetHealth = targetObject.GetComponent<Health>();
                 targetHealth.TakeDamage(_shooterUnitSettings.Damage);
                 
                 _particleEffect = Instantiate(collisionParticleEffect, transform.position, Quaternion.identity);

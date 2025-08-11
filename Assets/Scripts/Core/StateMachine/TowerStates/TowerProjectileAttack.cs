@@ -1,14 +1,12 @@
 ﻿using System;
 using Core.Factories;
-using Core.HealthSystem;
-using Core.StateMachine;
 using Data;
+using Data.Units;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Core.TowersBehaviour.States
+namespace Core.StateMachine.TowerStates
 {
-    public class ProjectileAttack : MonoBehaviour, IState
+    public class TowerProjectileAttack : MonoBehaviour, IState
     {
         [SerializeField] private GameObject towerHead;
         [SerializeField] private Transform firePoint;

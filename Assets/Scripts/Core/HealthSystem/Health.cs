@@ -1,4 +1,6 @@
+using Core.Pooling;
 using Data;
+using Data.Units;
 using UnityEngine;
 
 namespace Core.HealthSystem
@@ -10,7 +12,7 @@ namespace Core.HealthSystem
         public float HealthPercentage => currentHealth / baseUnitSettings.MaxHealth;
         public bool IsAlive => currentHealth > 0f;
 
-        private void Awake()
+        public void Awake()
         {
             currentHealth = baseUnitSettings.MaxHealth;
         }
@@ -19,6 +21,7 @@ namespace Core.HealthSystem
         {
             if (!IsAlive)
             {
+                currentHealth = baseUnitSettings.MaxHealth;
                 return;
             }
                 
@@ -33,12 +36,22 @@ namespace Core.HealthSystem
         
         private void Die()
         {
-            var deathParticleSystem = Instantiate(baseUnitSettings.DeathParticleSystem, transform.position, Quaternion.identity);
+            ParticleSystem deathParticleSystem = Instantiate(baseUnitSettings.DeathParticleSystem, transform.position, Quaternion.identity);
             deathParticleSystem.Play();
             
             ParticleEffectManager.Instance.DestroyParticleEffectAfter(baseUnitSettings.DeathParticleSystemLifetime, deathParticleSystem);
             
-            Destroy(gameObject);
+            // If game object has a parent it means that Health component is attached to child object 
+            bool objectHasParent = gameObject.transform.parent != null;
+            if (objectHasParent)
+            {
+                 Unit rootParent = gameObject.transform.GetComponentInParent<Unit>(); 
+                 ObjectPoolManager.ReturnObjectToPool(rootParent.gameObject);
+            }
+            else
+            {
+                ObjectPoolManager.ReturnObjectToPool(gameObject);
+            }
         }
     }
 }

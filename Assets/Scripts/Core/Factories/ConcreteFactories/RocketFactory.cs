@@ -1,7 +1,8 @@
 using Data;
+using Data.Units;
 using UnityEngine;
 
-namespace Core.Factories
+namespace Core.Factories.ConcreteFactories
 {
     public class RocketFactory : ProjectileFactory
     {

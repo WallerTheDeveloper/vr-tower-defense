@@ -1,10 +1,9 @@
 using System;
-using Core.StateMachine;
 using UnityEngine;
 
-namespace Core.TowersBehaviour.States
+namespace Core.StateMachine.TowerStates
 {
-    public class PrepareToAttack : MonoBehaviour, IState
+    public class TowerPrepareToAttack : MonoBehaviour, IState
     {
         [SerializeField] private GameObject towerHead;
         [SerializeField] private float radius = 20f;

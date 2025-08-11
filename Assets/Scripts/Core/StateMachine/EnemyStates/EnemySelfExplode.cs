@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
-using Core.StateMachine;
+using Core.Pooling;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Core.Enemy.States
+namespace Core.StateMachine.EnemyStates
 {
-    public class SelfExplode : MonoBehaviour, IState
+    public class EnemySelfExplode : MonoBehaviour, IState
     {
         [SerializeField] private ParticleSystem explosionEffect;
         [SerializeField] private float timeAfterEffectDestroy = 3f;
@@ -24,7 +22,8 @@ namespace Core.Enemy.States
             
             ParticleEffectManager.Instance.DestroyParticleEffectAfter(timeAfterEffectDestroy, particleEffect);
             
-            Destroy(gameObject.transform.root.gameObject);
+            ObjectPoolManager.ReturnObjectToPool(gameObject.transform.root.gameObject);
+            // Destroy(gameObject.transform.root.gameObject);
         }
 
         public void Tick()

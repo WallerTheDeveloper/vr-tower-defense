@@ -43,7 +43,7 @@ namespace Core
             }
         }
         
-        private void Awake()
+        private void OnEnable()
         {
             Initialize();
             
@@ -62,18 +62,23 @@ namespace Core
             {
                 currentTarget = newTarget;
             }
+            else if(newTarget == null)
+            {
+                currentTarget = null;
+            }
         }
-
         
         private void FixedUpdate()
         {
             FixedTick();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
+            currentTarget = null;
             Deinitialize();
         }
+        
         
         private Transform FindNewTarget()
         {

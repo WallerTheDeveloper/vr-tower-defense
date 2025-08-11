@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Data
+namespace Data.Units
 {
     public abstract class BaseUnitSettings : ScriptableObject
     {

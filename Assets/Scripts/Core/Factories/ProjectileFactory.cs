@@ -1,4 +1,5 @@
 using Data;
+using Data.Units;
 using UnityEngine;
 
 namespace Core.Factories

@@ -91,7 +91,7 @@ public class UnitSpawner : MonoBehaviour
 
     private void CleanupDestroyedUnits()
     {
-        _spawnedUnits.RemoveAll(enemy => enemy == null);
+        _spawnedUnits.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeSelf);
     }
 
     private IEnumerator WaitForWaveComplete()

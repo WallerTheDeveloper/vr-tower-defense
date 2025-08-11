@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using Core.HealthSystem;
-using Core.StateMachine;
 using UnityEngine;
 
-namespace Core.TowersBehaviour.States
+namespace Core.StateMachine.TowerStates
 {
     [RequireComponent(typeof(AudioSource))]
-    public class LaserAttack : MonoBehaviour, IState
+    public class TowerLaserAttack : MonoBehaviour, IState
     {
         [Header("Laser Settings")]
         [SerializeField] private Transform firePoint;

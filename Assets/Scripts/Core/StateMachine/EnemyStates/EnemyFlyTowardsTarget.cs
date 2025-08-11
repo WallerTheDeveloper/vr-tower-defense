@@ -1,8 +1,7 @@
 ﻿using System;
-using Core.StateMachine;
 using UnityEngine;
 
-namespace Core.Enemy.States
+namespace Core.StateMachine.EnemyStates
 {
     public class EnemyFlyTowardsTarget : MonoBehaviour, IState
     {

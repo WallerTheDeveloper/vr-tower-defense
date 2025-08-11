@@ -1,9 +1,7 @@
-using UnityEngine;
 using System;
-using Core.StateMachine;
-using UnityEngine.Serialization;
+using UnityEngine;
 
-namespace Core.TowersBehaviour.States
+namespace Core.StateMachine.TowerStates
 {
     public class TowerAutoPlacement : MonoBehaviour, IState
     {
