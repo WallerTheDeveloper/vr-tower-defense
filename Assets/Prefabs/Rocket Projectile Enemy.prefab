@@ -88,9 +88,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6772500145749830455}
     m_Modifications:
+    - target: {fileID: 1048196899738786, guid: ea352f082d23a483daa35dba1978a527, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1541986221634034, guid: ea352f082d23a483daa35dba1978a527, type: 3}
       propertyPath: m_Name
       value: RocketTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541986221634034, guid: ea352f082d23a483daa35dba1978a527, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879302958837102, guid: ea352f082d23a483daa35dba1978a527, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4037071192465414, guid: ea352f082d23a483daa35dba1978a527, type: 3}
       propertyPath: m_LocalScale.x

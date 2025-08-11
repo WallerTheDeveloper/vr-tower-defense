@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3250722253095634950}
   - component: {fileID: 3250722253095634951}
   - component: {fileID: 4700335042234349091}
-  - component: {fileID: 6190951084030638160}
+  - component: {fileID: 1289617602756593216}
   m_Layer: 5
   m_Name: Machine Gun Item
   m_TagString: Untagged
@@ -169,7 +169,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 01c514c763a07924e8032eba9ca693d4, type: 2}
-  unitFactory: {fileID: 6190951084030638160}
+  unitFactory: {fileID: 1289617602756593216}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -306,7 +306,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6190951084030638160
+--- !u!114 &1289617602756593216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250722253095634949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 8581825616651655796, guid: 535c8ce028ae88a42ac616d1829f2ce5, type: 3}
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3250722254427963123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +909,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9ed4597177498b84fa3d0e183d264f4d, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 9ed4597177498b84fa3d0e183d264f4d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 4592233711539749764}
   - component: {fileID: 3490646752029335384}
   - component: {fileID: 8897855770539097558}
-  - component: {fileID: 248435343849132839}
+  - component: {fileID: 549497042869532116}
   m_Layer: 5
   m_Name: Laser Item
   m_TagString: Untagged
@@ -1165,7 +1165,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 94867d0438dd7364c85a60f5ec02b13e, type: 2}
-  unitFactory: {fileID: 248435343849132839}
+  unitFactory: {fileID: 549497042869532116}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &248435343849132839
+--- !u!114 &549497042869532116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4298502219220071426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 2923571745274750262, guid: c32575a2a7130404296eb5f67b2b30f9, type: 3}
@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 851680388042967825}
   - component: {fileID: 874201738547148239}
   - component: {fileID: 3956352165303149374}
-  - component: {fileID: 5692908747810216175}
+  - component: {fileID: 600525102879756569}
   m_Layer: 5
   m_Name: Rocket Launcher Item
   m_TagString: Untagged
@@ -1484,7 +1484,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1584,7 +1584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 881dda4c40cbb15428a1346e1bb26ebb, type: 2}
-  unitFactory: {fileID: 5692908747810216175}
+  unitFactory: {fileID: 600525102879756569}
   hoverDistance: 0.05
   useLeftHand: 0
   pinchThreshold: 0.009
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5692908747810216175
+--- !u!114 &600525102879756569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1630,7 +1630,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8301359989508000119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58124fe2ea4345b799fac20c7603ed93, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 6870826471364341442, guid: 28e2b5008f7985b47848fea3b6a09a5c, type: 3}

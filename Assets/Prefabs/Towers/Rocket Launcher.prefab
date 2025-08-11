@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5284234628216115783}
+  - component: {fileID: 3000529833295295047}
   m_Layer: 0
   m_Name: Fire Point
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2467843651397761082}
   m_LocalEulerAnglesHint: {x: 82.264, y: -115.484, z: -116.509}
+--- !u!114 &3000529833295295047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560567142571532374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b14dfebe6c694203a45bbf606de70966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 8920690301116899907, guid: 73e56e514983cd0478d3531a9623c0d5, type: 3}
 --- !u!1 &4596033482994793397
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,9 +273,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       insertIndex: 1
       addedObject: {fileID: 6870826471364341442}
-    - targetCorrespondingSourceObject: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3870388637432069278}
     - targetCorrespondingSourceObject: {fileID: 2319404163834890689, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       insertIndex: -1
       addedObject: {fileID: 411857826111664253}
@@ -319,7 +330,7 @@ MonoBehaviour:
   firePoint: {fileID: 5284234628216115783}
   fireRate: 1
   unitSettings: {fileID: 11400000, guid: bc001a00423e2f4498439c2956a42db9, type: 2}
-  projectileFactory: {fileID: 3870388637432069278}
+  projectileFactory: {fileID: 3000529833295295047}
 --- !u!114 &8822261255345589548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,19 +406,6 @@ MonoBehaviour:
       m_Bits: 0
     priority: 3
   statesLayer: {fileID: 3355020062336208899}
---- !u!114 &3870388637432069278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823762844886250503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14dfebe6c694203a45bbf606de70966, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 8920690301116899907, guid: 73e56e514983cd0478d3531a9623c0d5, type: 3}
 --- !u!1001 &2467843651397624506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -498,6 +496,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2915410713284118944}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5840349131371801380}
   m_SourcePrefab: {fileID: 100100000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
 --- !u!95 &2467843651390330842 stripped
 Animator:
@@ -531,6 +532,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
+--- !u!114 &5840349131371801380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467843651397723162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60feb21813a04eb7858e5c8b1fb9bb8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseUnitSettings: {fileID: 11400000, guid: bc001a00423e2f4498439c2956a42db9, type: 2}
 --- !u!4 &2467843651397761082 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
