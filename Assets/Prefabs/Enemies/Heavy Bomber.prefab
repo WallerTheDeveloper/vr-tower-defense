@@ -66,10 +66,10 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
     priority: 3
-  statesLayer: {fileID: 6874211324915244373}
   finalEnemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  statesLayer: {fileID: 6874211324915244373}
 --- !u!65 &3581891644137536342
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionEffect: {fileID: 198059975614214484, guid: 10eef6400678c4c75b2ac94e435a2bd5, type: 3}
+  timeAfterEffectDestroy: 3
 --- !u!1001 &5180044109162182706
 PrefabInstance:
   m_ObjectHideFlags: 0
