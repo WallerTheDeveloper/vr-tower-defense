@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.unity.burst": {
-      "version": "1.8.21",
+      "version": "1.8.23",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -320,7 +320,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.openxr": {
-      "version": "1.14.3",
+      "version": "1.15.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
