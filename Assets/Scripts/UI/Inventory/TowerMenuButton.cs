@@ -2,7 +2,6 @@ using System.Collections;
 using Core.Commands;
 using Core.Commands.ConcreteCommands;
 using Core.Factories;
-using Data;
 using Data.UI;
 using Hands;
 using TMPro;
@@ -14,7 +13,7 @@ using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-namespace UI
+namespace UI.Inventory
 {
     public class TowerMenuButton : MonoBehaviour
     {

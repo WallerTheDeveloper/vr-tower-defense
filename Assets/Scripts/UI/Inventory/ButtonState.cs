@@ -1,4 +1,4 @@
-namespace UI
+namespace UI.Inventory
 {
     public enum ButtonState
     {

@@ -1,8 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Hands;
-using System.Collections;
 
-namespace UI
+namespace UI.Inventory
 {
     public class WristMenuController : MonoBehaviour
     {

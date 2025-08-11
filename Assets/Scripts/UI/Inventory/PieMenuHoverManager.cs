@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UI
+namespace UI.Inventory
 {
     public class PieMenuHoverManager : MonoBehaviour
     {
