@@ -130,13 +130,14 @@ namespace Core.StateMachine.TowerStates
         {
             while (_currentTarget != null)
             {
-                Health healthComponent = null;
-                healthComponent = _currentTarget.GetComponent<Health>();
-                if (healthComponent == null)
+                HealthController targetHealthController = null;
+                targetHealthController = _currentTarget.GetComponent<HealthController>();
+                if (targetHealthController == null)
                 {
-                    healthComponent = _currentTarget.GetComponentInParent<Health>();
+                    targetHealthController = _currentTarget.GetComponentInParent<HealthController>();
                 }
-                healthComponent.TakeDamage(damage);
+                targetHealthController.TakeDamage(damage);
+                targetHealthController.UpdateHealthView();
                 
                 yield return new WaitForSeconds(damageInterval);
             }

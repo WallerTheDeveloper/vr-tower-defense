@@ -1,40 +1,35 @@
+using System;
+using Core.HealthSystem.UI;
 using Core.Pooling;
-using Data;
 using Data.Units;
 using UnityEngine;
 
 namespace Core.HealthSystem
 {
-    public class Health : MonoBehaviour
+    public class HealthController : MonoBehaviour
     {
         [SerializeField] private BaseUnitSettings baseUnitSettings;
-        private float currentHealth;
-        public float HealthPercentage => currentHealth / baseUnitSettings.MaxHealth;
-        public bool IsAlive => currentHealth > 0f;
+        [SerializeField] private HealthBarView view;
+        private HealthModel _model;
 
-        public void Awake()
+        private void OnEnable()
         {
-            currentHealth = baseUnitSettings.MaxHealth;
+            _model = new HealthModel(baseUnitSettings, baseUnitSettings.MaxHealth);
+            _model.OnDeath += OnDeath;
+            
+            view.Initialize(baseUnitSettings.MaxHealth);
         }
- 
+
         public void TakeDamage(float damage)
         {
-            if (!IsAlive)
-            {
-                currentHealth = baseUnitSettings.MaxHealth;
-                return;
-            }
-                
-            currentHealth -= damage;
-            currentHealth = Mathf.Clamp(currentHealth, 0f, baseUnitSettings.MaxHealth);
-            
-            if (currentHealth <= 0f)
-            {
-                Die();
-            }
+            _model.TakeDamage(damage);
         }
-        
-        private void Die()
+
+        public void UpdateHealthView()
+        {
+            view.UpdateHealthBar(_model.HealthPercentage);
+        }
+        private void OnDeath()
         {
             ParticleSystem deathParticleSystem = Instantiate(baseUnitSettings.DeathParticleSystem, transform.position, Quaternion.identity);
             deathParticleSystem.Play();
@@ -45,13 +40,18 @@ namespace Core.HealthSystem
             bool objectHasParent = gameObject.transform.parent != null;
             if (objectHasParent)
             {
-                 Unit rootParent = gameObject.transform.GetComponentInParent<Unit>(); 
-                 ObjectPoolManager.ReturnObjectToPool(rootParent.gameObject);
+                Unit rootParent = gameObject.transform.GetComponentInParent<Unit>(); 
+                ObjectPoolManager.ReturnObjectToPool(rootParent.gameObject);
             }
             else
             {
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
             }
+        }
+
+        private void OnDisable()
+        {
+            _model.OnDeath -= OnDeath;
         }
     }
 }

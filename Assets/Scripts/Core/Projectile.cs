@@ -57,8 +57,9 @@ namespace Core
 
             if (targetCollider)
             {
-                Health targetHealth = targetObject.GetComponent<Health>();
-                targetHealth.TakeDamage(_shooterUnitSettings.Damage);
+                HealthController targetHealthController = targetObject.GetComponent<HealthController>();
+                targetHealthController.TakeDamage(_shooterUnitSettings.Damage);
+                targetHealthController.UpdateHealthView();
                 
                 _particleEffect = Instantiate(collisionParticleEffect, transform.position, Quaternion.identity);
                 _particleEffect.Play();
