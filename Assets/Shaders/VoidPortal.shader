@@ -33,6 +33,8 @@ Shader "Custom/VoidPortal"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_fog
+            #pragma multi_compile _ UNITY_SINGLE_PASS_STEREO STEREO_INSTANCING_ON STEREO_MULTIVIEW_ON
             #include "UnityCG.cginc"
 
             struct appdata
@@ -40,6 +42,7 @@ Shader "Custom/VoidPortal"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -50,11 +53,13 @@ Shader "Custom/VoidPortal"
                 float3 worldNormal : TEXCOORD2;
                 float3 viewDir : TEXCOORD3;
                 float4 screenPos : TEXCOORD4;
+                UNITY_FOG_COORDS(5)
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             sampler2D _MainTex;
             sampler2D _DistortionTex;
-            sampler2D _CameraDepthTexture;
+            UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
             float4 _MainTex_ST;
             float4 _DistortionTex_ST;
             
@@ -72,12 +77,16 @@ Shader "Custom/VoidPortal"
             v2f vert (appdata v)
             {
                 v2f o;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+                
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
                 o.viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 o.screenPos = ComputeScreenPos(o.vertex);
+                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
@@ -109,7 +118,8 @@ Shader "Custom/VoidPortal"
                 fixed4 tex = tex2D(_MainTex, distortedUV);
                 
                 // Calculate depth fade for soft intersection
-                float sceneZ = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos)));
+                float2 screenUV = i.screenPos.xy / i.screenPos.w;
+                float sceneZ = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, screenUV));
                 float partZ = i.screenPos.z;
                 float fade = saturate(_DepthFade * (sceneZ - partZ));
                 
@@ -139,6 +149,9 @@ Shader "Custom/VoidPortal"
                 // Add some "depth" illusion
                 float depthIllusion = pow(1.0 - distanceFromCenter, 2.0);
                 finalColor.rgb *= depthIllusion;
+                
+                // Apply fog
+                UNITY_APPLY_FOG(i.fogCoord, finalColor);
                 
                 return finalColor;
             }
