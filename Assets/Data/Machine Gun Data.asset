@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Machine Gun Data
   m_EditorClassIdentifier: 
   MaxHealth: 20
-  Damage: 5
+  Damage: 0.5
   DeathParticleSystem: {fileID: 198059975614214484, guid: 10eef6400678c4c75b2ac94e435a2bd5, type: 3}
   DeathParticleSystemLifetime: 2
