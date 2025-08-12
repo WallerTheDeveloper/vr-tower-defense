@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: _rigidbody
       value: 
       objectReference: {fileID: 6096447062732790}
+    - target: {fileID: 3727343507603867614, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_Name
       value: Machine Gun
@@ -261,6 +265,17 @@ MonoBehaviour:
   towerBase: {fileID: 8935879385312812333}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 6096447062732790}
+--- !u!114 &5987575531393615145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7604454127590972549, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+  m_PrefabInstance: {fileID: 4219967983555549612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c566b7179a8348a6a3d484cb66c556a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6228370408626718768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
@@ -393,7 +408,7 @@ PrefabInstance:
       addedObject: {fileID: 3273244403538031669}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2959013874606405302}
+      addedObject: {fileID: 7625611421132234326}
   m_SourcePrefab: {fileID: 100100000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
 --- !u!4 &4602398193633219222 stripped
 Transform:
@@ -427,7 +442,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}
---- !u!114 &2959013874606405302
+--- !u!114 &7625611421132234326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -436,10 +451,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4602398193633709750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60feb21813a04eb7858e5c8b1fb9bb8b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d819a17dedd4ef099fa8eabc349a268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseUnitSettings: {fileID: 11400000, guid: 28c6d2e2e7084fb49be121417535940c, type: 2}
+  view: {fileID: 5987575531393615145}
 --- !u!95 &4602398193643076982 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: ca1b398fbc1a64abaaf160449dab6c93, type: 3}

@@ -210,6 +210,10 @@ PrefabInstance:
       propertyPath: towerObject
       value: 
       objectReference: {fileID: 2467843651397723162}
+    - target: {fileID: 3727343507603867614, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3812587284640979937, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -371,6 +375,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
   m_PrefabInstance: {fileID: 1062639732135762370}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7437469977021187399 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7604454127590972549, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+  m_PrefabInstance: {fileID: 1062639732135762370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c566b7179a8348a6a3d484cb66c556a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7823762844886250503 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7074266532807912901, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
@@ -498,7 +513,7 @@ PrefabInstance:
       addedObject: {fileID: 2915410713284118944}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5840349131371801380}
+      addedObject: {fileID: 5695647245742387345}
   m_SourcePrefab: {fileID: 100100000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
 --- !u!95 &2467843651390330842 stripped
 Animator:
@@ -532,7 +547,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
---- !u!114 &5840349131371801380
+--- !u!114 &5695647245742387345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -541,10 +556,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2467843651397723162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60feb21813a04eb7858e5c8b1fb9bb8b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d819a17dedd4ef099fa8eabc349a268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseUnitSettings: {fileID: 11400000, guid: bc001a00423e2f4498439c2956a42db9, type: 2}
+  view: {fileID: 7437469977021187399}
 --- !u!4 &2467843651397761082 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 67a055578b26444708b7df8956cd1336, type: 3}
