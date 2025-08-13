@@ -122,6 +122,14 @@ PrefabInstance:
       propertyPath: baseUnitSettings
       value: 
       objectReference: {fileID: 11400000, guid: 28c6d2e2e7084fb49be121417535940c, type: 2}
+    - target: {fileID: 7322177601288914271, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322177601288914271, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -160,6 +168,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419136796237227813, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419136796237227813, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -261,9 +277,9 @@ MonoBehaviour:
   stabilityThreshold: 0.1
   useGroundNormal: 1
   snapToGround: 1
-  groundSnapDistance: 0.1
-  towerBase: {fileID: 8935879385312812333}
-  baseOffset: {x: 0, y: 0, z: 0}
+  groundSnapDistance: 0.5
+  towerBase: {fileID: 6228370408626718768}
+  baseOffset: {x: 0, y: -0.0938, z: 0}
   _rigidbody: {fileID: 6096447062732790}
   grabInteractable: {fileID: 4163264071931917557}
 --- !u!114 &4163264071931917557 stripped

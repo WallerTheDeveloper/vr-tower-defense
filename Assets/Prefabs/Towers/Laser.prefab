@@ -604,8 +604,8 @@ MonoBehaviour:
   stabilityThreshold: 0.1
   useGroundNormal: 1
   snapToGround: 1
-  groundSnapDistance: 0.1
-  towerBase: {fileID: 2730230850125606135}
+  groundSnapDistance: 0.5
+  towerBase: {fileID: 2024532821628172654}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 5360023061407260328}
   grabInteractable: {fileID: 8336702363576419755}

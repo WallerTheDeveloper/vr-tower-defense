@@ -114,11 +114,11 @@ namespace Core.StateMachine.TowerStates
             
             if (useGroundNormal)
             {
-                targetRotation = Quaternion.FromToRotation(transform.up, targetGroundNormal) * transform.rotation;
+                targetRotation = Quaternion.FromToRotation(towerBase.transform.up, targetGroundNormal) * towerBase.rotation;
             }
             else
             {
-                targetRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+                targetRotation = Quaternion.LookRotation(towerBase.transform.forward, Vector3.up);
             }
             
             _rigidbody.linearDamping = 5f;
@@ -127,15 +127,15 @@ namespace Core.StateMachine.TowerStates
         
         private void PerformOrientation()
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, orientationSpeed * Time.fixedDeltaTime);
+            towerBase.transform.rotation = Quaternion.Slerp(towerBase.transform.rotation, targetRotation, orientationSpeed * Time.fixedDeltaTime);
             
             if (snapToGround)
             {
                 Vector3 desiredPosition = targetGroundPosition - GetLocalBaseOffset();
-                transform.position = Vector3.Lerp(transform.position, desiredPosition, orientationSpeed * Time.fixedDeltaTime);
+                towerBase.transform.position = Vector3.Lerp(towerBase.transform.position, desiredPosition, orientationSpeed * Time.fixedDeltaTime);
             }
             
-            float rotationDifference = Quaternion.Angle(transform.rotation, targetRotation);
+            float rotationDifference = Quaternion.Angle(towerBase.transform.rotation, targetRotation);
             
             if (rotationDifference < 1f)
             {
@@ -147,11 +147,11 @@ namespace Core.StateMachine.TowerStates
         {
             isOrienting = false;
             
-            transform.rotation = targetRotation;
+            towerBase.transform.rotation = targetRotation;
             
             if (snapToGround)
             {
-                transform.position = targetGroundPosition - GetLocalBaseOffset();
+                towerBase.transform.position = targetGroundPosition - GetLocalBaseOffset();
             }
             
             _rigidbody.isKinematic = true;
@@ -168,7 +168,7 @@ namespace Core.StateMachine.TowerStates
             
             return transform.position + GetLocalBaseOffset();
         }
-        
+
         private Vector3 GetLocalBaseOffset()
         {
             return transform.TransformDirection(baseOffset);
