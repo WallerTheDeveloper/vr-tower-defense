@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace Core.StateMachine.TowerStates
 {
@@ -18,6 +19,7 @@ namespace Core.StateMachine.TowerStates
         [SerializeField] private Vector3 baseOffset = Vector3.zero; 
         
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private XRGrabInteractable grabInteractable;
         
         private bool isLanded = false;
         private bool isOrienting = false;
@@ -31,7 +33,19 @@ namespace Core.StateMachine.TowerStates
         public void Enter(object enterObject)
         {
             IsStateActive = true;
-            
+
+            void ResetState()
+            {
+                grabInteractable.enabled = true;
+                _rigidbody.isKinematic = false;
+                _rigidbody.linearDamping = 0f;
+                _rigidbody.angularDamping = 0.5f;
+                isLanded = false;
+                isOrienting = false;
+            }
+
+            ResetState();
+
             if (towerBase == null)
                 towerBase = transform;
         }
@@ -54,6 +68,7 @@ namespace Core.StateMachine.TowerStates
         public void Exit()
         {
             _rigidbody.isKinematic = true;
+            grabInteractable.enabled = false;
             IsStateActive = false;
         }
         

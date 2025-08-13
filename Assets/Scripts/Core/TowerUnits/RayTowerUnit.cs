@@ -55,11 +55,6 @@ namespace Core.TowerUnits
         
         private void OnAutoPlacementStateFinished()
         {
-            var grabbableObject = GetComponent<XRGrabInteractable>();
-            if (grabbableObject != null)
-            {
-                grabbableObject.enabled = false;
-            }
             base.ChangeState(_idleState);
         }
         
