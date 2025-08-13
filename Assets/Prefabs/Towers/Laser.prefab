@@ -442,6 +442,14 @@ PrefabInstance:
       propertyPath: baseUnitSettings
       value: 
       objectReference: {fileID: 11400000, guid: 4ddfb6e5bf2f40c40a4d1ac5ae018c9c, type: 2}
+    - target: {fileID: 7322177601288914271, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322177601288914271, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -480,6 +488,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7854219918006915484, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419136796237227813, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8419136796237227813, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -592,6 +608,7 @@ MonoBehaviour:
   towerBase: {fileID: 2730230850125606135}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 5360023061407260328}
+  grabInteractable: {fileID: 8336702363576419755}
 --- !u!114 &1932379112170614015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,3 +757,14 @@ MonoBehaviour:
   radius: 20
   anglePerSecond: 200
   aimTolerance: 5
+--- !u!114 &8336702363576419755 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 240577646876716377, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+  m_PrefabInstance: {fileID: 8135575401031117042}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354327120442983735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

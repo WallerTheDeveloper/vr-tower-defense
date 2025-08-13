@@ -265,6 +265,18 @@ MonoBehaviour:
   towerBase: {fileID: 8935879385312812333}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 6096447062732790}
+  grabInteractable: {fileID: 4163264071931917557}
+--- !u!114 &4163264071931917557 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 240577646876716377, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+  m_PrefabInstance: {fileID: 4219967983555549612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6394127871701070953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5987575531393615145 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7604454127590972549, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}

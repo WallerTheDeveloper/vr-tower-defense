@@ -290,6 +290,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 328933496453193245}
   m_SourcePrefab: {fileID: 100100000, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+--- !u!114 &1002601963824051355 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 240577646876716377, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
+  m_PrefabInstance: {fileID: 1062639732135762370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823762844886250503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3355020062336208899 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2319404163834890689, guid: 2758a1a9ae65c944ca222d42d0c1f908, type: 3}
@@ -318,6 +329,7 @@ MonoBehaviour:
   towerBase: {fileID: 790570973462471090}
   baseOffset: {x: 0, y: 0, z: 0}
   _rigidbody: {fileID: 3763530577159024536}
+  grabInteractable: {fileID: 1002601963824051355}
 --- !u!114 &3256087391825753302
 MonoBehaviour:
   m_ObjectHideFlags: 0
