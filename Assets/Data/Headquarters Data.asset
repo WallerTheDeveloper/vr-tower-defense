@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6b67e422944625851514655090597f, type: 3}
   m_Name: Headquarters Data
   m_EditorClassIdentifier: 
-  MaxHealth: 20
+  MaxHealth: 300
   Damage: 0
   DeathParticleSystem: {fileID: 198059975614214484, guid: 42a3690e5d4a841ad958c0e3b9b7b19e, type: 3}
   DeathParticleSystemLifetime: 3
