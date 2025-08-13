@@ -51,7 +51,6 @@ namespace Core.Enemies
 
         protected override void Deinitialize()
         {
-            currentTarget = null;
             _changedStateToFlyTowardsTarget = false;
             _attackingFinalTarget = false;
             _enemyFlyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
