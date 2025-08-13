@@ -57,12 +57,11 @@ namespace Core
             
             _stateMachine.Tick();
 
-            Transform newTarget = FindNewTarget();
-            if (newTarget != null && newTarget != currentTarget)
+            if (currentTarget == null)
             {
-                currentTarget = newTarget;
+                currentTarget = FindNewTarget();
             }
-            else if(newTarget == null)
+            else if (!currentTarget.gameObject.activeInHierarchy)
             {
                 currentTarget = null;
             }
