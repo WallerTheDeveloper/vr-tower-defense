@@ -12,7 +12,6 @@ namespace Core.Enemies
         private EnemySelfExplode _enemySelfExplodeState;
         
         private bool _changedStateToFlyTowardsTarget = false;
-        private bool _attackingFinalTarget = false;
 
         protected override void Initialize()
         {
@@ -32,14 +31,7 @@ namespace Core.Enemies
                 _changedStateToFlyTowardsTarget = true;
             }
 
-            // Meaning we check if we're attacking a final target
-            if (!_attackingFinalTarget && currentTarget != null && ((1 << currentTarget.gameObject.layer) & finalEnemyLayer) != 0)
-            {
-                _attackingFinalTarget = true;
-            }
-            
-            // Final target has been destroyed
-            if (_attackingFinalTarget && currentTarget == null)
+            if (GameController.IsGameOver)
             {
                 base.ChangeState(_enemySelfExplodeState);
             }
@@ -52,7 +44,6 @@ namespace Core.Enemies
         protected override void Deinitialize()
         {
             _changedStateToFlyTowardsTarget = false;
-            _attackingFinalTarget = false;
             _enemyFlyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
             _enemyProjectileAttackState.OnStateFinished -= ChangeToFlyingTowardsState;
         }

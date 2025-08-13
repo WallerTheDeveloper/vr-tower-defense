@@ -22,8 +22,8 @@ namespace Core.StateMachine.EnemyStates
             
             ParticleEffectManager.Instance.DestroyParticleEffectAfter(timeAfterEffectDestroy, particleEffect);
             
-            ObjectPoolManager.ReturnObjectToPool(gameObject.transform.root.gameObject);
-            // Destroy(gameObject.transform.root.gameObject);
+            // ObjectPoolManager.ReturnObjectToPool(gameObject.transform.root.gameObject);
+            Destroy(gameObject.transform.root.gameObject);
         }
 
         public void Tick()

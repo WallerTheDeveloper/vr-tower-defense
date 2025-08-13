@@ -35,7 +35,12 @@ namespace Core.HealthSystem
             deathParticleSystem.Play();
             
             ParticleEffectManager.Instance.DestroyParticleEffectAfter(baseUnitSettings.DeathParticleSystemLifetime, deathParticleSystem);
-            
+            if (LayerMask.LayerToName(gameObject.layer) == "Headquarters")
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+                GameController.IsGameOver = true;
+                return;
+            }
             // If game object has a parent it means that Health component is attached to child object 
             bool objectHasParent = gameObject.transform.parent != null;
             if (objectHasParent)
