@@ -25,6 +25,8 @@ namespace Core
         private StateMachine.StateMachine _stateMachine = new();
         
         protected Transform currentTarget = null;
+        protected int currentTargetPriority = int.MaxValue;
+        
         protected abstract void Initialize();
         protected abstract void Tick();
         protected abstract void FixedTick();
@@ -47,7 +49,6 @@ namespace Core
         {
             Initialize();
             
-            // Sort layer groups by priority at start
             System.Array.Sort(layerGroups, (a, b) => a.priority.CompareTo(b.priority));
         }
         
@@ -56,14 +57,22 @@ namespace Core
             Tick();
             
             _stateMachine.Tick();
-
-            if (currentTarget == null)
+            
+            var targetInfo = FindNewTargetWithPriority();
+            
+            if (ShouldSwitchTarget(targetInfo))
             {
-                currentTarget = FindNewTarget();
+                currentTarget = targetInfo.target;
+                currentTargetPriority = targetInfo.priority;
+                
+                OnTargetChanged(currentTarget);
             }
-            else if (!currentTarget.gameObject.activeInHierarchy)
+            
+            if (currentTarget != null && !currentTarget.gameObject.activeInHierarchy)
             {
                 currentTarget = null;
+                currentTargetPriority = int.MaxValue;
+                OnTargetLost();
             }
         }
         
@@ -75,25 +84,78 @@ namespace Core
         private void OnDisable()
         {
             currentTarget = null;
+            currentTargetPriority = int.MaxValue;
             Deinitialize();
         }
         
-        
-        private Transform FindNewTarget()
+        private struct TargetInfo
         {
-            // Search through layer groups in priority order
+            public Transform target;
+            public int priority;
+            
+            public TargetInfo(Transform target, int priority)
+            {
+                this.target = target;
+                this.priority = priority;
+            }
+        }
+        
+        private TargetInfo FindNewTargetWithPriority()
+        {
             foreach (var layerGroup in layerGroups)
             {
-                if (layerGroup.layerMask == 0) continue; // Skip empty layer masks
+                if (layerGroup.layerMask == 0) // Skip empty layer masks
+                {
+                    continue;
+                }
                 
                 Transform target = FindClosestTarget(layerGroup.layerMask);
                 if (target != null)
                 {
-                    return target;
+                    return new TargetInfo(target, layerGroup.priority);
                 }
             }
             
-            return null;
+            return new TargetInfo(null, int.MaxValue);
+        }
+        
+        private bool ShouldSwitchTarget(TargetInfo newTargetInfo)
+        {
+            if (newTargetInfo.target == null)
+            {
+                return false;
+            }
+            
+            if (currentTarget == null)
+            {
+                return true;
+            }
+            
+            if (currentTarget == newTargetInfo.target)
+            {
+                return false;
+            }
+            
+            if (newTargetInfo.priority < currentTargetPriority)
+            {
+                Debug.Log($"Switching to higher priority target. Old priority: {currentTargetPriority}, New priority: {newTargetInfo.priority}");
+                return true;
+            }
+            
+            if (!IsTargetInRange(currentTarget))
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        private bool IsTargetInRange(Transform target)
+        {
+            if (target == null) return false;
+            
+            float distance = Vector3.Distance(transform.position, target.position);
+            return distance <= radius;
         }
         
         private Transform FindClosestTarget(LayerMask layerMask)
@@ -122,16 +184,25 @@ namespace Core
             return closestTarget;
         }
         
-        // Helper method to add/modify layer groups at runtime
-        public void SetLayerGroup(int index, LayerMask layerMask, int priority)
+        protected virtual void OnTargetChanged(Transform newTarget)
         {
-            if (index >= 0 && index < layerGroups.Length)
+            Debug.Log($"Target changed to: {newTarget?.name} (Priority: {currentTargetPriority})");
+            currentTarget = newTarget;
+        }
+        
+        protected virtual void OnTargetLost()
+        {
+            Debug.Log("Target lost");
+        }
+        
+        public void ForceTargetRefresh()
+        {
+            var targetInfo = FindNewTargetWithPriority();
+            if (targetInfo.target != null)
             {
-                layerGroups[index].layerMask = layerMask;
-                layerGroups[index].priority = priority;
-                
-                // Re-sort after modification
-                System.Array.Sort(layerGroups, (a, b) => a.priority.CompareTo(b.priority));
+                currentTarget = targetInfo.target;
+                currentTargetPriority = targetInfo.priority;
+                OnTargetChanged(currentTarget);
             }
         }
     }

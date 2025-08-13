@@ -47,7 +47,13 @@ namespace Core.Enemies
             _enemyFlyTowardsTargetState.OnStateFinished -= ChangeToEnemyAttackState;
             _enemyProjectileAttackState.OnStateFinished -= ChangeToFlyingTowardsState;
         }
-        
+
+        protected override void OnTargetChanged(Transform newTarget)
+        {
+            base.OnTargetChanged(newTarget);
+            _changedStateToFlyTowardsTarget = false;
+        }
+
         private void ChangeToEnemyAttackState()
         {
             base.ChangeState(_enemyProjectileAttackState, base.currentTarget);
