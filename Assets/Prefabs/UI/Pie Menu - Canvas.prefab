@@ -1,5 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &949441881242163174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1271982203279677072}
+  m_Layer: 5
+  m_Name: Model Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1271982203279677072
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949441881242163174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9082988015721011573}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -187.8, y: 226}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3233297138992205189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8992684902236950964}
+  m_Layer: 5
+  m_Name: Model Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8992684902236950964
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233297138992205189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3250722253095634948}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -207.4, y: 216.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3250722253095634949
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,8 +85,8 @@ GameObject:
   - component: {fileID: 3250722253095634953}
   - component: {fileID: 3250722253095634950}
   - component: {fileID: 3250722253095634951}
-  - component: {fileID: 4700335042234349091}
   - component: {fileID: 1289617602756593216}
+  - component: {fileID: 1203854127830257758}
   m_Layer: 5
   m_Name: Machine Gun Item
   m_TagString: Untagged
@@ -35,7 +105,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8992684902236950964}
   m_Father: {fileID: 3250722253282177185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -256,7 +327,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4700335042234349091
+--- !u!114 &1289617602756593216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,29 +336,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250722253095634949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 8581825616651655796, guid: 535c8ce028ae88a42ac616d1829f2ce5, type: 3}
+--- !u!114 &1203854127830257758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250722253095634949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1494189d14c541ee802f57141b170e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 01c514c763a07924e8032eba9ca693d4, type: 2}
   unitFactory: {fileID: 1289617602756593216}
+  tower3DModel: {fileID: 7155463685538770705, guid: 26f2af5fd7fbe6e48a4a705e9134cb33, type: 3}
+  modelContainer: {fileID: 8992684902236950964}
+  modelScale: {x: 1, y: 1, z: 1}
+  modelRotationOffset: {x: 0, y: 0, z: 0}
   hoverDistance: 0.05
   useLeftHand: 0
-  pinchThreshold: 0.009
+  pinchThreshold: 0.03
   pinchReleaseThreshold: 0.05
-  requireHoverToPinch: 0
+  requireHoverToPinch: 1
   usePinchReleaseInteraction: 0
   spawnAtPinchLocation: 1
   autoGrabOnSpawn: 1
-  useManualCenter: 0
-  manualButtonCenter: {x: 0, y: 0, z: 0}
-  centerTransform: {fileID: 0}
-  centerOffset: {x: -0.05, y: 0.07, z: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  normalEmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  hoverEmissionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingEmissionColor: {r: 1, g: 0.6470588, b: 0, a: 1}
+  selectedEmissionColor: {r: 0, g: 1, b: 0, a: 1}
+  emissionIntensity: 2
+  scaleMultiplierOnHover: 1.1
+  scaleMultiplierOnPinch: 1.2
+  animationSpeed: 5
+  hoverSound: {fileID: 8300000, guid: 9a6d738025ed59f4fb946bb59c20e774, type: 3}
+  pinchStartSound: {fileID: 0}
   pinchReleaseSound: {fileID: 0}
   itemHeader: {fileID: 3250722253798904788}
   itemDescription: {fileID: 3250722253813302527}
@@ -306,19 +394,6 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1289617602756593216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250722253095634949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 8581825616651655796, guid: 535c8ce028ae88a42ac616d1829f2ce5, type: 3}
 --- !u!1 &3250722253261368184
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +570,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Towers menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 6119c01a5a68bcc4a88ab7f60cdcd21c, type: 2}
@@ -522,7 +597,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66
+  m_fontSize: 54.4
   m_fontSizeBase: 66
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -631,7 +706,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Move your right hand to tower, pinch it and then thow on the floor
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 6119c01a5a68bcc4a88ab7f60cdcd21c, type: 2}
@@ -658,7 +733,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 38.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -787,7 +862,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3250722254427963123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,8 +1086,8 @@ GameObject:
   - component: {fileID: 1506445257667736164}
   - component: {fileID: 4592233711539749764}
   - component: {fileID: 3490646752029335384}
-  - component: {fileID: 8897855770539097558}
   - component: {fileID: 549497042869532116}
+  - component: {fileID: 8150560722585621142}
   m_Layer: 5
   m_Name: Laser Item
   m_TagString: Untagged
@@ -1031,7 +1106,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3171779601291316449}
   m_Father: {fileID: 3250722253282177185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 240}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1252,7 +1328,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8897855770539097558
+--- !u!114 &549497042869532116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1261,29 +1337,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 4298502219220071426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 2923571745274750262, guid: c32575a2a7130404296eb5f67b2b30f9, type: 3}
+--- !u!114 &8150560722585621142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298502219220071426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1494189d14c541ee802f57141b170e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 94867d0438dd7364c85a60f5ec02b13e, type: 2}
   unitFactory: {fileID: 549497042869532116}
+  tower3DModel: {fileID: 4317449998312106650, guid: 9555d47e78ec93a478d0d86b780a6619, type: 3}
+  modelContainer: {fileID: 3171779601291316449}
+  modelScale: {x: 1, y: 1, z: 1}
+  modelRotationOffset: {x: 0, y: 0, z: 0}
   hoverDistance: 0.05
   useLeftHand: 0
-  pinchThreshold: 0.009
+  pinchThreshold: 0.03
   pinchReleaseThreshold: 0.05
-  requireHoverToPinch: 0
+  requireHoverToPinch: 1
   usePinchReleaseInteraction: 0
   spawnAtPinchLocation: 1
   autoGrabOnSpawn: 1
-  useManualCenter: 0
-  manualButtonCenter: {x: 0, y: 0, z: 0}
-  centerTransform: {fileID: 0}
-  centerOffset: {x: 0.08, y: 0.01, z: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  normalEmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  hoverEmissionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingEmissionColor: {r: 1, g: 0.6470588, b: 0, a: 1}
+  selectedEmissionColor: {r: 0, g: 1, b: 0, a: 1}
+  emissionIntensity: 2
+  scaleMultiplierOnHover: 1.1
+  scaleMultiplierOnPinch: 1.2
+  animationSpeed: 5
+  hoverSound: {fileID: 8300000, guid: 9a6d738025ed59f4fb946bb59c20e774, type: 3}
+  pinchStartSound: {fileID: 0}
   pinchReleaseSound: {fileID: 0}
   itemHeader: {fileID: 3250722253798904788}
   itemDescription: {fileID: 3250722253813302527}
@@ -1302,19 +1395,41 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &549497042869532116
-MonoBehaviour:
+--- !u!1 &4472424318081804445
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4298502219220071426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 2923571745274750262, guid: c32575a2a7130404296eb5f67b2b30f9, type: 3}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3171779601291316449}
+  m_Layer: 5
+  m_Name: Model Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3171779601291316449
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472424318081804445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3917841266694071500}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -201.6, y: 214.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8301359989508000119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,8 +1445,8 @@ GameObject:
   - component: {fileID: 7838862402910456000}
   - component: {fileID: 851680388042967825}
   - component: {fileID: 874201738547148239}
-  - component: {fileID: 3956352165303149374}
   - component: {fileID: 600525102879756569}
+  - component: {fileID: 613486367309613715}
   m_Layer: 5
   m_Name: Rocket Launcher Item
   m_TagString: Untagged
@@ -1350,7 +1465,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1271982203279677072}
   m_Father: {fileID: 3250722253282177185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 120}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1571,7 +1687,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3956352165303149374
+--- !u!114 &600525102879756569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1580,29 +1696,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 8301359989508000119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ed43a79ba14402baac7b5e62a7ab12, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 6870826471364341442, guid: 28e2b5008f7985b47848fea3b6a09a5c, type: 3}
+--- !u!114 &613486367309613715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8301359989508000119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1494189d14c541ee802f57141b170e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 881dda4c40cbb15428a1346e1bb26ebb, type: 2}
   unitFactory: {fileID: 600525102879756569}
+  tower3DModel: {fileID: 1684995134752051675, guid: 21b53bba5d09a2842a209304e01fbbbf, type: 3}
+  modelContainer: {fileID: 1271982203279677072}
+  modelScale: {x: 1, y: 1, z: 1}
+  modelRotationOffset: {x: 0, y: 0, z: 0}
   hoverDistance: 0.05
   useLeftHand: 0
-  pinchThreshold: 0.009
+  pinchThreshold: 0.03
   pinchReleaseThreshold: 0.05
-  requireHoverToPinch: 0
+  requireHoverToPinch: 1
   usePinchReleaseInteraction: 0
   spawnAtPinchLocation: 1
   autoGrabOnSpawn: 1
-  useManualCenter: 0
-  manualButtonCenter: {x: 0, y: 0, z: 0}
-  centerTransform: {fileID: 0}
-  centerOffset: {x: -0.03, y: -0.07, z: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  pinchingColor: {r: 1, g: 0.6470588, b: 0, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  hoverSound: {fileID: 8300000, guid: bee68fc13c669d141883b0441f89a0ea, type: 3}
-  pinchStartSound: {fileID: 8300000, guid: 55e10187e0aa635449ec183fbc87a49b, type: 3}
+  normalEmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  hoverEmissionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pinchingEmissionColor: {r: 1, g: 0.6470588, b: 0, a: 1}
+  selectedEmissionColor: {r: 0, g: 1, b: 0, a: 1}
+  emissionIntensity: 2
+  scaleMultiplierOnHover: 1.1
+  scaleMultiplierOnPinch: 1.2
+  animationSpeed: 5
+  hoverSound: {fileID: 8300000, guid: 9a6d738025ed59f4fb946bb59c20e774, type: 3}
+  pinchStartSound: {fileID: 0}
   pinchReleaseSound: {fileID: 0}
   itemHeader: {fileID: 3250722253798904788}
   itemDescription: {fileID: 3250722253813302527}
@@ -1621,16 +1754,3 @@ MonoBehaviour:
   OnPinchSelect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &600525102879756569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8301359989508000119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc76610a26b48b99e3958b43aa80722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 6870826471364341442, guid: 28e2b5008f7985b47848fea3b6a09a5c, type: 3}

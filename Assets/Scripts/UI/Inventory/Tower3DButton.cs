@@ -8,20 +8,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace UI.Inventory
 {
-    public class TowerMenuButton : MonoBehaviour
+    public class Tower3DButton : MonoBehaviour
     {
         [Header("Data")]
         [SerializeField] private WristMenuData data;
         [FormerlySerializedAs("towerFactory")]
         [Header("Tower Settings")]
         [SerializeField] private UnitFactory unitFactory;
+        
+        [Header("3D Model")]
+        [SerializeField] private GameObject tower3DModel;
+        [SerializeField] private Transform modelContainer;
+        [SerializeField] private Vector3 modelScale = Vector3.one;
+        [SerializeField] private Vector3 modelRotationOffset = Vector3.zero;
         
         [Header("Hover Detection")]
         [SerializeField] private float hoverDistance = 0.05f;
@@ -37,17 +42,15 @@ namespace UI.Inventory
         [SerializeField] private bool spawnAtPinchLocation = true;
         [SerializeField] private bool autoGrabOnSpawn = true;
         
-        [Header("Position Configuration")]
-        [SerializeField] private bool useManualCenter = false;
-        [SerializeField] private Vector3 manualButtonCenter = Vector3.zero;
-        [SerializeField] private Transform centerTransform;
-        [SerializeField] private Vector3 centerOffset = Vector3.zero;
-        
         [Header("Visual Feedback")]
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color hoverColor = Color.yellow;
-        [SerializeField] private Color pinchingColor = Color.orange;
-        [SerializeField] private Color selectedColor = Color.green;
+        [SerializeField] private Color normalEmissionColor = Color.black;
+        [SerializeField] private Color hoverEmissionColor = Color.yellow;
+        [SerializeField] private Color pinchingEmissionColor = Color.orange;
+        [SerializeField] private Color selectedEmissionColor = Color.green;
+        [SerializeField] private float emissionIntensity = 2f;
+        [SerializeField] private float scaleMultiplierOnHover = 1.1f;
+        [SerializeField] private float scaleMultiplierOnPinch = 1.2f;
+        [SerializeField] private float animationSpeed = 5f;
         
         [Header("Audio Feedback")]
         [SerializeField] private AudioClip hoverSound;
@@ -65,6 +68,7 @@ namespace UI.Inventory
         public UnityEvent OnPinchEnd;
         public UnityEvent OnPinchSelect;
         
+        // Private variables
         private bool isHovering = false;
         private bool wasHovering = false;
         private bool isPinching = false;
@@ -72,17 +76,23 @@ namespace UI.Inventory
         private bool hasTriggeredPinchAction = false;
         private Vector3 buttonCenter;
         private Vector3 lastPinchPosition;
-        private Button button;
         private AudioSource audioSource;
         private XRHandSubsystem handSubsystem;
         private float lastHandDistance = float.MaxValue;
         private float lastPinchDistance = float.MaxValue;
         
+        // 3D Model components
+        private GameObject instantiated3DModel;
+        private Renderer[] modelRenderers;
+        private Material[] originalMaterials;
+        private Material[] emissionMaterials;
+        private Vector3 originalScale;
+        private Vector3 targetScale;
+        
         private HandHoverDetector handHoverDetector;
         
         private void Start()
         {
-            button = GetComponent<Button>();
             audioSource = GetComponent<AudioSource>();
             
             if (audioSource == null)
@@ -91,10 +101,88 @@ namespace UI.Inventory
             }
             
             InitializeHandTracking();
+            Initialize3DModel();
             
             handHoverDetector = FindFirstObjectByType<HandHoverDetector>();
             
             UpdateVisualState(ButtonState.Normal);
+        }
+        
+        private void Initialize3DModel()
+        {
+            if (tower3DModel == null)
+            {
+                Debug.LogError($"Tower 3D Model is not assigned for {gameObject.name}");
+                return;
+            }
+            
+            // Create container if not assigned
+            if (modelContainer == null)
+            {
+                GameObject container = new GameObject("ModelContainer");
+                container.transform.SetParent(transform);
+                container.transform.localPosition = Vector3.zero;
+                container.transform.localRotation = Quaternion.identity;
+                modelContainer = container.transform;
+            }
+            
+            // Instantiate the 3D model
+            instantiated3DModel = Instantiate(tower3DModel, modelContainer);
+            instantiated3DModel.transform.localPosition = Vector3.zero;
+            instantiated3DModel.transform.localRotation = Quaternion.Euler(modelRotationOffset);
+            instantiated3DModel.transform.localScale = modelScale;
+            
+            // Store original scale
+            originalScale = instantiated3DModel.transform.localScale;
+            targetScale = originalScale;
+            
+            // Remove any existing colliders and interaction components from the model
+            RemoveInteractionComponents(instantiated3DModel);
+            
+            // Get all renderers and setup materials
+            modelRenderers = instantiated3DModel.GetComponentsInChildren<Renderer>();
+            SetupEmissionMaterials();
+        }
+        
+        private void RemoveInteractionComponents(GameObject obj)
+        {
+            // Remove grab interactables and colliders to prevent interference
+            XRGrabInteractable[] grabInteractables = obj.GetComponentsInChildren<XRGrabInteractable>();
+            foreach (var grab in grabInteractables)
+            {
+                DestroyImmediate(grab);
+            }
+            
+            // Optionally remove colliders or make them triggers
+            Collider[] colliders = obj.GetComponentsInChildren<Collider>();
+            foreach (var col in colliders)
+            {
+                col.isTrigger = true; // Make them triggers so they don't interfere with interaction
+            }
+        }
+        
+        private void SetupEmissionMaterials()
+        {
+            if (modelRenderers == null) return;
+            
+            originalMaterials = new Material[modelRenderers.Length];
+            emissionMaterials = new Material[modelRenderers.Length];
+            
+            for (int i = 0; i < modelRenderers.Length; i++)
+            {
+                if (modelRenderers[i].material != null)
+                {
+                    originalMaterials[i] = modelRenderers[i].material;
+                    
+                    // Create a copy of the material for emission effects
+                    emissionMaterials[i] = new Material(originalMaterials[i]);
+                    
+                    // Enable emission on the material
+                    emissionMaterials[i].EnableKeyword("_EMISSION");
+                    
+                    modelRenderers[i].material = emissionMaterials[i];
+                }
+            }
         }
         
         private void InitializeHandTracking()
@@ -114,54 +202,51 @@ namespace UI.Inventory
             CheckHandHover();
             CheckPinchGesture();
             HandleInteractionLogic();
+            UpdateModelAnimation();
         }
         
         private void UpdateButtonCenter()
         {
-            if (useManualCenter)
+            // Use the model container position as button center
+            if (modelContainer != null)
             {
-                buttonCenter = manualButtonCenter;
-                return;
+                buttonCenter = modelContainer.position;
             }
-            
-            if (centerTransform != null)
+            else if (instantiated3DModel != null)
             {
-                buttonCenter = centerTransform.position + centerOffset;
-                return;
-            }
-            
-            Vector3 calculatedCenter;
-            
-            if (GetComponent<RectTransform>() != null)
-            {
-                RectTransform rectTransform = GetComponent<RectTransform>();
-                Canvas canvas = GetComponentInParent<Canvas>();
-                
-                if (canvas != null)
-                {
-                    if (canvas.renderMode == RenderMode.WorldSpace)
-                    {
-                        calculatedCenter = rectTransform.TransformPoint(Vector3.zero);
-                    }
-                    else
-                    {
-                        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, rectTransform.position);
-                        calculatedCenter = canvas.worldCamera != null ? 
-                            canvas.worldCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, canvas.planeDistance)) :
-                            Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
-                    }
-                }
-                else
-                {
-                    calculatedCenter = rectTransform.position;
-                }
+                buttonCenter = instantiated3DModel.transform.position;
             }
             else
             {
-                calculatedCenter = transform.position;
+                buttonCenter = transform.position;
             }
+        }
+        
+        private void UpdateModelAnimation()
+        {
+            if (instantiated3DModel == null) return;
             
-            buttonCenter = calculatedCenter + centerOffset;
+            // Smoothly animate scale changes
+            instantiated3DModel.transform.localScale = Vector3.Lerp(
+                instantiated3DModel.transform.localScale, 
+                targetScale, 
+                Time.deltaTime * animationSpeed
+            );
+            
+            // Optional: Add floating animation when hovering
+            if (isHovering)
+            {
+                float floatOffset = Mathf.Sin(Time.time * 3f) * 0.005f;
+                Vector3 currentPos = instantiated3DModel.transform.localPosition;
+                currentPos.y = floatOffset;
+                instantiated3DModel.transform.localPosition = currentPos;
+            }
+            else
+            {
+                Vector3 currentPos = instantiated3DModel.transform.localPosition;
+                currentPos.y = Mathf.Lerp(currentPos.y, 0f, Time.deltaTime * animationSpeed);
+                instantiated3DModel.transform.localPosition = currentPos;
+            }
         }
         
         private void CheckHandHover()
@@ -210,9 +295,10 @@ namespace UI.Inventory
         
         private void SetHeaderAndDescriptionData(string header, string description)
         {
-            itemHeader.text = header;
-            itemDescription.text = description;
+            if (itemHeader != null) itemHeader.text = header;
+            if (itemDescription != null) itemDescription.text = description;
         }
+        
         private void CheckPinchGesture()
         {
             if (handSubsystem == null || !handSubsystem.running)
@@ -420,22 +506,46 @@ namespace UI.Inventory
         
         private void UpdateVisualState(ButtonState state)
         {
-            if (button == null) return;
+            if (emissionMaterials == null) return;
             
-            Color targetColor = state switch
+            Color targetEmissionColor;
+            float targetScaleMultiplier = 1f;
+            
+            switch (state)
             {
-                ButtonState.Normal => normalColor,
-                ButtonState.Hover => hoverColor,
-                ButtonState.Pinching => pinchingColor,
-                ButtonState.Selected => selectedColor,
-                _ => normalColor
-            };
-
-            ColorBlock colorBlock = button.colors;
-            colorBlock.normalColor = targetColor;
-            colorBlock.highlightedColor = targetColor;
-            colorBlock.selectedColor = targetColor;
-            button.colors = colorBlock;
+                case ButtonState.Normal:
+                    targetEmissionColor = normalEmissionColor;
+                    targetScaleMultiplier = 1f;
+                    break;
+                case ButtonState.Hover:
+                    targetEmissionColor = hoverEmissionColor;
+                    targetScaleMultiplier = scaleMultiplierOnHover;
+                    break;
+                case ButtonState.Pinching:
+                    targetEmissionColor = pinchingEmissionColor;
+                    targetScaleMultiplier = scaleMultiplierOnPinch;
+                    break;
+                case ButtonState.Selected:
+                    targetEmissionColor = selectedEmissionColor;
+                    targetScaleMultiplier = scaleMultiplierOnPinch;
+                    break;
+                default:
+                    targetEmissionColor = normalEmissionColor;
+                    targetScaleMultiplier = 1f;
+                    break;
+            }
+            
+            // Update emission color
+            foreach (var material in emissionMaterials)
+            {
+                if (material != null)
+                {
+                    material.SetColor("_EmissionColor", targetEmissionColor * emissionIntensity);
+                }
+            }
+            
+            // Update target scale
+            targetScale = originalScale * targetScaleMultiplier;
         }
         
         public void OnButtonClick()
@@ -577,7 +687,6 @@ namespace UI.Inventory
                     {
                         GameObject tower = col.gameObject;
                         
-                        
                         Debug.Log($"Found tower at distance {Vector3.Distance(spawnPosition, tower.transform.position):F3}m");
                         return tower;
                     }
@@ -682,27 +791,35 @@ namespace UI.Inventory
                 Gizmos.DrawWireSphere(centerToShow, hoverDistance);
                 
                 #if UNITY_EDITOR
-                string configInfo = useManualCenter ? "Manual" : 
-                                   centerTransform != null ? "Transform" : "Auto";
                 UnityEditor.Handles.Label(centerToShow + Vector3.up * 0.05f, 
-                    $"{configInfo}: {centerToShow}");
+                    $"3D Button: {centerToShow}");
                 #endif
             }
         }
         
         private Vector3 GetPreviewCenter()
         {
-            if (useManualCenter)
+            if (modelContainer != null)
             {
-                return manualButtonCenter;
+                return modelContainer.position;
             }
             
-            if (centerTransform != null)
+            return transform.position;
+        }
+        
+        private void OnDestroy()
+        {
+            // Clean up materials
+            if (emissionMaterials != null)
             {
-                return centerTransform.position + centerOffset;
+                foreach (var material in emissionMaterials)
+                {
+                    if (material != null)
+                    {
+                        DestroyImmediate(material);
+                    }
+                }
             }
-            
-            return transform.position + centerOffset;
         }
     }
 }

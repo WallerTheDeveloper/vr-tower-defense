@@ -5,6 +5,7 @@ namespace UI.Inventory
     public class PieMenuHoverManager : MonoBehaviour
     {
         private static PieMenuHoverManager _instance;
+
         public static PieMenuHoverManager Instance
         {
             get
@@ -15,14 +16,15 @@ namespace UI.Inventory
                     _instance = go.AddComponent<PieMenuHoverManager>();
                     DontDestroyOnLoad(go);
                 }
+
                 return _instance;
             }
         }
-        
-        private TowerMenuButton currentHoveredButton;
-        private TowerMenuButton currentPinchingButton;
-        private TowerMenuButton buttonThatTriggeredPinchAction;
-        
+
+        private Tower3DButton currentHoveredButton;
+        private Tower3DButton currentPinchingButton;
+        private Tower3DButton buttonThatTriggeredPinchAction;
+
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -30,22 +32,23 @@ namespace UI.Inventory
                 Destroy(gameObject);
                 return;
             }
+
             _instance = this;
         }
-        
-        public bool RequestHover(TowerMenuButton button, float distance)
+
+        public bool RequestHover(Tower3DButton button, float distance)
         {
             if (currentHoveredButton == null)
             {
                 SetHoveredButton(button);
                 return true;
             }
-            
+
             if (currentHoveredButton == button)
             {
                 return true;
             }
-            
+
             float currentDistance = currentHoveredButton.GetHandDistance();
             if (distance < currentDistance)
             {
@@ -53,31 +56,31 @@ namespace UI.Inventory
                 SetHoveredButton(button);
                 return true;
             }
-            
+
             return false;
         }
-        
-        public void ReleaseHover(TowerMenuButton button)
+
+        public void ReleaseHover(Tower3DButton button)
         {
             if (currentHoveredButton == button)
             {
                 currentHoveredButton = null;
             }
         }
-        
-        public bool RequestPinch(TowerMenuButton button, float distance)
+
+        public bool RequestPinch(Tower3DButton button, float distance)
         {
             if (currentPinchingButton == null)
             {
                 SetPinchingButton(button);
                 return true;
             }
-            
+
             if (currentPinchingButton == button)
             {
                 return true;
             }
-            
+
             float currentDistance = currentPinchingButton.GetHandDistance();
             if (distance < currentDistance)
             {
@@ -85,31 +88,31 @@ namespace UI.Inventory
                 SetPinchingButton(button);
                 return true;
             }
-            
+
             return false;
         }
-        
-        public void ReleasePinch(TowerMenuButton button)
+
+        public void ReleasePinch(Tower3DButton button)
         {
             if (currentPinchingButton == button)
             {
                 currentPinchingButton = null;
             }
         }
-        
+
         public bool HasAnyButtonTriggeredPinchAction()
         {
             return buttonThatTriggeredPinchAction != null;
         }
-        
-        public void SetPinchActionTriggered(TowerMenuButton button)
+
+        public void SetPinchActionTriggered(Tower3DButton button)
         {
             if (buttonThatTriggeredPinchAction == null)
             {
                 buttonThatTriggeredPinchAction = button;
             }
         }
-        
+
         public void ClearPinchActionTrigger()
         {
             if (buttonThatTriggeredPinchAction != null)
@@ -118,22 +121,22 @@ namespace UI.Inventory
                 buttonThatTriggeredPinchAction = null;
             }
         }
-        
-        public TowerMenuButton GetButtonThatTriggeredPinchAction()
+
+        public Tower3DButton GetButtonThatTriggeredPinchAction()
         {
             return buttonThatTriggeredPinchAction;
         }
-        
-        private void SetHoveredButton(TowerMenuButton button)
+
+        private void SetHoveredButton(Tower3DButton button)
         {
             currentHoveredButton = button;
         }
-        
-        private void SetPinchingButton(TowerMenuButton button)
+
+        private void SetPinchingButton(Tower3DButton button)
         {
             currentPinchingButton = button;
         }
-        
+
         private void OnGUI()
         {
             if (Application.isPlaying && Debug.isDebugBuild)
@@ -141,7 +144,8 @@ namespace UI.Inventory
                 GUILayout.BeginArea(new Rect(10, 10, 300, 100));
                 GUILayout.Label($"Hovered: {(currentHoveredButton != null ? currentHoveredButton.name : "None")}");
                 GUILayout.Label($"Pinching: {(currentPinchingButton != null ? currentPinchingButton.name : "None")}");
-                GUILayout.Label($"Action Triggered: {(buttonThatTriggeredPinchAction != null ? buttonThatTriggeredPinchAction.name : "None")}");
+                GUILayout.Label(
+                    $"Action Triggered: {(buttonThatTriggeredPinchAction != null ? buttonThatTriggeredPinchAction.name : "None")}");
                 GUILayout.EndArea();
             }
         }

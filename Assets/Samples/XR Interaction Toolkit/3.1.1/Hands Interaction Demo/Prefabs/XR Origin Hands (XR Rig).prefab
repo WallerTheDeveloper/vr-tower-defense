@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
-  instanceId: 28d1cf64-4eb4-4381-b663-3fb1bd5f7517
+  instanceId: f4c549e4-ef3e-4140-ada3-b7c7ff661a2a
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -2713,7 +2713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: f0540b20-dfd6-420e-b20d-c270f88dc77e
-  instanceId: 3188acfe-f6b5-49c3-8389-9b83638203c5
+  instanceId: 3eb02a84-dd23-4b09-8602-3cca45578405
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -2909,6 +2909,10 @@ PrefabInstance:
     - target: {fileID: 3250722254427963120, guid: a38b7b827fcc2f544b38eb8a36cf7603, type: 3}
       propertyPath: m_Name
       value: Pie Menu - Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3250722254427963122, guid: a38b7b827fcc2f544b38eb8a36cf7603, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3250722254427963124, guid: a38b7b827fcc2f544b38eb8a36cf7603, type: 3}
       propertyPath: m_Pivot.x
