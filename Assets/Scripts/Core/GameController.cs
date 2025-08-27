@@ -11,10 +11,8 @@ namespace Core
             {
                 if (_instance == null)
                 {
-                    // Try to find existing instance in scene
                     _instance = FindAnyObjectByType<GameController>();
                     
-                    // Create new instance if none exists
                     if (_instance == null)
                     {
                         GameObject managerObject = new GameObject("GameController");
