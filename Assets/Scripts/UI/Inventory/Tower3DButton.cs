@@ -60,6 +60,7 @@ namespace UI.Inventory
         [Header("UI References")] 
         [SerializeField] private TextMeshProUGUI itemHeader;
         [SerializeField] private TextMeshProUGUI itemDescription;
+        [SerializeField] private CanvasGroup menuParentMenuCanvasGroup;
         
         [Header("Events")]
         public UnityEvent OnHoverEnter;
@@ -68,7 +69,6 @@ namespace UI.Inventory
         public UnityEvent OnPinchEnd;
         public UnityEvent OnPinchSelect;
         
-        // Private variables
         private bool isHovering = false;
         private bool wasHovering = false;
         private bool isPinching = false;
@@ -81,7 +81,6 @@ namespace UI.Inventory
         private float lastHandDistance = float.MaxValue;
         private float lastPinchDistance = float.MaxValue;
         
-        // 3D Model components
         private GameObject instantiated3DModel;
         private Renderer[] modelRenderers;
         private Material[] originalMaterials;
@@ -116,7 +115,6 @@ namespace UI.Inventory
                 return;
             }
             
-            // Create container if not assigned
             if (modelContainer == null)
             {
                 GameObject container = new GameObject("ModelContainer");
@@ -126,20 +124,16 @@ namespace UI.Inventory
                 modelContainer = container.transform;
             }
             
-            // Instantiate the 3D model
             instantiated3DModel = Instantiate(tower3DModel, modelContainer);
             instantiated3DModel.transform.localPosition = Vector3.zero;
             instantiated3DModel.transform.localRotation = Quaternion.Euler(modelRotationOffset);
             instantiated3DModel.transform.localScale = modelScale;
             
-            // Store original scale
             originalScale = instantiated3DModel.transform.localScale;
             targetScale = originalScale;
             
-            // Remove any existing colliders and interaction components from the model
             RemoveInteractionComponents(instantiated3DModel);
             
-            // Get all renderers and setup materials
             modelRenderers = instantiated3DModel.GetComponentsInChildren<Renderer>();
             SetupEmissionMaterials();
         }
@@ -153,11 +147,10 @@ namespace UI.Inventory
                 DestroyImmediate(grab);
             }
             
-            // Optionally remove colliders or make them triggers
             Collider[] colliders = obj.GetComponentsInChildren<Collider>();
             foreach (var col in colliders)
             {
-                col.isTrigger = true; // Make them triggers so they don't interfere with interaction
+                col.isTrigger = true;
             }
         }
         
@@ -174,11 +167,15 @@ namespace UI.Inventory
                 {
                     originalMaterials[i] = modelRenderers[i].material;
                     
-                    // Create a copy of the material for emission effects
                     emissionMaterials[i] = new Material(originalMaterials[i]);
                     
-                    // Enable emission on the material
                     emissionMaterials[i].EnableKeyword("_EMISSION");
+                    
+                    emissionMaterials[i].globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+                    
+                    emissionMaterials[i].SetFloat("_UseEmission", 1f);
+                    
+                    emissionMaterials[i].SetColor("_EmissionColor", Color.black);
                     
                     modelRenderers[i].material = emissionMaterials[i];
                 }
@@ -207,7 +204,6 @@ namespace UI.Inventory
         
         private void UpdateButtonCenter()
         {
-            // Use the model container position as button center
             if (modelContainer != null)
             {
                 buttonCenter = modelContainer.position;
@@ -226,14 +222,14 @@ namespace UI.Inventory
         {
             if (instantiated3DModel == null) return;
             
-            // Smoothly animate scale changes
+            UpdateModelTransparency();
+            
             instantiated3DModel.transform.localScale = Vector3.Lerp(
                 instantiated3DModel.transform.localScale, 
                 targetScale, 
                 Time.deltaTime * animationSpeed
             );
             
-            // Optional: Add floating animation when hovering
             if (isHovering)
             {
                 float floatOffset = Mathf.Sin(Time.time * 3f) * 0.005f;
@@ -246,6 +242,55 @@ namespace UI.Inventory
                 Vector3 currentPos = instantiated3DModel.transform.localPosition;
                 currentPos.y = Mathf.Lerp(currentPos.y, 0f, Time.deltaTime * animationSpeed);
                 instantiated3DModel.transform.localPosition = currentPos;
+            }
+        }
+        
+        private void UpdateModelTransparency()
+        {
+            menuParentMenuCanvasGroup = GetComponentInParent<CanvasGroup>();
+            if (menuParentMenuCanvasGroup == null) return;
+            
+            float targetAlpha = menuParentMenuCanvasGroup.alpha;
+            
+            foreach (var material in emissionMaterials)
+            {
+                if (material != null)
+                {
+                    SetMaterialTransparency(material, targetAlpha);
+                }
+            }
+        }
+        
+        private void SetMaterialTransparency(Material material, float alpha)
+        {
+            if (material.HasProperty("_BaseColor"))
+            {
+                Color baseColor = material.GetColor("_BaseColor");
+                baseColor.a = alpha;
+                material.SetColor("_BaseColor", baseColor);
+            }
+            
+            if (alpha < 1f)
+            {
+                material.SetFloat("_Surface", 1);
+                material.SetFloat("_Blend", 0);
+                
+                material.SetOverrideTag("RenderType", "Transparent");
+                material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                material.SetInt("_ZWrite", 0);
+                material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+                material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+            }
+            else
+            {
+                material.SetFloat("_Surface", 0);
+                material.SetOverrideTag("RenderType", "Opaque");
+                material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                material.SetInt("_ZWrite", 1);
+                material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Geometry;
             }
         }
         
@@ -386,7 +431,6 @@ namespace UI.Inventory
                 OnHoverExitAction();
             }
             
-            // Handle pinch state changes
             if (isPinching && !wasPinching)
             {
                 OnPinchStartAction();
@@ -421,11 +465,6 @@ namespace UI.Inventory
                 isPinching = false;
                 OnPinchEndAction();
             }
-        }
-        
-        public bool HasTriggeredPinchAction()
-        {
-            return hasTriggeredPinchAction;
         }
         
         public void ResetPinchActionTrigger()
@@ -535,7 +574,6 @@ namespace UI.Inventory
                     break;
             }
             
-            // Update emission color
             foreach (var material in emissionMaterials)
             {
                 if (material != null)
@@ -544,7 +582,6 @@ namespace UI.Inventory
                 }
             }
             
-            // Update target scale
             targetScale = originalScale * targetScaleMultiplier;
         }
         
@@ -809,7 +846,6 @@ namespace UI.Inventory
         
         private void OnDestroy()
         {
-            // Clean up materials
             if (emissionMaterials != null)
             {
                 foreach (var material in emissionMaterials)
