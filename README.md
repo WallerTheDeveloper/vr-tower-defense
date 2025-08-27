@@ -24,7 +24,6 @@ This project emphasizes clean code architecture and scalable design patterns fro
 ### Performance Optimizations  
 - **Object Pooling** - Efficient memory management for projectiles and effects
 - **Component-based Architecture** - Modular, reusable game systems
-- **Optimized VR Rendering** - Maintains 90fps for smooth VR experience
 
 ## Features Implemented
 
@@ -74,7 +73,7 @@ Assets/Scripts/
 ### Key Components
 
 #### State Machine System
-Complex behavior management using the State Pattern:
+Behavior management using the State Pattern:
 ```csharp
 // Tower states: AutoPlacement → Idle → PrepareToAttack → Attack
 // Enemy states: FlyTowardsTarget → ProjectileAttack → SelfExplode
@@ -116,25 +115,18 @@ CommandManager.Instance.ExecuteCommand(command);
 - XR Hands package
 - VR headset with hand tracking support
 
-### Installation
-1. Clone this repository
-2. Open the project in Unity
-3. Install required XR packages via Package Manager
-4. Configure XR settings for your target platform
-5. Build and deploy to your VR device
-
 ## 🎮 How to Play
 
 1. **Activate Wrist Menu**: Orient your palm towards your face
 2. **Select Tower**: Use pinch gestures on 3D tower models
-3. **Place Towers**: Grab and position towers strategically
+3. **Place Towers**: Grab and position/throw towers strategically
 4. **Auto-placement**: Towers automatically align to surfaces
 5. **Defend**: Towers automatically engage enemies within range
 
 ## 💻 Code Examples
 
 ### State Pattern Implementation
-Sophisticated tower behavior management using clean state transitions:
+Tower behavior management using clean state transitions:
 
 ```csharp
 public class ProjectileTowerUnit : Unit
@@ -336,7 +328,7 @@ private bool ShouldSwitchTarget(TargetInfo newTargetInfo)
 }
 ```
 
-## 🔧 Development Status
+## Development Status
 
 This project is in active development with a focus on:
 - Clean, maintainable code architecture
@@ -344,13 +336,7 @@ This project is in active development with a focus on:
 - Immersive spatial interactions
 - Scalable design patterns
 
-### Current Priority Areas
-- Enemy AI implementation
-- Wave management system
-- Audio integration
-- Advanced VR interactions
-
-## 📝 Code Quality Focus
+## Code Quality Focus
 
 This project demonstrates:
 - **SOLID Principles** applied throughout the codebase
@@ -358,7 +344,7 @@ This project demonstrates:
 - **Performance-First Approach** with object pooling and optimized rendering
 - **Modular Component Design** for easy feature extension
 
-## 🤝 Contributing
+## Contributing
 
 This project serves as a demonstration of clean VR game architecture. Feel free to explore the codebase to see practical implementations of:
 - State machines in game development
