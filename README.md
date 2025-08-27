@@ -1,6 +1,9 @@
 # VR Tower Defense
 
-A Virtual Reality tower defense game built with Unity, featuring immersive spatial gameplay where players defend their headquarters using strategic tower placement in a fully 3D environment.
+A Virtual Reality tower defense game built with Unity, featuring immersive spatial gameplay where players defend their headquarters using strategic tower placement. Project uses Passthrough feature
+
+## Devices
+- Tested only on Meta Quest III
 
 ## Game Overview
 
