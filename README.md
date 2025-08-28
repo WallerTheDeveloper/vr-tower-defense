@@ -347,13 +347,4 @@ This project demonstrates:
 - **Performance-First Approach** with object pooling and optimized rendering
 - **Modular Component Design** for easy feature extension
 
-## Contributing
 
-This project serves as a demonstration of clean VR game architecture. Feel free to explore the codebase to see practical implementations of:
-- State machines in game development
-- Factory pattern for flexible object creation
-- Command pattern for action management
-- VR-specific interaction patterns
-- Performance optimization techniques
-
----
