@@ -331,13 +331,6 @@ private bool ShouldSwitchTarget(TargetInfo newTargetInfo)
 }
 ```
 
-## Development Status
-
-This project is in active development with a focus on:
-- Clean, maintainable code architecture
-- Performance optimization for VR
-- Immersive spatial interactions
-- Scalable design patterns
 
 ## Code Quality Focus
 
